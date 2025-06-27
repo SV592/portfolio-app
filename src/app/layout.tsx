@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import { Funnel_Sans, Funnel_Display } from "next/font/google";
+import { ThemeToggle } from "./components/ThemeToggle/ThemeToggle";
 import "./globals.css";
 
 const geistSans = Funnel_Sans({
@@ -23,11 +25,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
+        className={`${geistSans.variable} ${geistMono.variable} transition-colors duration-300 ease-in-out min-w-[350px]`}
       >
-        {children}
+        <ThemeProvider
+          attribute={"data-theme"}
+          defaultTheme="myLightTheme"
+          enableSystem={false}
+          themes={["myLightTheme", "myDarkTheme"]}
+        >
+          {children}
+          <ThemeToggle />
+        </ThemeProvider>
       </body>
     </html>
   );

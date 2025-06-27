@@ -4,11 +4,11 @@ import Image from "next/image";
 // Main Card component
 const Profile: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center bg-white rounded-3xl shadow-xl p-8 max-w-sm min-w-[300px]">
+    <div className="flex flex-col items-center justify-center rounded-3xl shadow-xl p-8 colors">
       {/* Profile Picture */}
       <div className="flex justify-center">
         <Image
-          src="/images/Profile.jpg" // Placeholder for Charles Robbie's image
+          src="/images/Profile.jpg"
           alt="Shaquille Pearson"
           width={128}
           height={128}
@@ -21,12 +21,12 @@ const Profile: React.FC = () => {
       {/* User Name and Location */}
       <div className="flex flex-col gap-2 text-center mt-6">
         <h2 className="text-2xl sm:text-3xl font-bold">Shaquille Pearson</h2>
-        <div className="text-[#7F8CAA] flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <svg
             width="20"
             height="20"
             viewBox="0 0 25 25"
-            fill="#7F8CAA"
+            fill="#2E2B2C"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -47,7 +47,6 @@ const Profile: React.FC = () => {
             width="30"
             height="30"
             viewBox="0 0 24 24"
-            fill="#2E2B2C"
             xmlns="http://www.w3.org/2000/svg"
             className="social-links"
           >
@@ -77,7 +76,6 @@ const Profile: React.FC = () => {
             width="30"
             height="30"
             viewBox="0 0 24 24"
-            fill="#2E2B2C"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -100,7 +98,6 @@ const Profile: React.FC = () => {
             width="30"
             height="30"
             viewBox="0 0 24 25"
-            fill="#2E2B2C"
             xmlns="http://www.w3.org/2000/svg"
             className="social-links"
           >
@@ -161,15 +158,15 @@ const Profile: React.FC = () => {
       {/* Statistics */}
       <div className="grid grid-cols-3 gap-4 text-center mt-4 pt-2 border-t border-[#7F8CAA]">
         <div>
-          <p className="text-xl sm:text-2xl font-bold text-gray-800">20</p>
+          <p className="text-xl sm:text-2xl font-bold">20</p>
           <p className="text-[#7F8CAA]">Repos</p>
         </div>
         <div>
-          <p className="text-xl sm:text-2xl font-bold text-gray-800">268</p>
+          <p className="text-xl sm:text-2xl font-bold">268</p>
           <p className="text-[#7F8CAA]">Connects</p>
         </div>
         <div>
-          <p className="text-xl sm:text-2xl font-bold text-gray-800">4</p>
+          <p className="text-xl sm:text-2xl font-bold">4</p>
           <p className="text-[#7F8CAA]">Posts</p>
         </div>
       </div>
@@ -177,13 +174,12 @@ const Profile: React.FC = () => {
       <div className="flex justify-center gap-4 mt-4">
         <a
           href=""
-          className="social-links flex bg-[#2E2B2C] items-center justify-center rounded-2xl text-white px-4 py-2 gap-2"
+          className="more-links flex items-center justify-center rounded-2xl px-4 py-2 gap-2"
         >
           <svg
             width="20"
             height="20"
             viewBox="0 0 24 24"
-            fill="#FFFFFF"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -198,14 +194,13 @@ const Profile: React.FC = () => {
         </a>
         <a
           href="/assets/Shaquille_Pearson_Resume.pdf"
-          className="social-links flex bg-[#2E2B2C] items-center justify-center rounded-2xl text-white px-4 py-2 gap-2"
+          className="more-links flex items-center justify-center rounded-2xl px-4 py-2 gap-2"
           target="_blank"
         >
           <svg
             width="20"
             height="20"
             viewBox="0 0 25 24"
-            fill="#FFFFFF"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path

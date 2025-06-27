@@ -4,7 +4,7 @@ import Image from "next/image";
 // Main EducationCard component
 const Experience: React.FC = () => {
   return (
-    <div className="flex flex-col bg-white rounded-3xl shadow-lg p-6 gap-4 w-full">
+    <div className="flex flex-col rounded-3xl shadow-lg p-6 gap-4 w-full colors">
       {/* Card Header */}
       <h2 className="text-left text-xl font-bold">Experience</h2>
 
@@ -24,10 +24,8 @@ const Experience: React.FC = () => {
         {/* Experience Details */}
         <div>
           <h3 className="text-lg font-bold">The Software Rebels</h3>
-          <p className="text-[#7F8CAA] text-sm">
-            Graduate Research Assistant (2023 - 2024)
-          </p>
-          <p className="text-[#7F8CAA] text-sm">Waterloo, ON</p>
+          <p className="text-sm">Graduate Research Assistant (2023 - 2024)</p>
+          <p className="text-sm">Waterloo, ON</p>
         </div>
       </div>
 
@@ -46,10 +44,10 @@ const Experience: React.FC = () => {
         {/* Experience Details */}
         <div>
           <h3 className="text-lg font-bold">University of Waterloo</h3>
-          <p className="text-[#7F8CAA] text-sm">
+          <p className="text-sm">
             Instructional Apprentice/Teaching Assistant (2023 - 2024)
           </p>
-          <p className="text-[#7F8CAA] text-sm">Waterloo, ON</p>
+          <p className="text-sm">Waterloo, ON</p>
         </div>
       </div>
 
@@ -70,10 +68,8 @@ const Experience: React.FC = () => {
           <h3 className="text-lg font-bold">
             The Department of Public Information
           </h3>
-          <p className="text-[#7F8CAA] text-sm">
-            Junior Software Developer (2022 - 2023)
-          </p>
-          <p className="text-[#7F8CAA] text-sm">Georgetown, Guyana</p>
+          <p className="text-sm">Junior Software Developer (2022 - 2023)</p>
+          <p className="text-sm">Georgetown, Guyana</p>
         </div>
       </div>
 
@@ -92,10 +88,8 @@ const Experience: React.FC = () => {
         {/* Experience Details */}
         <div>
           <h3 className="text-lg font-bold">Caribbean Coding Academy</h3>
-          <p className="text-[#7F8CAA] text-sm">
-            Frontend Engineer Intern (2020 - 2021)
-          </p>
-          <p className="text-[#7F8CAA] text-sm">St. George, Grenada</p>
+          <p className="text-sm">Frontend Engineer Intern (2020 - 2021)</p>
+          <p className="text-sm">St. George, Grenada</p>
         </div>
       </div>
     </div>

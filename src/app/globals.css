@@ -1,11 +1,33 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
 
-body {
-  background: #D1E9F6;
+html[data-theme="myLightTheme"] {
+  background-color: #D1E9F6;
   color: #2E2B2C;
 }
 
+html[data-theme="myDarkTheme"] {
+  background-color: #2E2B2C;
+  color:#FFF;
+
+  .colors {
+    @apply bg-[#D1E9F6] text-[#2E2B2C] 
+  }
+
+  .social-links {
+    @apply fill-[#2E2B2C]
+  }
+}
+
 .social-links {
-  @apply hover:-translate-y-1 transition-all ease-in-out
+  @apply hover:-translate-y-1 transition-all ease-in-out text-[#2E2B2C] 
+}
+
+.more-links {
+  @apply hover:-translate-y-1 transition-all ease-in-out text-[#FFF] bg-[#2E2B2C] fill-[#FFF]
+}
+
+.colors {
+  @apply bg-[#FFF] text-[#2E2B2C] 
 }
