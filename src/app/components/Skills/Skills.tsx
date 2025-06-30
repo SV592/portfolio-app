@@ -4,8 +4,8 @@ const Skills: React.FC = () => {
   return (
     <div>
       {/* Skills Card*/}
-      <div className="bg-white rounded-3xl shadow-lg p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4 flex justify-between items-center">
+      <div className="flex flex-col gap-4 bg-white rounded-3xl shadow-lg p-6 pb-12.5">
+        <h2 className="text-xl font-bold text-gray-800flex justify-between items-center">
           Skills
         </h2>
         <div className="flex flex-wrap gap-2">
@@ -77,9 +77,6 @@ const Skills: React.FC = () => {
           </span>
           <span className="bg-rose-100 text-rose-800 text-sm font-medium px-3 py-1 rounded-full">
             CI/CD
-          </span>
-          <span className="bg-lime-100 text-lime-800 text-sm font-medium px-3 py-1 rounded-full">
-            Bash
           </span>
         </div>
       </div>
