@@ -1,21 +1,36 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+
 import Profile from "./components/Profile/Profile";
 import Education from "./components/Education/Education";
 import Experience from "./components/Experience/Experience";
 import Skills from "./components/Skills/Skills";
 
+import LeetCodeProfileDisplay from "./components/Leetcode/Leetcode";
+
+import { useLeetCodeData } from "./Hooks/useLeetcodeData";
+
 export default function Home() {
-  // State to control the visibility/animation of skills (original functionality)
-  const [skillsVisible, setSkillsVisible] = useState(false);
+  // State to control the visibility/animation of skills
+  const [, setSkillsVisible] = useState(false);
+
+  // Username input
+  const targetLeetCodeUsername = "SV592";
+
+  // Data fetched from leetcode
+  const {
+    data: leetCodeProfile,
+    loading: leetCodeLoading,
+    error: leetCodeError,
+  } = useLeetCodeData(targetLeetCodeUsername);
 
   useEffect(() => {
     // Trigger skills animation after component mounts
     setSkillsVisible(true);
   }, []);
 
-  // Define common spring transition for a bouncy effect
+  // A string effect
   const springTransition = {
     type: "spring" as const,
     stiffness: 100, // Controls the stiffness of the spring
@@ -24,11 +39,11 @@ export default function Home() {
   };
 
   return (
-    <div className="flex items-center min-h-screen p-4 sm:p-6 lg:p-8">
-      {/* Main Grid Container */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 max-w-7xl mx-auto">
-        {/* Left Column: User Profile & Skills */}
-        <div className="md:col-span-4 lg:col-span-3 space-y-6">
+    <div className="flex justify-center items-center min-h-screen p-4 sm:p-6 lg:p-8">
+      <div className="grid xl:grid-cols-12  gap-6">
+        {/* Main Grid Container*/}
+        {/* Left Column - Adjusted col-span */}
+        <div className="lg:col-span-3 space-y-6">
           <motion.div
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
@@ -45,11 +60,10 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Right Main Content Grid */}
-        <div className="md:col-span-8 lg:col-span-9 grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {/* Row 2 & 3: Education, Contests, Job History (left part of main content) and Line of Code, Problem Solved (right part of main content) */}
-          <div className="lg:col-span-3 xl:col-span-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left side of the inner grid (Education, Contests, Job History) */}
+        {/* Right Main Content Grid - Adjusted col-span */}
+        <div className="lg:col-span-9 grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="lg:col-span-4 xl:col-span-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Left side of the inner grid - Adjusted col-span to lg:col-span-2 */}
             <div className="lg:col-span-2 space-y-6">
               <motion.div
                 initial={{ opacity: 0, x: 100 }}
@@ -67,17 +81,61 @@ export default function Home() {
               </motion.div>
             </div>
 
-            {/* Right side of the inner grid (Line of Code, Problem Solved) */}
-            <div className="lg:col-span-1 space-y-6">
-              <div className="bg-white rounded-3xl shadow-lg p-6 h-62 flex items-center justify-center">
-                Leetcode
-              </div>
-              <div className="bg-white rounded-3xl shadow-lg p-6 h-62 flex items-center justify-center">
-                Github
-              </div>
-              <div className="bg-white rounded-3xl shadow-lg p-6 h-62 flex items-center justify-center">
-                Stackoverflow
-              </div>
+            {/* Right side of the inner grid - Adjusted col-span to lg:col-span-2 (making it wider) */}
+            <div className="lg:col-span-2 space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...springTransition, delay: 0.1 } as const}
+              >
+                {leetCodeLoading ? (
+                  <div className="bg-white rounded-xl shadow-lg p-6 h-48 flex items-center justify-center text-gray-500 font-semibold text-lg animate-pulse border border-gray-200">
+                    Fetching LeetCode Data...
+                  </div>
+                ) : leetCodeError ? (
+                  <div className="bg-red-50 border border-red-300 text-red-700 rounded-xl shadow-lg p-6 h-48 flex flex-col items-center justify-center text-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-8 w-8 mb-2 text-red-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <p className="font-semibold">Error Loading Profile</p>
+                    <p className="text-sm">{leetCodeError}</p>
+                  </div>
+                ) : (
+                  // Only render LeetCodeProfileDisplay if data is not loading and no error occurred
+                  <LeetCodeProfileDisplay
+                    profile={leetCodeProfile} // Pass the fetched data
+                  />
+                )}
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...springTransition, delay: 0.2 } as const}
+              >
+                <div className="bg-white rounded-xl shadow-lg p-6 h-62 flex items-center justify-center border border-gray-200">
+                  Github
+                </div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...springTransition, delay: 0.3 } as const}
+              >
+                <div className="bg-white rounded-xl shadow-lg p-6 h-62 flex items-center justify-center border border-gray-200">
+                  Stackoverflow
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
