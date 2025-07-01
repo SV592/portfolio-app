@@ -1,12 +1,22 @@
-import { useState, useEffect } from "react";
+import useSWR from "swr";
+import { LeetCodeProfileType } from "../components/Leetcode/Leetcode"; // Import LeetCodeType from its current definition
 
-// LeetCodeProfile type definition
-export interface LeetCodeProfileType {
-  solvedProblem: number;
-  easySolved: number;
-  mediumSolved: number;
-  hardSolved: number;
-}
+// Make the HTTP request to the internal API route.
+const fetcher = async (url: string): Promise<LeetCodeProfileType> => {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    const errorMessage =
+      errorData.error || `Failed to fetch data: ${response.status}`;
+    // SWR's error handling
+    throw new Error(errorMessage);
+  }
+
+  const data: LeetCodeProfileType = await response.json();
+
+  return data;
+};
 
 interface UseLeetCodeDataResult {
   data: LeetCodeProfileType | null;
@@ -15,54 +25,27 @@ interface UseLeetCodeDataResult {
 }
 
 /**
- * Custom hook to fetch LeetCode user data from the Next.js API route.
- * @param {string} username The LeetCode username to fetch data for.
- * @returns {UseLeetCodeDataResult} An object containing the data, loading state, and any error.
+ *
+ * Calls the internal Next.js API route, which then handles server-side caching.
+ * @param {string} username
+ * @returns {UseLeetCodeDataResult} Data, loading state, and any errors.
  */
 export const useLeetCodeData = (username: string): UseLeetCodeDataResult => {
-  const [data, setData] = useState<LeetCodeProfileType | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  // SWR key will be null if no username, preventing fetch
+  const swrKey = username ? `/api/leetcode/${username}` : null;
 
-  useEffect(() => {
-    if (!username) {
-      setError("Username is required for fetching LeetCode data.");
-      setLoading(false);
-      return;
+  const { data, error, isLoading } = useSWR<LeetCodeProfileType, Error>(
+    swrKey,
+    fetcher,
+    {
+      revalidateOnFocus: false, // Prevents re-fetching on window focus if you don't need it
+      revalidateIfStale: true, // Re-fetches in background if data is stale
     }
+  );
 
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null); // Clear previous errors
-      try {
-        // Call YOUR internal Next.js API route (which then proxies to the external API)
-        const response = await fetch(`/api/leetcode/${username}`, {
-          next: { revalidate: 7200 },
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(
-            errorData.error || `Failed to fetch LeetCode data for ${username}`
-          );
-        }
-
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unknown error occurred while fetching LeetCode data.");
-        }
-        setData(null); // Clear data on error
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [username]); // Re-run effect if the username changes
-
-  return { data, loading, error };
+  return {
+    data: data || null, // Ensure data is null if undefined
+    loading: isLoading,
+    error: error ? error.message : null, // Extract error message
+  };
 };
