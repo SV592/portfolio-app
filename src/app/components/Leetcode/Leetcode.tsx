@@ -1,6 +1,6 @@
 import React from "react";
 
-// Define the shape of the LeetCode profile data that this component expects.
+//LeetCode profile data this component expects.
 export interface LeetCodeProfileType {
   solvedProblem: number;
   easySolved: number;
@@ -8,24 +8,53 @@ export interface LeetCodeProfileType {
   hardSolved: number;
 }
 
-// Define props for this purely presentational component.
-// The parent will decide what 'profile' object (or null) to pass,
-// and also pass the total problem counts and beats percentages.
 interface LeetCodeProfileDisplayProps {
   profile: LeetCodeProfileType | null;
+  loading: boolean;
+  error: string | null;
 }
 
 const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   profile,
+  loading,
+  error,
 }) => {
-  // Console log for debugging. This can be removed in production.
-  console.log("LeetCodeProfileDisplay received profile data:", profile);
+  // --- Conditional Rendering ---
+  if (loading) {
+    return (
+      <div className="flex flex-col h-48 min-h-[250px] rounded-3xl shadow-lg p-6 gap-4 w-full colors">
+        Fetching LeetCode Data...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col rounded-3xl min-h-[250px] h-48 shadow-lg p-6 gap-4 w-full colors">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-8 w-8 mb-2 text-red-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <p className="font-semibold">Error Loading Profile</p>
+        <p className="text-sm">{error}</p> {/* Use the error prop */}
+      </div>
+    );
+  }
 
   // If no profile data is provided, show a "not found" message.
-  // The parent component is responsible for deciding *when* to render this state.
   if (!profile) {
     return (
-      <div className="bg-white rounded-xl shadow-lg p-6 h-48 flex items-center justify-center">
+      <div className="bg-white rounded-xl shadow-lg min-h-52 p-6 h-48 flex items-center w-full justify-center">
         No LeetCode profile found for &quot;{"SV592"}&quot;.
       </div>
     );
@@ -54,7 +83,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   const hardDashOffset = -(easyArcLength + mediumArcLength); // Hard starts where Medium ends (clockwise)
 
   return (
-    <div className="flex flex-col rounded-3xl shadow-lg p-6 gap-4 w-full colors">
+    <div className="flex flex-col min-h-[251px] rounded-3xl shadow-lg p-6 gap-4 w-full colors">
       <h2 className="text-left text-xl font-bold">Leetcode (SV592)</h2>
 
       <div className="flex flex-col sm:flex-row items-center space-y-6 sm:space-y-0 sm:space-x-6">
@@ -78,13 +107,13 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
             {/* Easy Segment */}
             {easySolved > 0 && (
               <circle
-                className="text-green-500" // Easy color
+                className="text-green-500"
                 strokeWidth={strokeWidth}
                 strokeDasharray={`${easyArcLength} ${
                   circumference - easyArcLength
                 }`}
                 strokeDashoffset={easyDashOffset}
-                strokeLinecap="round" // Gives rounded ends to segments
+                strokeLinecap="round"
                 stroke="currentColor"
                 fill="transparent"
                 r={radius}
@@ -96,7 +125,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
             {/* Medium Segment */}
             {mediumSolved > 0 && (
               <circle
-                className="text-yellow-500" // Medium color
+                className="text-yellow-500"
                 strokeWidth={strokeWidth}
                 strokeDasharray={`${mediumArcLength} ${
                   circumference - mediumArcLength
@@ -114,7 +143,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
             {/* Hard Segment */}
             {hardSolved > 0 && (
               <circle
-                className="text-red-500" // Hard color
+                className="text-red-500"
                 strokeWidth={strokeWidth}
                 strokeDasharray={`${hardArcLength} ${
                   circumference - hardArcLength
