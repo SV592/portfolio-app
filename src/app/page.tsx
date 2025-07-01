@@ -6,24 +6,33 @@ import Profile from "./components/Profile/Profile";
 import Education from "./components/Education/Education";
 import Experience from "./components/Experience/Experience";
 import Skills from "./components/Skills/Skills";
+import Github from "./components/Github/Github";
 
 import LeetCodeProfileDisplay from "./components/Leetcode/Leetcode";
 
 import { useLeetCodeData } from "./Hooks/useLeetcodeData";
+import { useGithubContributions } from "./Hooks/useGithubContributions";
 
 export default function Home() {
   // State to control the visibility/animation of skills
   const [, setSkillsVisible] = useState(false);
 
   // Username input
-  const targetLeetCodeUsername = "SV592";
+  const userName = "SV592";
+
+  // Data fetched from github
+  const {
+    data: githubContributions,
+    loading: githubLoading,
+    error: githubError,
+  } = useGithubContributions(userName);
 
   // Data fetched from leetcode
   const {
     data: leetCodeProfile,
     loading: leetCodeLoading,
     error: leetCodeError,
-  } = useLeetCodeData(targetLeetCodeUsername);
+  } = useLeetCodeData(userName);
 
   useEffect(() => {
     // Trigger skills animation after component mounts
@@ -100,9 +109,11 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...springTransition, delay: 0.2 } as const}
               >
-                <div className="flex flex-col min-h-[250px] rounded-3xl shadow-lg p-6 gap-4 w-full colors">
-                  Github
-                </div>
+                <Github
+                  data={githubContributions}
+                  loading={githubLoading}
+                  error={githubError}
+                />
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 100 }}

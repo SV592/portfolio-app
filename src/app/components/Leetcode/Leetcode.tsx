@@ -1,18 +1,6 @@
 import React from "react";
 
-//LeetCode profile data this component expects.
-export interface LeetCodeProfileType {
-  solvedProblem: number;
-  easySolved: number;
-  mediumSolved: number;
-  hardSolved: number;
-}
-
-interface LeetCodeProfileDisplayProps {
-  profile: LeetCodeProfileType | null;
-  loading: boolean;
-  error: string | null;
-}
+import { LeetCodeProfileDisplayProps } from "@/app/types/leetcode";
 
 const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   profile,
@@ -85,7 +73,6 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   return (
     <div className="flex flex-col min-h-[251px] rounded-3xl shadow-lg p-6 gap-4 w-full colors">
       <h2 className="text-left text-xl font-bold">Leetcode (SV592)</h2>
-
       <div className="flex flex-col sm:flex-row items-center space-y-6 sm:space-y-0 sm:space-x-6">
         {/* Left Section: Total Solved Multi-Color Circle */}
         <div className="relative w-28 h-28 flex items-center justify-center flex-shrink-0">

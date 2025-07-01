@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { LeetCodeProfileType } from "../components/Leetcode/Leetcode"; // Import LeetCodeType from its current definition
+import { LeetCodeProfileType } from "../types/leetcode"; // Import LeetCodeType from its current definition
 
 // Make the HTTP request to the internal API route.
 const fetcher = async (url: string): Promise<LeetCodeProfileType> => {
