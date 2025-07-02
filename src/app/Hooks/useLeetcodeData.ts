@@ -1,7 +1,12 @@
 import useSWR from "swr";
 import { LeetCodeProfileType } from "../types/leetcode"; // Import LeetCodeType from its current definition
 
-// Make the HTTP request to the internal API route.
+/**
+ * Fetcher function for SWR to get LeetCode profile data from the API.
+ * Throws an error if the response is not OK.
+ * @param url The API endpoint URL.
+ * @returns The LeetCode profile data.
+ */
 const fetcher = async (url: string): Promise<LeetCodeProfileType> => {
   const response = await fetch(url);
 
@@ -18,22 +23,26 @@ const fetcher = async (url: string): Promise<LeetCodeProfileType> => {
   return data;
 };
 
+/**
+ * The return type for the useLeetCodeData hook.
+ */
 interface UseLeetCodeDataResult {
-  data: LeetCodeProfileType | null;
-  loading: boolean;
-  error: string | null;
+  data: LeetCodeProfileType | null; // The user's LeetCode profile data, or null if not loaded
+  loading: boolean; // Indicates if the data is currently loading
+  error: string | null; // Error message if fetching data failed, or null if no error
 }
 
 /**
- *
+ * Custom React hook to fetch and provide LeetCode profile data for a given username.
  * Calls the internal Next.js API route, which then handles server-side caching.
- * @param {string} username
+ * @param {string} username The LeetCode username to fetch data for.
  * @returns {UseLeetCodeDataResult} Data, loading state, and any errors.
  */
 export const useLeetCodeData = (username: string): UseLeetCodeDataResult => {
   // SWR key will be null if no username, preventing fetch
   const swrKey = username ? `/api/leetcode/${username}` : null;
 
+  // Use SWR for data fetching and caching
   const { data, error, isLoading } = useSWR<LeetCodeProfileType, Error>(
     swrKey,
     fetcher,
