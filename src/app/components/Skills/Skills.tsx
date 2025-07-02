@@ -4,7 +4,7 @@ const Skills: React.FC = () => {
   return (
     <div>
       {/* Skills Card*/}
-      <div className="flex flex-col gap-4 bg-white rounded-3xl shadow-lg p-6 pb-12.5">
+      <div className="flex flex-col gap-4 bg-white rounded-3xl shadow-lg p-6">
         <h2 className="text-xl font-bold text-gray-800flex justify-between items-center">
           Skills
         </h2>

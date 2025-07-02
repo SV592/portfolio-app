@@ -26,7 +26,7 @@ const Profile: React.FC = () => {
             width="20"
             height="20"
             viewBox="0 0 25 25"
-            fill="#2E2B2C"
+            fill="#99A1AF"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -36,7 +36,9 @@ const Profile: React.FC = () => {
             />
           </svg>
 
-          <p> Waterloo ON, Canada</p>
+          <p className="font-medium text-gray-400 text-sm">
+            Waterloo ON, Canada
+          </p>
         </div>
       </div>
 
@@ -156,19 +158,12 @@ const Profile: React.FC = () => {
       </div>
 
       {/* Statistics */}
-      <div className="grid grid-cols-3 gap-4 text-center mt-4 pt-2 border-t border-[#7F8CAA]">
-        <div>
-          <p className="text-xl sm:text-2xl font-bold">20</p>
-          <p className="text-[#7F8CAA]">Repos</p>
-        </div>
-        <div>
-          <p className="text-xl sm:text-2xl font-bold">268</p>
-          <p className="text-[#7F8CAA]">Connects</p>
-        </div>
-        <div>
-          <p className="text-xl sm:text-2xl font-bold">4</p>
-          <p className="text-[#7F8CAA]">Posts</p>
-        </div>
+      {/* <h2 className="text-lg font-medium">Software Engineer</h2> */}
+      <div className="flex gap-4 text-center pb-2 pt-2 border-t border-gray-400">
+        <p className="font-medium text-gray-400 text-sm">Web</p>
+        <p className="font-medium text-gray-400 text-sm">Mobile</p>
+        <p className="font-medium text-gray-400 text-sm">AI/Ml</p>
+        <p className="font-medium text-gray-400 text-sm">Ops</p>
       </div>
 
       <div className="flex justify-center gap-4 mt-4">

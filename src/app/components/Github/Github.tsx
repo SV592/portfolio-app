@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ProcessedGitHubContributionsData } from "../../types/github";
 
 // Props for the GithubContributions component
@@ -13,6 +13,20 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   loading,
   error,
 }) => {
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    // Set initial width
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Show loading state while fetching data
   if (loading) {
     return (
@@ -25,18 +39,23 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   // Show error or empty state if no data is available
   if (error || !data) {
     return (
-      <div className="bg-white rounded-3xl shadow-lg p-6 min-h-[180px] flex items-center justify-center text-gray-400">
+      <div className="bg-white rounded-3xl shadow-lg p-6 min-h-[250px] flex items-center justify-center text-gray-400">
         {error || `No GitHub contributions found for "${"SV592"}".`}
       </div>
     );
   }
 
-  // Helper function to create a full year's worth of contribution weeks (52 weeks)
-  const createContributionGrid = () => {
-    const allWeeks = data.weeks;
-    const displayWeeks = 52; // Full year
-
-    // Empty week template for missing weeks
+  // Helper function to get the last N weeks of contributions
+  const getLastNWeeks = (
+    weeks: {
+      contributionDays: {
+        contributionCount: number;
+        color: string;
+        date: string;
+      }[];
+    }[],
+    count: number
+  ) => {
     const emptyWeek = {
       contributionDays: Array(7).fill({
         contributionCount: 0,
@@ -45,99 +64,203 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
       }),
     };
 
-    // Fill in any missing weeks with empty data
-    const filledWeeks = Array(displayWeeks)
-      .fill(emptyWeek)
-      .map((week, index) => {
-        return allWeeks[index] || week;
-      });
+    // Get the most recent weeks
+    const recentWeeks = weeks.slice(-count);
 
-    return filledWeeks;
+    // Fill to exact count if needed
+    while (recentWeeks.length < count) {
+      recentWeeks.unshift(emptyWeek);
+    }
+
+    return recentWeeks;
   };
 
-  // Array of weeks to display in the grid
-  const contributionWeeks = createContributionGrid();
+  // Determine which layout to show based on screen width
+  const showFullYear = screenWidth >= 1680;
+  const showTablet = screenWidth >= 768 && screenWidth < 1680;
+  const showMobile = screenWidth < 768;
 
-  // Month labels for the top of the grid
-  const monthLabels = [
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-  ];
+  // Month arrays for different breakpoints
+  const monthLabels = {
+    mobile: ["Mar", "Apr", "May", "Jun"],
+    tablet: ["Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    desktop: [
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+    ],
+  };
 
   return (
-    <div className="bg-white rounded-3xl shadow-lg p-6">
+    <div className="bg-white flex flex-col min-h-[250px] colors rounded-3xl shadow-lg p-6">
       {/* Header */}
-      <h2 className="text-xl font-bold mb-1">Total Line Of Codes</h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <h2 className="text-xl font-bold mb-1">Github</h2>
+      <p className="font-medium text-gray-400 text-sm mb-2">
         {data.totalContributions} contributions in the last year
       </p>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col text-[11px] font-medium text-gray-400">
         {/* Month Labels */}
-        <div className="flex pl-8 mb-1">
-          <div className="grid grid-cols-12 w-full text-[11px] text-gray-400">
-            {monthLabels.map((month) => (
-              <span key={month} className="text-center">
-                {month}
-              </span>
-            ))}
-          </div>
+        <div className="pl-8 mb-1">
+          {showMobile && (
+            <div className="grid grid-cols-4 w-full">
+              {monthLabels.mobile.map((month, index) => (
+                <span key={index} className="text-center">
+                  {month}
+                </span>
+              ))}
+            </div>
+          )}
+          {showTablet && (
+            <div className="grid grid-cols-8 w-full">
+              {monthLabels.tablet.map((month, index) => (
+                <span key={index} className="text-center">
+                  {month}
+                </span>
+              ))}
+            </div>
+          )}
+          {showFullYear && (
+            <div className="grid grid-cols-12 w-full">
+              {monthLabels.desktop.map((month, index) => (
+                <span key={index} className="text-center">
+                  {month}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Contribution Grid */}
         <div className="flex">
-          {/* Day Labels (Mon, Wed, Fri) */}
-          <div className="flex flex-col justify-between text-[11px] text-gray-400 mr-2 h-[72px]">
+          {/* Day Labels (Mon, Wed, Fri) - Hide on very small screens */}
+          <div className="hidden sm:flex flex-col justify-between font-medium text-[11px] mr-2 h-[72px]">
             <span>Mon</span>
             <span>Wed</span>
             <span>Fri</span>
           </div>
 
-          {/* Contribution Squares */}
-          <div className="grid grid-flow-col gap-[2px] w-full">
-            {contributionWeeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="flex flex-col gap-[2px]">
-                {week.contributionDays.map((day, dayIndex) => (
-                  <div
-                    key={`${weekIndex}-${dayIndex}`}
-                    className="w-[8px] h-[8px] rounded-[1px]"
-                    style={{ backgroundColor: day.color }}
-                    title={`${
-                      day.contributionCount
-                    } contributions on ${new Date(
-                      day.date
-                    ).toLocaleDateString()}`}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
+          {/* Mobile: 17 weeks (4 months) */}
+          {showMobile && (
+            <div className="grid grid-flow-col gap-[2px] w-full">
+              {getLastNWeeks(data.weeks, 17).map((week, weekIndex) => (
+                <div key={weekIndex} className="flex flex-col gap-[2px]">
+                  {week.contributionDays.map(
+                    (
+                      day: {
+                        contributionCount: number;
+                        color: string;
+                        date: string;
+                      },
+                      dayIndex: number
+                    ) => (
+                      <div
+                        key={`${weekIndex}-${dayIndex}`}
+                        className="w-[10px] h-[10px] rounded-[1px]"
+                        style={{ backgroundColor: day.color }}
+                        title={`${
+                          day.contributionCount
+                        } contributions on ${new Date(
+                          day.date
+                        ).toLocaleDateString()}`}
+                      />
+                    )
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Tablet: 35 weeks (8 months) */}
+          {showTablet && (
+            <div className="grid grid-flow-col gap-[2px] w-full">
+              {getLastNWeeks(data.weeks, 35).map((week, weekIndex) => (
+                <div key={weekIndex} className="flex flex-col gap-[2px]">
+                  {week.contributionDays.map(
+                    (
+                      day: {
+                        contributionCount: number;
+                        color: string;
+                        date: string;
+                      },
+                      dayIndex: number
+                    ) => (
+                      <div
+                        key={`${weekIndex}-${dayIndex}`}
+                        className="w-[9px] h-[9px] rounded-[1px]"
+                        style={{ backgroundColor: day.color }}
+                        title={`${
+                          day.contributionCount
+                        } contributions on ${new Date(
+                          day.date
+                        ).toLocaleDateString()}`}
+                      />
+                    )
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Desktop 1680px+: 52 weeks (12 months) */}
+          {showFullYear && (
+            <div className="grid grid-flow-col gap-[2px] w-full">
+              {getLastNWeeks(data.weeks, 52).map((week, weekIndex) => (
+                <div key={weekIndex} className="flex flex-col gap-[2px]">
+                  {week.contributionDays.map(
+                    (
+                      day: {
+                        contributionCount: number;
+                        color: string;
+                        date: string;
+                      },
+                      dayIndex: number
+                    ) => (
+                      <div
+                        key={`${weekIndex}-${dayIndex}`}
+                        className="w-[8px] h-[8px] rounded-[1px]"
+                        style={{ backgroundColor: day.color }}
+                        title={`${
+                          day.contributionCount
+                        } contributions on ${new Date(
+                          day.date
+                        ).toLocaleDateString()}`}
+                      />
+                    )
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Legend and Info */}
-        <div className="flex justify-between items-center w-full mt-4 text-[11px] text-gray-400">
-          <span className="hover:text-gray-600 cursor-pointer">
-            Learn how we count contributions
-          </span>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full mt-4 text-[11px] text-gray-400 gap-2 sm:gap-0">
+          <a
+            href="https://github.com/SV592"
+            className="cursor-pointer hidden sm:inline hover:underline"
+            target="_blank"
+          >
+            Profile
+          </a>
           <div className="flex items-center gap-1">
             <span>Less</span>
             <div className="flex gap-[2px]">
               {/* Color legend for contribution intensity */}
-              <div className="w-[8px] h-[8px] rounded-[1px] bg-[#ebedf0]" />
-              <div className="w-[8px] h-[8px] rounded-[1px] bg-[#9be9a8]" />
-              <div className="w-[8px] h-[8px] rounded-[1px] bg-[#40c463]" />
-              <div className="w-[8px] h-[8px] rounded-[1px] bg-[#30a14e]" />
-              <div className="w-[8px] h-[8px] rounded-[1px] bg-[#216e39]" />
+              <div className="w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] rounded-[1px] bg-[#ebedf0]" />
+              <div className="w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] rounded-[1px] bg-[#9be9a8]" />
+              <div className="w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] rounded-[1px] bg-[#40c463]" />
+              <div className="w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] rounded-[1px] bg-[#30a14e]" />
+              <div className="w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] rounded-[1px] bg-[#216e39]" />
             </div>
             <span>More</span>
           </div>

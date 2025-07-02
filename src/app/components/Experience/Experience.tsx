@@ -24,8 +24,10 @@ const Experience: React.FC = () => {
         {/* Experience Details */}
         <div>
           <h3 className="text-lg font-bold">The Software Rebels</h3>
-          <p className="text-sm">Graduate Research Assistant (2023 - 2024)</p>
-          <p className="text-sm">Waterloo, ON</p>
+          <div className="font-medium text-gray-400 text-sm">
+            <p className="text-sm">Graduate Research Assistant (2023 - 2024)</p>
+            <p className="text-sm">Waterloo, ON</p>
+          </div>
         </div>
       </div>
 
@@ -44,10 +46,12 @@ const Experience: React.FC = () => {
         {/* Experience Details */}
         <div>
           <h3 className="text-lg font-bold">University of Waterloo</h3>
-          <p className="text-sm">
-            Instructional Apprentice/Teaching Assistant (2023 - 2024)
-          </p>
-          <p className="text-sm">Waterloo, ON</p>
+          <div className="font-medium text-gray-400 text-sm">
+            <p className="text-sm">
+              Instructional Apprentice/Teaching Assistant (2023 - 2024)
+            </p>
+            <p className="text-sm">Waterloo, ON</p>
+          </div>
         </div>
       </div>
 
@@ -68,8 +72,10 @@ const Experience: React.FC = () => {
           <h3 className="text-lg font-bold">
             The Department of Public Information
           </h3>
-          <p className="text-sm">Junior Software Developer (2022 - 2023)</p>
-          <p className="text-sm">Georgetown, Guyana</p>
+          <div className="font-medium text-gray-400 text-sm">
+            <p className="text-sm">Junior Software Developer (2022 - 2023)</p>
+            <p className="text-sm">Georgetown, Guyana</p>
+          </div>
         </div>
       </div>
 
@@ -88,8 +94,10 @@ const Experience: React.FC = () => {
         {/* Experience Details */}
         <div>
           <h3 className="text-lg font-bold">Caribbean Coding Academy</h3>
-          <p className="text-sm">Frontend Engineer Intern (2020 - 2021)</p>
-          <p className="text-sm">St. George, Grenada</p>
+          <div className="font-medium text-gray-400 text-sm">
+            <p className="text-sm">Frontend Engineer Intern (2020 - 2021)</p>
+            <p className="text-sm">St. George, Grenada</p>
+          </div>
         </div>
       </div>
     </div>

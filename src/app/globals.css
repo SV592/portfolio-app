@@ -21,13 +21,21 @@ html[data-theme="myDarkTheme"] {
 }
 
 .social-links {
-  @apply hover:-translate-y-1 transition-all ease-in-out text-[#2E2B2C] 
+  @apply text-[#2E2B2C] 
 }
 
 .more-links {
-  @apply hover:-translate-y-1 transition-all ease-in-out text-[#FFF] bg-[#2E2B2C] fill-[#FFF]
+  @apply text-[#FFF] bg-[#2E2B2C] fill-[#FFF]
 }
 
 .colors {
   @apply bg-[#FFF] text-[#2E2B2C] 
+}
+
+@theme {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1700px;
 }

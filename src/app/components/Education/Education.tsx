@@ -23,11 +23,13 @@ const Education: React.FC = () => {
         {/* Education Details */}
         <div>
           <h3 className="text-lg font-bold">University of Waterloo</h3>
-          <p className="text-sm">Master&apos;s in Computer Science</p>
-          <p className="text-sm mt-0.5">(2023 - 2024) | GPA (3.88/4.00)</p>
-          <p className="text-sm mt-1">
-            Additional: Specializing in Software Engineering
-          </p>
+          <div className="font-medium text-gray-400 text-sm">
+            <p className="text-sm">Master&apos;s in Computer Science</p>
+            <p className="text-sm mt-0.5">(2023 - 2024) | GPA (3.88/4.00)</p>
+            <p className="text-sm mt-1">
+              Additional: Specializing in Software Engineering
+            </p>
+          </div>
         </div>
       </div>
 
@@ -47,9 +49,11 @@ const Education: React.FC = () => {
         {/* Education Details */}
         <div>
           <h3 className="text-lg font-bold">St. George&apos;s University</h3>
-          <p className="text-sm">Bachelor&apos;s of Information Technology</p>
-          <p className="text-sm mt-1">(2018 - 2021) | GPA (3.60/4.00)</p>
-          <p className="text-sm mt-1">Additional: Minor in Mathematics</p>
+          <div className="font-medium text-gray-400 text-sm">
+            <p className="text-sm">Bachelor&apos;s of Information Technology</p>
+            <p className="text-sm mt-1">(2018 - 2021) | GPA (3.60/4.00)</p>
+            <p className="text-sm mt-1">Additional: Minor in Mathematics</p>
+          </div>
         </div>
       </div>
     </div>
