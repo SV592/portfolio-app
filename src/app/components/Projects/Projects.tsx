@@ -81,7 +81,7 @@ const Projects: React.FC = () => {
         <div className="rounded-xl border p-4 flex flex-col h-full">
           <div className="relative w-full h-40 rounded-lg overflow-hidden mb-4">
             <Image
-              src="/images/blogProject.png"
+              src="/images/portfolio.png"
               alt="Screenshot of E-commerce Platform"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -120,7 +120,7 @@ const Projects: React.FC = () => {
 
           <div className="flex justify-start gap-4 mt-auto">
             <Link
-              href="https://ecommerce-demo.vercel.app"
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline text-sm font-medium flex items-center"
