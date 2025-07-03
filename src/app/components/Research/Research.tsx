@@ -1,68 +1,52 @@
 import React from "react";
 import Link from "next/link";
 
-// Mock Data for Research Papers - Hardcoded
+// Research Papers
 const allResearchPapers = [
   {
     id: "rp1",
     title: "Exploring Dependency Related Build Breakages In The NPM Ecosystem",
     description:
       "This project analyzes dependency-related build failures within the NPM ecosystem by examining JavaScript projects.",
-    pdfUrl: "#", // Replace with actual PDF or abstract link
+    pdfUrl:
+      "/assets/Exploring Dependency Related Build Breakages In the NPM Ecosystem.pdf",
   },
   {
     id: "rp2",
     title: "Code Review Practises On Ethereum Smart Contracts",
     description:
       "This project assesses the effectiveness of code review for Ethereum smart contracts across major projects like Uniswap and Aave.",
-    pdfUrl: "#", // Replace with actual PDF or abstract link
+    pdfUrl: "/assets/Code Review Practises On Etherum Smart Contracts.pdf",
   },
   {
     id: "rp3",
     title: "Predicting Build Breakage With Machine Learning",
     description:
       "This project is a literature survey focused on applying machine learning techniques to predict build failures in Continuous Integration (CI) systems.",
-    pdfUrl: "#", // Replace with actual PDF or abstract link
+    pdfUrl: "/assets/Predicting Build Breakage with Machine Learning.pdf",
   },
   {
     id: "rp4",
     title: "An Evaluation of Automated Code Review Approaches",
     description:
       "This project explores the effectiveness of automated code review tools in evaluating code changes and generating meaningful feedback.",
-    pdfUrl: "#", // Replace with actual PDF or abstract link
+    pdfUrl: "/assets/Code Review Practises On Etherum Smart Contracts.pdf",
   },
-
-  //   {
-  //     id: "rp5",
-  //     title: "Graph Based Augmentation for Dependency Management in NPM",
-  //     description:
-  //       "This project investigates dependency management challenges in the NPM ecosystem, where transitive dependencies, version mismatches, and cyclic relationships create complexity.",
-  //     pdfUrl: "#",
-  //   },
-
-  //   {
-  //     id: "rp6",
-  //     title:
-  //       "Exploring the Prevalence of Social Biases In State Of The Art large language Models",
-  //     description:
-  //       "This project investigates the prevalence of social biases in large language models like GPT-2, DistilGPT-2, Bloom-560M, and Facebook-OPT-350M.",
-  //     pdfUrl: "#",
-  //   },
 ];
 
 const Research: React.FC = () => {
   return (
-    <div className="bg-white rounded-3xl min-h-[450px] colors shadow-lg p-6">
+    <div className="rounded-3xl min-h-[450px] colors shadow-lg p-6">
       <h2 className="text-xl font-bold mb-4">Research</h2>
       <div className="grid grid-cols-1 gap-6">
         {/* Responsive grid for paper cards */}
         {allResearchPapers.map((paper) => (
           <div
             key={paper.id}
-            className="bg-white rounded-xl p-4 flex flex-col h-full border"
+            className="rounded-xl p-4 flex flex-col h-full border"
           >
-            <h3 className="text-lg font-semibold mb-2">{paper.title}</h3>
-            <p className="text-gray-600 text-sm mb-3 flex-grow">
+            <h3 className="text-lg font-medium mb-2">{paper.title}</h3>
+            <p className="text-gray-400 font-medium text-sm mb-3 flex-grow">
               {paper.description}
             </p>
 
