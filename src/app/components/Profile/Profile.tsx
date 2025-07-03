@@ -4,7 +4,7 @@ import Image from "next/image";
 // Main Card component
 const Profile: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center rounded-3xl shadow-xl p-8 colors">
+    <div className="flex flex-col items-center justify-center rounded-3xl p-8 colors">
       {/* Profile Picture */}
       <div className="flex justify-center">
         <Image

@@ -4,7 +4,7 @@ import Image from "next/image";
 // Main EducationCard component
 const Experience: React.FC = () => {
   return (
-    <div className="flex flex-col rounded-3xl shadow-lg p-6 gap-4 colors">
+    <div className="flex flex-col rounded-3xl p-6 gap-4 colors">
       {/* Card Header */}
       <h2 className="text-left text-xl font-bold">Experience</h2>
 

@@ -10,7 +10,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   // --- Conditional Rendering ---
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
+      <div className="bg-white rounded-lg min-h-[250px] p-6 animate-pulse">
         <h2 className="text-xl font-bold mb-4 bg-gray-200 h-6 w-3/4 rounded"></h2>
         <div className="bg-gray-200 h-4 w-1/2 rounded mb-2"></div>
         <div className="bg-gray-200 h-16 rounded mb-4"></div>
@@ -21,7 +21,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
 
   if (error) {
     return (
-      <div className="flex flex-col rounded-3xl min-h-[250px] h-48 shadow-lg p-6 gap-4 w-full colors">
+      <div className="flex flex-col rounded-3xl min-h-[250px] h-48 p-6 gap-4 w-full colors">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-8 w-8 mb-2 text-red-500"
@@ -45,7 +45,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   // If no profile data is provided, show a "not found" message.
   if (!profile) {
     return (
-      <div className="bg-white rounded-xl shadow-lg min-h-52 p-6 h-48 flex items-center w-full justify-center">
+      <div className="bg-white rounded-xl min-h-52 p-6 h-48 flex items-center w-full justify-center">
         No LeetCode profile found for &quot;{"SV592"}&quot;.
       </div>
     );
@@ -74,7 +74,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   const hardDashOffset = -(easyArcLength + mediumArcLength); // Hard starts where Medium ends (clockwise)
 
   return (
-    <div className="flex flex-col min-h-[251px] rounded-3xl shadow-lg p-6 colors">
+    <div className="flex flex-col min-h-[251px] rounded-3xl p-6 colors">
       <h2 className="text-left text-xl font-bold mb-1">Leetcode</h2>
       <p className="font-medium text-gray-400 text-sm mb-4">
         {profile.solvedProblem} total algorithmic problems solved

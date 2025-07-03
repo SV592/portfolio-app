@@ -30,7 +30,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   // Show loading state while fetching data
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
+      <div className="bg-white rounded-lg p-6 animate-pulse">
         <h2 className="text-xl font-bold mb-4 bg-gray-200 h-6 w-3/4 rounded"></h2>
         <div className="bg-gray-200 h-4 w-1/2 rounded mb-2"></div>
         <div className="bg-gray-200 h-16 rounded mb-4"></div>
@@ -42,7 +42,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   // Show error or empty state if no data is available
   if (error || !data) {
     return (
-      <div className="bg-white rounded-3xl shadow-lg p-6 min-h-[250px] flex items-center justify-center text-gray-400">
+      <div className="bg-white rounded-3xl p-6 min-h-[250px] flex items-center justify-center text-gray-400">
         {error || `No GitHub contributions found for "${"SV592"}".`}
       </div>
     );
@@ -104,7 +104,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   };
 
   return (
-    <div className="bg-white flex flex-col min-h-[250px] colors rounded-3xl shadow-lg p-6">
+    <div className="bg-white flex flex-col min-h-[250px] colors rounded-3xl p-6">
       {/* Header */}
       <h2 className="text-xl font-bold mb-1">Github</h2>
       <p className="font-medium text-gray-400 text-sm mb-2">

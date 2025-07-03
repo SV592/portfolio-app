@@ -4,7 +4,7 @@ import Image from "next/image";
 // Main EducationCard component
 const Education: React.FC = () => {
   return (
-    <div className="flex flex-col bg-white rounded-3xl shadow-lg p-6 gap-4 w-full colors">
+    <div className="flex flex-col bg-white rounded-3xl p-6 gap-4 w-full colors">
       {/* Card Header */}
       <h2 className="text-left text-xl font-bold">Education</h2>
 
