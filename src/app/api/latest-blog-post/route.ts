@@ -4,17 +4,17 @@ import { NextResponse } from "next/server";
  * API route to fetch the latest blog post from an external blog API.
  */
 export async function GET() {
-  console.log("API Route: /api/latest-blog-post - Request received."); // Log start of request
+  // console.log("API Route: /api/latest-blog-post - Request received."); // Log start of request
   try {
     const blogApiUrl =
       "https://theprogrammersgazette.vercel.app/api/latest-blog-post"; // Assuming this is fixed now
 
-    console.log(`API Route: Fetching from external blog API: ${blogApiUrl}`); // Log external fetch attempt
+    // console.log(`API Route: Fetching from external blog API: ${blogApiUrl}`); // Log external fetch attempt
     const response = await fetch(blogApiUrl, {
       next: { revalidate: 7200 },
     });
 
-    console.log(`API Route: External API response status: ${response.status}`); // Log external API status
+    // console.log(`API Route: External API response status: ${response.status}`); // Log external API status
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -46,6 +46,6 @@ export async function GET() {
     }
     return NextResponse.json({ message: errorMessage }, { status: 500 });
   } finally {
-    console.log("API Route: /api/latest-blog-post - Request finished."); // Log end of request
+    console.log("Blog Request finished."); // Log end of request
   }
 }
