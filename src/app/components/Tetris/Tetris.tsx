@@ -315,11 +315,11 @@ export default function TetrisGame() {
       if (running) aniFrame.current = requestAnimationFrame(loop);
     }
     // Cancel previous animation frame if any
-    aniFrame.current && cancelAnimationFrame(aniFrame.current);
+    if (aniFrame.current) cancelAnimationFrame(aniFrame.current);
     if (!paused && !gameOver) aniFrame.current = requestAnimationFrame(loop);
     return () => {
       running = false;
-      aniFrame.current && cancelAnimationFrame(aniFrame.current);
+      if (aniFrame.current) cancelAnimationFrame(aniFrame.current);
     };
   }, [paused, gameOver, draw]);
 
