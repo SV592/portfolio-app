@@ -68,27 +68,29 @@ export default function Home() {
         {/* Left Column - Profile and Skills */}
         <div className="space-y-2 2xl:col-span-3">
           <motion.div
+            layout={true}
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...springTransition, delay: 0.1 } as const}
-            style={{ minHeight: `300px` }} // Ensure stable height for animation
+            className="overflow-hidden will-change-transform"
           >
             <Profile />
           </motion.div>
           <motion.div
+            layout={true}
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...springTransition, delay: 0.2 } as const}
-            style={{ minHeight: `200px` }} // Ensure stable height for animation
+            className="overflow-hidden will-change-transform"
           >
             <Skills />
           </motion.div>
           <motion.div
+            layout={true}
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...springTransition, delay: 0.3 } as const}
-            style={{ minHeight: `200px` }} // Ensure stable height for animation
-            className="2xl:flex hidden"
+            className="overflow-hidden will-change-transform"
           >
             <Tetris />
           </motion.div>
@@ -99,23 +101,26 @@ export default function Home() {
           {/* Education and Experience Column/Stack */}
           <div className="space-y-2 lg:col-span-2">
             <motion.div
+              layout={true}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ ...springTransition, delay: 0.1 } as const}
-              style={{ minHeight: `300px` }} // Ensure stable height for animation
+              className="overflow-hidden will-change-transform"
             >
               <Education />
             </motion.div>
             <motion.div
+              layout={true}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ ...springTransition, delay: 0.2 } as const}
-              style={{ minHeight: `300px` }} // Ensure stable height for animation
+              className="overflow-hidden will-change-transform"
             >
               <Experience />
             </motion.div>
 
             <motion.div
+              layout={true}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ ...springTransition, delay: 0.3 } as const}
@@ -127,10 +132,11 @@ export default function Home() {
           {/* LeetCode, Github, Blog, Research */}
           <div className="space-y-2 lg:col-span-2">
             <motion.div
+              layout={true}
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...springTransition, delay: 0.1 } as const}
-              style={{ minHeight: `250px` }} // Ensure stable height for animation
+              className="overflow-hidden will-change-transform"
             >
               <LeetCodeProfileDisplay
                 profile={leetCodeProfile}
@@ -139,10 +145,11 @@ export default function Home() {
               />
             </motion.div>
             <motion.div
+              layout={true}
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...springTransition, delay: 0.2 } as const}
-              style={{ minHeight: `250px` }} // Ensure stable height for animation
+              className="overflow-hidden will-change-transform"
             >
               <Github
                 data={githubContributions}
@@ -151,10 +158,11 @@ export default function Home() {
               />
             </motion.div>
             <motion.div
+              layout={true}
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...springTransition, delay: 0.3 } as const}
-              style={{ minHeight: `350px` }} // Ensure stable height for animation
+              className="overflow-hidden will-change-transform"
             >
               <Blog
                 data={latestBlogPost}
@@ -163,10 +171,11 @@ export default function Home() {
               />
             </motion.div>
             <motion.div
+              layout={true}
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...springTransition, delay: 0.4 } as const}
-              style={{ minHeight: `450px` }} // Ensure stable height for animation
+              className="overflow-hidden will-change-transform"
             >
               <Research />
             </motion.div>

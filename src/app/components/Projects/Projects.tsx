@@ -5,7 +5,7 @@ import Link from "next/link"; // Still needed for next/link component
 const Projects: React.FC = () => {
   return (
     // Main container matching your existing card styles
-    <div className="bg-white rounded-3xl min-h-[300px] colors shadow-lg p-6">
+    <div className="bg-white rounded-3xl colors shadow-lg p-6">
       <h2 className="text-xl font-bold mb-4">Projects</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

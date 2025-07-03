@@ -36,7 +36,7 @@ const allResearchPapers = [
 
 const Research: React.FC = () => {
   return (
-    <div className="rounded-3xl min-h-[450px] colors shadow-lg p-6">
+    <div className="rounded-3xl colors shadow-lg p-6">
       <h2 className="text-xl font-bold mb-4">Research</h2>
       <div className="grid grid-cols-1 gap-6">
         {/* Responsive grid for paper cards */}
