@@ -64,7 +64,7 @@ export async function GET(
         query: LEETCODE_GRAPHQL_QUERY,
         variables: { username },
       }),
-      next: { revalidate: 3600 }, // Adjust revalidate as needed
+      next: { revalidate: 7200 }, // Adjust revalidate as needed
     });
 
     if (!response.ok) {

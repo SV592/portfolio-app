@@ -45,7 +45,5 @@ export async function GET() {
       errorMessage = error.message;
     }
     return NextResponse.json({ message: errorMessage }, { status: 500 });
-  } finally {
-    console.log("Blog Request finished."); // Log end of request
   }
 }
