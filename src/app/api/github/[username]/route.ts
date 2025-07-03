@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Define the GraphQL query to fetch contribution calendar data
+// Define a specific interface for the route context's params
+interface RouteParams {
+  username: string;
+}
+
+// Define the full context interface, explicitly stating params is a Promise
+// This is to satisfy the build-time type checker based on the error message.
+interface RouteContext {
+  params: Promise<RouteParams>; // Explicitly define params as a Promise
+}
+
 const GITHUB_GRAPHQL_QUERY = `
   query($username: String!) {
     user(login: $username) {
@@ -20,12 +30,29 @@ const GITHUB_GRAPHQL_QUERY = `
   }
 `;
 
-// Handle GET requests to /api/github/[username]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { username: string } }
+  // Use the explicitly defined RouteContext to tell TypeScript that params is a Promise
+  context: RouteContext
 ) {
-  const { username } = await params;
+  // Keep the await here, as the console log shows it's necessary in your environment
+  const { username } = await context.params;
+
+  // // --- DEBUGGING LOGS (keep these for now, they were very helpful!) ---
+  // console.log("GitHub API Route: Request received for username:", username);
+  // console.log(
+  //   "GitHub API Route: Type of context.params:",
+  //   typeof context.params
+  // );
+  // console.log(
+  //   "GitHub API Route: Value of context.params (before await):",
+  //   context.params
+  // ); // Log the promise object
+  // console.log(
+  //   "GitHub API Route: Value of destructured username (after await):",
+  //   username
+  // );
+  // // --- END DEBUGGING LOGS ---
 
   if (!username) {
     return NextResponse.json(
@@ -34,7 +61,6 @@ export async function GET(
     );
   }
 
-  // Get the GitHub Token from environment variables
   const githubToken = process.env.GITHUB_TOKEN;
 
   if (!githubToken) {
@@ -56,9 +82,7 @@ export async function GET(
         query: GITHUB_GRAPHQL_QUERY,
         variables: { username },
       }),
-      // *** THIS IS WHERE SERVER-SIDE CACHING IS APPLIED ***
-      // Revalidate every hour (3600 seconds)
-      next: { revalidate: 3600 },
+      next: { revalidate: 7200 },
     });
 
     if (!response.ok) {
@@ -74,7 +98,6 @@ export async function GET(
 
     const result = await response.json();
 
-    // Handle GraphQL errors returned in the data payload
     if (result.errors) {
       console.error(`GraphQL errors for ${username}:`, result.errors);
       return NextResponse.json(
@@ -83,7 +106,6 @@ export async function GET(
       );
     }
 
-    // Extract the relevant data structure
     const contributionsData =
       result.data?.user?.contributionsCollection?.contributionCalendar;
 
@@ -94,7 +116,7 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(contributionsData); // Send the processed data back to the client
+    return NextResponse.json(contributionsData);
   } catch (error) {
     console.error(`Error in GitHub API route for ${username}:`, error);
     return NextResponse.json(
