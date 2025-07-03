@@ -10,8 +10,11 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   // --- Conditional Rendering ---
   if (loading) {
     return (
-      <div className="flex flex-col h-48 min-h-[250px] rounded-3xl shadow-lg p-6 gap-4 w-full colors">
-        Fetching LeetCode Data...
+      <div className="bg-white rounded-lg min-h-[250px] shadow-md p-6 animate-pulse">
+        <h2 className="text-xl font-bold mb-4 bg-gray-200 h-6 w-3/4 rounded"></h2>
+        <div className="bg-gray-200 h-4 w-1/2 rounded mb-2"></div>
+        <div className="bg-gray-200 h-16 rounded mb-4"></div>
+        <div className="bg-gray-300 h-10 w-24 rounded"></div>
       </div>
     );
   }
