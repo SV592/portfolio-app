@@ -109,7 +109,7 @@ function clearLines(grid: Cell[][]): number {
 }
 
 // Color palette for tetrominos and background
-const COLORS = [
+const COLORS: string[] = [
   "#232328", // background
   "#06b6d4",
   "#2563EB",
@@ -142,15 +142,18 @@ function freshState(): GameState {
   };
 }
 
-export default function TetrisGame() {
+const TetrisGame: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const aniFrame = useRef(0);
+  const aniFrame = useRef<number>(0);
 
-  const [score, setScore] = useState(0);
-  const [paused, setPaused] = useState(true);
-  const [gameOver, setGameOver] = useState(false);
-  const [canvasSize, setCanvasSize] = useState({ width: 300, height: 300 });
+  const [score, setScore] = useState<number>(0);
+  const [paused, setPaused] = useState<boolean>(true);
+  const [gameOver, setGameOver] = useState<boolean>(false);
+  const [canvasSize, setCanvasSize] = useState<{
+    width: number;
+    height: number;
+  }>({ width: 300, height: 300 });
   const [game, setGame] = useState<GameState>(freshState());
 
   // Responsive canvas sizing based on container width
@@ -280,8 +283,10 @@ export default function TetrisGame() {
           draw(game);
           return game;
         }
-        let { grid, current, dropTick, delay, score: sc } = game;
-        let over = game.over;
+        let { current, dropTick, score: sc } = game;
+        let over: boolean = game.over;
+        const { grid, delay } = game;
+
         dropTick++;
 
         // Drop tetromino down by one row if enough ticks have passed
@@ -308,7 +313,14 @@ export default function TetrisGame() {
           }
         }
         setScore(sc);
-        const newState = { ...game, grid, current, dropTick, score: sc, over };
+        const newState: GameState = {
+          ...game,
+          grid,
+          current,
+          dropTick,
+          score: sc,
+          over,
+        };
         draw(newState);
         return newState;
       });
@@ -328,7 +340,8 @@ export default function TetrisGame() {
     function handle(e: KeyboardEvent) {
       if (game.over || paused) return;
       setGame((game) => {
-        let { grid, current } = game;
+        const { grid } = game;
+        let { current } = game;
         let changed = false;
         if (e.key === "ArrowLeft") {
           const test = {
@@ -385,7 +398,7 @@ export default function TetrisGame() {
   }, [paused, game.over, draw]);
 
   // Pause, resume, or restart the game by clicking the canvas
-  function handleCanvasClick() {
+  function handleCanvasClick(): void {
     if (game.over) {
       // Restart: fresh state
       const fresh = freshState();
@@ -430,4 +443,6 @@ export default function TetrisGame() {
       </div>
     </div>
   );
-}
+};
+
+export default TetrisGame;
