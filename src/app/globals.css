@@ -3,20 +3,28 @@
 
 
 html[data-theme="myLightTheme"] {
-  background-color: #D1E9F6;
+  --theme-gradient-from: #FEFBC7; /* Light Purple (remains) */
+  --theme-gradient-via: #8ec5fc;   /* Light Blue (remains) */
+  --theme-gradient-to: #183B4E;    /* NEW: Slightly darker, more prominent blue */
   color: #2E2B2C;
 }
 
 html[data-theme="myDarkTheme"] {
-  background-color: #2E2B2C;
+  --theme-gradient-from: #183B4E; /* Starts with the NEW 'to' color of myLightTheme */
+  --theme-gradient-via: #1a202c;   /* A deeper, richer blue */
+  --theme-gradient-to: #000;    /* A very dark, almost black blue-gray */
   color:#FFF;
 
   .colors {
-    @apply bg-[#D1E9F6] text-[#2E2B2C] 
+    @apply bg-gray-50 text-[#2E2B2C] 
   }
 
   .social-links {
     @apply fill-[#2E2B2C]
+  }
+
+  .toggle-color {
+    @apply text-[#2E2B2C]
   }
 }
 
@@ -32,10 +40,21 @@ html[data-theme="myDarkTheme"] {
   @apply bg-[#FFF] text-[#2E2B2C] 
 }
 
+.toggle-color {
+    @apply text-[#2E2B2C]
+}
+
 @theme {
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1700px;
+}
+
+
+body {
+  background: var(--theme-gradient-from); /* Fallback */
+  background: linear-gradient(to bottom right, var(--theme-gradient-from), var(--theme-gradient-via), var(--theme-gradient-to));
+  background-attachment: fixed; /* Ensures gradient covers full scrollable area */
 }

@@ -20,8 +20,8 @@ const Projects: React.FC = () => {
               className="rounded-md"
             />
           </div>
-          <h3 className="text-lg font-semibold mb-2">Blog App</h3>
-          <p className="text-gray-600 text-sm mb-3 flex-grow">
+          <h3 className="text-lg font-medium mb-2">Blog App</h3>
+          <p className="text-gray-400 font-medium text-sm mb-3 flex-grow">
             A blog application built with Next.js with static and dynamic page
             serving and styled using Tailwind CSS. It features a custom backend
             for seamless Spotify API integration, and leverages PostgreSQL for
@@ -89,8 +89,8 @@ const Projects: React.FC = () => {
               className="rounded-md"
             />
           </div>
-          <h3 className="text-lg font-semibold mb-2">Portfolio App</h3>
-          <p className="text-gray-600 text-sm mb-3 flex-grow">
+          <h3 className="text-lg font-medium mb-2">Portfolio App</h3>
+          <p className="text-gray-400 font-medium text-sm mb-3 flex-grow">
             A responsive personal portfolio built with Next.js, leveraging
             server-side rendering and client-side data fetching for real-time
             updates. It integrates GitHub, LeetCode, and a custom blog API,
@@ -147,8 +147,8 @@ const Projects: React.FC = () => {
         </div>
 
         <div className="rounded-xl border p-4 flex flex-col h-full">
-          <h3 className="text-lg font-semibold mb-2">Secure File Manager</h3>
-          <p className="text-gray-600 text-sm mb-3 flex-grow">
+          <h3 className="text-lg font-medium mb-2">Secure File Manager</h3>
+          <p className="text-gray-400 font-medium text-sm mb-3 flex-grow">
             A lightweight C++ application for secure file encryption,
             decryption, hashing, and digital signature management This project
             leverages OpenSSL for cryptographic operations and a command-line

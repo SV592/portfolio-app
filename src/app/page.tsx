@@ -88,6 +88,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...springTransition, delay: 0.3 } as const}
             style={{ minHeight: `200px` }} // Ensure stable height for animation
+            className="2xl:flex hidden"
           >
             <Tetris />
           </motion.div>
