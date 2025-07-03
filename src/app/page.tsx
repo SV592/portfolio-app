@@ -6,6 +6,10 @@ import Profile from "./components/Profile/Profile";
 import Education from "./components/Education/Education";
 import Experience from "./components/Experience/Experience";
 import Skills from "./components/Skills/Skills";
+import Projects from "./components/Projects/Projects";
+import Copyright from "./components/Copyright/Copyright";
+import Tetris from "./components/Tetris/Tetris";
+import Research from "./components/Research/Research";
 import Github from "./components/Github/Github";
 import Blog from "./components/Blog/Blog";
 import LeetCodeProfileDisplay from "./components/Leetcode/Leetcode";
@@ -58,11 +62,11 @@ export default function Home() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-full h-full p-4 sm:p-6 lg:p-8 overflow-hidden">
+    <div className="flex flex-col justify-center items-center p-4 sm:p-6 overflow-hidden">
       {/* Main content container that adapts its grid structure */}
-      <div className="w-full grid grid-cols-1 gap-6 2xl:grid-cols-12">
+      <div className="w-full grid grid-cols-1 gap-2 2xl:grid-cols-12">
         {/* Left Column - Profile and Skills */}
-        <div className="space-y-6 2xl:col-span-3">
+        <div className="space-y-2 2xl:col-span-3">
           <motion.div
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
@@ -79,12 +83,20 @@ export default function Home() {
           >
             <Skills />
           </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: -100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...springTransition, delay: 0.3 } as const}
+            style={{ minHeight: `200px` }} // Ensure stable height for animation
+          >
+            <Tetris />
+          </motion.div>
         </div>
 
-        {/* Right Main Content Area (Education, Experience, LeetCode, Github, Blog) */}
-        <div className="space-y-6 lg:grid-cols-4 2xl:col-span-9 grid 2xl:grid-cols-4 gap-6">
+        {/* Right Main Content Area (Education, Experience, Projects, LeetCode, Github, Blog, Research) */}
+        <div className="lg:grid-cols-4 2xl:col-span-9 grid 2xl:grid-cols-4 gap-2">
           {/* Education and Experience Column/Stack */}
-          <div className="space-y-6 lg:col-span-2">
+          <div className="space-y-2 lg:col-span-2">
             <motion.div
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
@@ -101,10 +113,18 @@ export default function Home() {
             >
               <Experience />
             </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ ...springTransition, delay: 0.3 } as const}
+            >
+              <Projects />
+            </motion.div>
           </div>
 
-          {/* LeetCode, Github, Blog Column/Stack */}
-          <div className="space-y-6 lg:col-span-2">
+          {/* LeetCode, Github, Blog, Research */}
+          <div className="space-y-2 lg:col-span-2">
             <motion.div
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
@@ -141,9 +161,18 @@ export default function Home() {
                 error={latestBlogError}
               />
             </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...springTransition, delay: 0.4 } as const}
+              style={{ minHeight: `450px` }} // Ensure stable height for animation
+            >
+              <Research />
+            </motion.div>
           </div>
         </div>
       </div>
+      <Copyright />
     </div>
   );
 }
