@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Funnel_Sans, Funnel_Display } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { ThemeToggle } from "./components/ThemeToggle/ThemeToggle";
 import "./globals.css";
 
@@ -69,6 +70,7 @@ export default function RootLayout({
         >
           {children}
           <ThemeToggle />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
