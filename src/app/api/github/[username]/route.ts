@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Define a specific interface for the route context's params
+// Define the expected shape of the route params (from the URL)
 interface RouteParams {
   username: string;
 }
 
-// Define the full context interface, explicitly stating params is a Promise
-// This is to satisfy the build-time type checker based on the error message.
+// Define the context interface for the route, with params as a Promise
 interface RouteContext {
-  params: Promise<RouteParams>; // Explicitly define params as a Promise
+  params: Promise<RouteParams>;
 }
 
+// GraphQL query to fetch GitHub contribution data for a user
 const GITHUB_GRAPHQL_QUERY = `
   query($username: String!) {
     user(login: $username) {
@@ -30,30 +30,15 @@ const GITHUB_GRAPHQL_QUERY = `
   }
 `;
 
+// GET handler for the API route
 export async function GET(
   request: NextRequest,
-  // Use the explicitly defined RouteContext to tell TypeScript that params is a Promise
-  context: RouteContext
+  context: RouteContext // Context contains the dynamic route params
 ) {
-  // Keep the await here, as the console log shows it's necessary in your environment
+  // Await the params to extract the username from the URL
   const { username } = await context.params;
 
-  // // --- DEBUGGING LOGS (keep these for now, they were very helpful!) ---
-  // console.log("GitHub API Route: Request received for username:", username);
-  // console.log(
-  //   "GitHub API Route: Type of context.params:",
-  //   typeof context.params
-  // );
-  // console.log(
-  //   "GitHub API Route: Value of context.params (before await):",
-  //   context.params
-  // ); // Log the promise object
-  // console.log(
-  //   "GitHub API Route: Value of destructured username (after await):",
-  //   username
-  // );
-  // // --- END DEBUGGING LOGS ---
-
+  // Validate that a username was provided
   if (!username) {
     return NextResponse.json(
       { error: "GitHub username is required" },
@@ -61,8 +46,10 @@ export async function GET(
     );
   }
 
+  // Get the GitHub token from environment variables
   const githubToken = process.env.GITHUB_TOKEN;
 
+  // If the token is missing, return a server error
   if (!githubToken) {
     console.error("GITHUB_TOKEN environment variable is not set.");
     return NextResponse.json(
@@ -72,6 +59,7 @@ export async function GET(
   }
 
   try {
+    // Make a POST request to the GitHub GraphQL API
     const response = await fetch("https://api.github.com/graphql", {
       method: "POST",
       headers: {
@@ -82,9 +70,10 @@ export async function GET(
         query: GITHUB_GRAPHQL_QUERY,
         variables: { username },
       }),
-      next: { revalidate: 7200 },
+      next: { revalidate: 7200 }, // Cache for 2 hours
     });
 
+    // If the response is not OK, log and return an error
     if (!response.ok) {
       const errorText = await response.text();
       console.error(
@@ -96,8 +85,10 @@ export async function GET(
       );
     }
 
+    // Parse the JSON response
     const result = await response.json();
 
+    // Handle GraphQL errors
     if (result.errors) {
       console.error(`GraphQL errors for ${username}:`, result.errors);
       return NextResponse.json(
@@ -106,9 +97,11 @@ export async function GET(
       );
     }
 
+    // Extract the contributions data from the response
     const contributionsData =
       result.data?.user?.contributionsCollection?.contributionCalendar;
 
+    // If no data is found, return a 404 error
     if (!contributionsData) {
       return NextResponse.json(
         { error: `No contribution data found for GitHub user "${username}".` },
@@ -116,8 +109,10 @@ export async function GET(
       );
     }
 
+    // Return the contributions data as JSON
     return NextResponse.json(contributionsData);
   } catch (error) {
+    // Handle unexpected errors
     console.error(`Error in GitHub API route for ${username}:`, error);
     return NextResponse.json(
       { error: "Internal server error while fetching GitHub data." },

@@ -10,7 +10,7 @@ interface RouteContext {
   params: Promise<RouteParams>; // This is the crucial part: params is a Promise
 }
 
-// (Your LeetCode GraphQL Query or external API URL would go here)
+// LeetCode GraphQL endpoint and query to fetch user submission stats
 const LEETCODE_API_URL = "https://leetcode.com/graphql/";
 const LEETCODE_GRAPHQL_QUERY = `
   query userPublicProfile($username: String!) {
@@ -25,30 +25,18 @@ const LEETCODE_GRAPHQL_QUERY = `
   }
 `;
 
+/**
+ * GET handler for the LeetCode API route.
+ * Fetches submission stats for a given username from LeetCode's GraphQL API.
+ */
 export async function GET(
   request: NextRequest,
-  // FIXED: Use the explicitly defined RouteContext to tell TypeScript that params is a Promise
-  context: RouteContext
+  context: RouteContext // Context contains the dynamic route params
 ) {
-  // FIXED: Keep the await here, as the console log shows it's necessary in your environment
+  // Await the params to extract the username from the URL
   const { username } = await context.params;
 
-  // // --- ADDED DEBUGGING LOGS (similar to GitHub route) ---
-  // console.log("LeetCode API Route: Request received for username:", username);
-  // console.log(
-  //   "LeetCode API Route: Type of context.params:",
-  //   typeof context.params
-  // );
-  // console.log(
-  //   "LeetCode API Route: Value of context.params (before await):",
-  //   context.params
-  // );
-  // console.log(
-  //   "LeetCode API Route: Value of destructured username (after await):",
-  //   username
-  // );
-  // // --- END DEBUGGING LOGS ---
-
+  // Validate that a username was provided
   if (!username) {
     return NextResponse.json(
       { error: "LeetCode username is required" },
@@ -57,6 +45,7 @@ export async function GET(
   }
 
   try {
+    // Make a POST request to the LeetCode GraphQL API
     const response = await fetch(LEETCODE_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -64,9 +53,10 @@ export async function GET(
         query: LEETCODE_GRAPHQL_QUERY,
         variables: { username },
       }),
-      next: { revalidate: 7200 }, // Adjust revalidate as needed
+      next: { revalidate: 7200 }, // Cache for 2 hours
     });
 
+    // If the response is not OK, log and return an error
     if (!response.ok) {
       const errorText = await response.text();
       console.error(
@@ -78,8 +68,10 @@ export async function GET(
       );
     }
 
+    // Parse the JSON response
     const result = await response.json();
 
+    // Handle GraphQL errors
     if (result.errors) {
       console.error(`GraphQL errors for ${username}:`, result.errors);
       return NextResponse.json(
@@ -99,6 +91,7 @@ export async function GET(
       );
     }
 
+    // Extract solved counts by difficulty
     const easySolved =
       submitStats.find((s: SubmissionStat) => s.difficulty === "Easy")?.count ||
       0;
@@ -110,16 +103,18 @@ export async function GET(
       0;
     const solvedProblem = easySolved + mediumSolved + hardSolved;
 
+    // Build the response object
     const leetCodeProfileData = {
       solvedProblem,
       easySolved,
       mediumSolved,
       hardSolved,
-      // Add other profile fields if your component expects them
     };
 
+    // Return the processed data as JSON
     return NextResponse.json(leetCodeProfileData);
   } catch (error) {
+    // Handle unexpected errors
     console.error(`Error in LeetCode API route for ${username}:`, error);
     return NextResponse.json(
       { error: "Internal server error while fetching LeetCode data." },

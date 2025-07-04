@@ -1,13 +1,19 @@
 import React from "react";
-
 import { LeetCodeProfileDisplayProps } from "@/app/types/leetcode";
 
+/**
+ * LeetCodeProfileDisplay component displays a user's LeetCode stats,
+ * including a multi-colored circular progress indicator and progress bars
+ * for easy, medium, and hard problems.
+ */
 const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   profile,
   loading,
   error,
 }) => {
   // --- Conditional Rendering ---
+
+  // Show loading skeleton while fetching data
   if (loading) {
     return (
       <div className="bg-white rounded-lg min-h-[250px] p-6 animate-pulse">
@@ -19,9 +25,11 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
     );
   }
 
+  // Show error state if there is an error
   if (error) {
     return (
       <div className="flex flex-col rounded-3xl min-h-[250px] h-48 p-6 gap-4 w-full colors">
+        {/* Error icon */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-8 w-8 mb-2 text-red-500"
@@ -42,7 +50,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
     );
   }
 
-  // If no profile data is provided, show a "not found" message.
+  // Show "not found" message if no profile data is provided
   if (!profile) {
     return (
       <div className="bg-white rounded-xl min-h-52 p-6 h-48 flex items-center w-full justify-center">
@@ -56,9 +64,10 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   const circumference = 2 * Math.PI * radius;
   const strokeWidth = 8; // Consistent stroke width
 
+  // Destructure profile stats
   const { solvedProblem, easySolved, mediumSolved, hardSolved } = profile;
 
-  // Calculate proportions of each difficulty relative to totalSolved
+  // Calculate proportions of each difficulty relative to total solved
   const easyProportion = solvedProblem > 0 ? easySolved / solvedProblem : 0;
   const mediumProportion = solvedProblem > 0 ? mediumSolved / solvedProblem : 0;
   const hardProportion = solvedProblem > 0 ? hardSolved / solvedProblem : 0;
@@ -75,6 +84,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
 
   return (
     <div className="flex flex-col min-h-[251px] rounded-3xl p-6 colors">
+      {/* Card Header */}
       <h2 className="text-left text-xl font-bold mb-1">Leetcode</h2>
       <p className="font-medium text-gray-400 text-sm mb-4">
         {profile.solvedProblem} total algorithmic problems solved
@@ -151,6 +161,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
               />
             )}
           </svg>
+          {/* Centered solved count */}
           <div className="absolute flex flex-col items-center">
             <span className="text-3xl font-bold">{solvedProblem}</span>
             <span className="text-sm mt-0.5">Solved</span>
@@ -215,6 +226,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
         </div>
       </div>
 
+      {/* Footer: Profile link and "Beats 89%" badge */}
       <div className="flex justify-between items-center text-[11px] font-medium text-gray-400 mt-2">
         <a
           href="https://leetcode.com/u/SV592/"
@@ -224,6 +236,7 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
           Profile
         </a>
         <div className="flex gap-2 items-center">
+          {/* LeetCode logo */}
           <svg
             width="15"
             height="15"

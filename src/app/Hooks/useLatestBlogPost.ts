@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { LatestBlogPostData } from "../types/blog"; // Adjust path if needed
+import { LatestBlogPostData } from "../types/blog";
 
 /**
  * Fetcher function for SWR to get the latest blog post from the API.

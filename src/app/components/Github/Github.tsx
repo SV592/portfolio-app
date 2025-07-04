@@ -8,14 +8,20 @@ interface GithubContributionsProps {
   error: string | null;
 }
 
+/**
+ * GithubContributions component displays a GitHub-style contributions graph
+ * for the past year, with responsive layouts for mobile, tablet, and desktop.
+ */
 const GithubContributions: React.FC<GithubContributionsProps> = ({
   data,
   loading,
   error,
 }) => {
+  // State to track the current screen width for responsive rendering
   const [screenWidth, setScreenWidth] = useState(0);
 
   useEffect(() => {
+    // Handler to update screen width on resize
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };
@@ -23,7 +29,9 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
     // Set initial width
     handleResize();
 
+    // Listen for window resize events
     window.addEventListener("resize", handleResize);
+    // Cleanup event listener on unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -48,7 +56,10 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
     );
   }
 
-  // Helper function to get the last N weeks of contributions
+  /**
+   * Helper function to get the last N weeks of contributions.
+   * Pads with empty weeks if there are not enough.
+   */
   const getLastNWeeks = (
     weeks: {
       contributionDays: {
@@ -156,6 +167,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
           {showMobile && (
             <div className="grid grid-flow-col gap-[2px] w-full">
               {getLastNWeeks(data.weeks, 17).map((week, weekIndex) => (
+                // Each week is a column of days
                 <div key={weekIndex} className="flex flex-col gap-[2px]">
                   {week.contributionDays.map(
                     (
@@ -166,6 +178,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
                       },
                       dayIndex: number
                     ) => (
+                      // Each day is a colored square representing contributions
                       <div
                         key={`${weekIndex}-${dayIndex}`}
                         className="w-[10px] h-[10px] rounded-[1px]"
@@ -248,6 +261,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
 
         {/* Legend and Info */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full mt-4 text-[11px] text-gray-400 gap-2 sm:gap-0">
+          {/* Link to GitHub profile (hidden on mobile) */}
           <a
             href="https://github.com/SV592"
             className="cursor-pointer hidden sm:inline hover:underline"
@@ -255,6 +269,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
           >
             Profile
           </a>
+          {/* Contribution color legend */}
           <div className="flex items-center gap-1">
             <span>Less</span>
             <div className="flex gap-[2px]">

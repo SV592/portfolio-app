@@ -4,18 +4,18 @@ import { NextResponse } from "next/server";
  * API route to fetch the latest blog post from an external blog API.
  */
 export async function GET() {
-  // console.log("API Route: /api/latest-blog-post - Request received."); // Log start of request
+  // Try to fetch the latest blog post from the external API
   try {
+    // URL of the external blog API endpoint
     const blogApiUrl =
-      "https://theprogrammersgazette.vercel.app/api/latest-blog-post"; // Assuming this is fixed now
+      "https://theprogrammersgazette.vercel.app/api/latest-blog-post";
 
-    // console.log(`API Route: Fetching from external blog API: ${blogApiUrl}`); // Log external fetch attempt
+    // Fetch the latest blog post with a revalidation time of 2 hours
     const response = await fetch(blogApiUrl, {
       next: { revalidate: 7200 },
     });
 
-    // console.log(`API Route: External API response status: ${response.status}`); // Log external API status
-
+    // If the response is not OK, log the error and throw
     if (!response.ok) {
       const errorText = await response.text();
       console.error(
@@ -26,11 +26,8 @@ export async function GET() {
       );
     }
 
+    // Parse the JSON response from the external API
     const latestPostData = await response.json();
-    // console.log(
-    //   "API Route SUCCESS: Data received from external blog API:",
-    //   latestPostData
-    // ); // Log successful data from external API
 
     // Return the data received from your blog's API directly to your portfolio's frontend
     return NextResponse.json(latestPostData);
@@ -44,6 +41,7 @@ export async function GET() {
     if (error instanceof Error) {
       errorMessage = error.message;
     }
+    // Return a 500 error with the error message
     return NextResponse.json({ message: errorMessage }, { status: 500 });
   }
 }

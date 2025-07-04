@@ -1,105 +1,71 @@
 import React from "react";
 import Image from "next/image";
 
-// Main EducationCard component
+// Experience data array
+const experienceData = [
+  {
+    company: "The Software Rebels",
+    logo: "/images/Rebels.png",
+    alt: "The Software Rebels",
+    role: "Graduate Research Assistant (2023 - 2024)",
+    location: "Waterloo, ON",
+  },
+  {
+    company: "University of Waterloo",
+    logo: "/images/Waterloo.png",
+    alt: "The University of Waterloo",
+    role: "Instructional Apprentice/Teaching Assistant (2023 - 2024)",
+    location: "Waterloo, ON",
+  },
+  {
+    company: "The Department of Public Information",
+    logo: "/images/DPI.png",
+    alt: "The Department of Public Information",
+    role: "Junior Software Developer (2022 - 2023)",
+    location: "Georgetown, Guyana",
+  },
+  {
+    company: "Caribbean Coding Academy",
+    logo: "/images/CCA.png",
+    alt: "Caribbean Coding Academy",
+    role: "Frontend Engineer Intern (2020 - 2021)",
+    location: "St. George, Grenada",
+  },
+];
+
+// Main Experience component
 const Experience: React.FC = () => {
   return (
     <div className="flex flex-col rounded-3xl p-6 gap-4 colors">
       {/* Card Header */}
       <h2 className="text-left text-xl font-bold">Experience</h2>
 
-      {/* Entry */}
-      <div className="flex items-center space-x-4 mb-4 last:mb-0">
-        {/* Work Logo */}
-        <div className="flex-shrink-0">
-          <Image
-            width={100}
-            height={100}
-            src="/images/Rebels.png"
-            alt="The Software Rebels"
-            className="w-12 h-12 rounded-full object-cover shadow-sm"
-          />
-        </div>
-
-        {/* Experience Details */}
-        <div>
-          <h3 className="text-lg font-bold">The Software Rebels</h3>
-          <div className="font-medium text-gray-400 text-sm">
-            <p className="text-sm">Graduate Research Assistant (2023 - 2024)</p>
-            <p className="text-sm">Waterloo, ON</p>
+      {/* Loop over experience data and render each entry */}
+      {experienceData.map((exp) => (
+        <div
+          key={exp.company}
+          className="flex items-center space-x-4 mb-4 last:mb-0"
+        >
+          {/* Company Logo */}
+          <div className="flex-shrink-0">
+            <Image
+              width={100}
+              height={100}
+              src={exp.logo}
+              alt={exp.alt}
+              className="w-12 h-12 rounded-full object-cover shadow-sm"
+            />
+          </div>
+          {/* Experience Details */}
+          <div>
+            <h3 className="text-lg font-bold">{exp.company}</h3>
+            <div className="font-medium text-gray-400 text-sm">
+              <p className="text-sm">{exp.role}</p>
+              <p className="text-sm">{exp.location}</p>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Entry */}
-      <div className="flex items-center space-x-4 mb-4 last:mb-0">
-        <div className="flex-shrink-0">
-          <Image
-            height={100}
-            width={100}
-            src="/images/Waterloo.png"
-            alt="The University of Waterloo"
-            className="w-12 h-12 rounded-full object-cover shadow-sm"
-          />
-        </div>
-
-        {/* Experience Details */}
-        <div>
-          <h3 className="text-lg font-bold">University of Waterloo</h3>
-          <div className="font-medium text-gray-400 text-sm">
-            <p className="text-sm">
-              Instructional Apprentice/Teaching Assistant (2023 - 2024)
-            </p>
-            <p className="text-sm">Waterloo, ON</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Entry */}
-      <div className="flex items-center space-x-4 mb-4 last:mb-0">
-        <div className="flex-shrink-0">
-          <Image
-            height={100}
-            width={100}
-            src="/images/DPI.png"
-            alt="The Department of Public Information"
-            className="w-12 h-12 rounded-full object-cover shadow-sm"
-          />
-        </div>
-
-        {/* Experience Details */}
-        <div>
-          <h3 className="text-lg font-bold">
-            The Department of Public Information
-          </h3>
-          <div className="font-medium text-gray-400 text-sm">
-            <p className="text-sm">Junior Software Developer (2022 - 2023)</p>
-            <p className="text-sm">Georgetown, Guyana</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Entry */}
-      <div className="flex items-center space-x-4 mb-4 last:mb-0">
-        <div className="flex-shrink-0">
-          <Image
-            height={100}
-            width={100}
-            src="/images/CCA.png"
-            alt="Caribbean Coding Academy"
-            className="w-12 h-12 rounded-full object-cover shadow-sm"
-          />
-        </div>
-
-        {/* Experience Details */}
-        <div>
-          <h3 className="text-lg font-bold">Caribbean Coding Academy</h3>
-          <div className="font-medium text-gray-400 text-sm">
-            <p className="text-sm">Frontend Engineer Intern (2020 - 2021)</p>
-            <p className="text-sm">St. George, Grenada</p>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+// Projects
 const projects = [
   {
     title: "Blog App",
@@ -61,16 +62,20 @@ const projects = [
   },
 ];
 
+// Projects component displays a stylized grid of project cards
 const Projects: React.FC = () => {
   return (
     <div className="bg-white rounded-3xl colors shadow-lg p-6">
+      {/* Section Header */}
       <h2 className="text-xl font-bold mb-4">Projects</h2>
+      {/* Responsive grid for project cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {projects.map((project) => (
           <div
             key={project.title}
             className="rounded-xl border p-4 flex flex-col h-full"
           >
+            {/* Project image (if available) */}
             {project.image && (
               <div className="relative w-full h-40 rounded-lg overflow-hidden mb-4">
                 <Link
@@ -89,6 +94,7 @@ const Projects: React.FC = () => {
                 </Link>
               </div>
             )}
+            {/* Project title as a clickable link */}
             <Link
               href={project.link.href}
               target="_blank"
@@ -97,9 +103,11 @@ const Projects: React.FC = () => {
             >
               <h3 className="text-lg font-medium mb-2">{project.title}</h3>
             </Link>
+            {/* Project description */}
             <p className="text-gray-400 font-medium text-sm mb-3 flex-grow">
               {project.description}
             </p>
+            {/* Project tags */}
             <div className="flex flex-wrap gap-1 mb-3">
               {project.tags.map((tag) => (
                 <span

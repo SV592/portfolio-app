@@ -3,15 +3,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { LatestBlogPostData } from "../../types/blog";
 
+// Define the props expected by the Blog component
 interface BlogProps {
   data: LatestBlogPostData | null;
   loading: boolean;
   error: string | null;
 }
 
+/**
+ * Blog component to display the latest blog post.
+ * Shows a loading skeleton, error state, or the latest post.
+ */
 export default function Blog({ data, loading, error }: BlogProps) {
-  // console.log("Blog component received props:", { data, loading, error }); // Keep this for final confirmation, then remove
-
+  // Show a loading skeleton while fetching data
   if (loading) {
     return (
       <div className="bg-white rounded-lg min-h-[350px] p-6 animate-pulse">
@@ -23,6 +27,7 @@ export default function Blog({ data, loading, error }: BlogProps) {
     );
   }
 
+  // If there's an error or no data, log and render nothing
   if (error || !data) {
     console.error(
       "Could not display latest blog post:",
@@ -31,10 +36,12 @@ export default function Blog({ data, loading, error }: BlogProps) {
     return null;
   }
 
+  // Render the latest blog post
   return (
     <div className="bg-white rounded-3xl min-h-[350px] colors p-6">
       <h2 className="text-xl font-bold mb-4">Blog</h2>
       <div className="items-center">
+        {/* Display blog post image if available */}
         {data.imageUrl && (
           <div className="relative w-full h-40 mb-4 rounded-lg overflow-hidden">
             <Link
@@ -54,6 +61,7 @@ export default function Blog({ data, loading, error }: BlogProps) {
           </div>
         )}
         <div className="flex flex-col gap-2">
+          {/* Blog post title and date */}
           <Link
             href={data.url}
             target="_blank"
@@ -63,6 +71,7 @@ export default function Blog({ data, loading, error }: BlogProps) {
             <h3 className="text-lg font-bold hover:underline">{data.title}</h3>
             <p className="font-medium text-gray-400 text-sm">({data.date})</p>
           </Link>
+          {/* Blog post description */}
           <p className="font-medium text-gray-400 text-sm">
             {data.description}
           </p>

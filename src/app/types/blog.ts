@@ -1,7 +1,7 @@
 export interface LatestBlogPostData {
   title: string;
   url: string;
-  date: string; // Consider using a more specific date type if parsing is needed
+  date: string;
   description: string;
-  imageUrl?: string; // Optional image URL
+  imageUrl?: string;
 }
