@@ -38,7 +38,7 @@ const Skills: React.FC = () => {
     <div>
       {/* Skills Card */}
       <div className="flex flex-col gap-4 bg-white rounded-3xl p-6 pb-7 colors">
-        <h2 className="text-xl font-bold text-gray-800 flex justify-between items-center">
+        <h2 className="text-xl font-bold flex justify-between items-center">
           Skills
         </h2>
         <div className="flex flex-wrap gap-2">

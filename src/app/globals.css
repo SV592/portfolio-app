@@ -23,10 +23,6 @@ html[data-theme="myDarkTheme"] {
     @apply fill-[#fff]
   }
 
-  .toggle-color {
-    @apply text-[#fff]
-  }
-
   .more-links {
     @apply text-[#2E2B2C] bg-[#fff] fill-[#2E2B2C]
   }
@@ -45,7 +41,7 @@ html[data-theme="myDarkTheme"] {
 }
 
 .toggle-color {
-    @apply text-[#2E2B2C]
+    @apply text-[#fff]
 }
 
 @theme {

@@ -65,7 +65,7 @@ const projects = [
 // Projects component displays a stylized grid of project cards
 const Projects: React.FC = () => {
   return (
-    <div className="bg-white rounded-3xl colors shadow-lg p-6">
+    <div className="bg-white rounded-3xl colors shadow-lg p-6 pb-9">
       {/* Section Header */}
       <h2 className="text-xl font-bold mb-4">Projects</h2>
       {/* Responsive grid for project cards */}
@@ -77,7 +77,7 @@ const Projects: React.FC = () => {
           >
             {/* Project image (if available) */}
             {project.image && (
-              <div className="relative w-full h-40 rounded-lg overflow-hidden mb-4">
+              <div className="relative w-full h-40 rounded-lg mb-4">
                 <Link
                   href={project.link.href}
                   target="_blank"

@@ -566,37 +566,20 @@ const TetrisGame: React.FC = () => {
             current.name,
             originalRotationState,
             nextRotationState
-          );
+          ); // The 'placed' variable was removed in the previous fix as it was unused. // The 'changed' variable already indicates a successful kick.
 
-          // let placed: boolean = true;
           for (const [dx, dy] of kicksToTry) {
             const test = {
               ...rotated,
               pos: { x: current.pos.x + dx, y: current.pos.y + dy }, // Apply both dx and dy
-            };
-            const minX = test.pos.x;
-            const maxX = test.pos.x + test.shape[0].length - 1;
-            const minY = test.pos.y;
-            const maxY = test.pos.y + test.shape.length - 1; // Correctly get max Y based on shape height
-
-            // Check bounds and fit
-            if (
-              minX >= 0 &&
-              maxX < COLS &&
-              minY >= 0 &&
-              maxY < ROWS &&
-              fits(grid, test)
-            ) {
+            }; // REMOVED: Redundant minX, maxX, minY, maxY calculations here, // as 'fits' function already handles all boundary checks. // Check bounds and fit - now relying solely on the comprehensive 'fits' function
+            if (fits(grid, test)) {
+              // THIS IS THE KEY CHANGE
               current = test;
               changed = true;
-              // placed = true;
               break; // Found a valid placement, stop trying kicks
             }
-          }
-
-          // If not placed after trying all kicks, the rotation is effectively blocked.
-          // The `changed` flag remains `false` and the piece will not update.
-          // This implicitly reverts to the original state.
+          } // If not placed after trying all kicks, the rotation is effectively blocked. // The `changed` flag remains `false` and the piece will not update. // This implicitly reverts to the original state.
         } else if (e.key.toLowerCase() === "d") {
           // Hard drop
           let test = { ...current };
