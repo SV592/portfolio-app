@@ -279,7 +279,7 @@ function clearLines(grid: Cell[][]): number {
 
 // Color palette for tetrominos and background
 const COLORS: string[] = [
-  "#232328", // background
+  "#2E2B2C", // background
   "#06b6d4", // I-piece
   "#2563EB", // J-piece
   "#f59e42", // L-piece
@@ -386,7 +386,7 @@ const TetrisGame: React.FC = () => {
       }
       // Draw pause overlay
       if (paused && !g.over) {
-        ctx.fillStyle = "rgba(23,23,28,0.94)";
+        ctx.fillStyle = "#2E2B2C";
         ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
         ctx.fillStyle = "#fff";
         ctx.font = `bold ${Math.max(20, bw * 1.1)}px Helvetica`;
@@ -413,7 +413,7 @@ const TetrisGame: React.FC = () => {
       }
       // Draw game over overlay
       if (g.over) {
-        ctx.fillStyle = "rgba(23,23,28,0.94)";
+        ctx.fillStyle = "#2E2B2C";
         ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
         ctx.fillStyle = "#fff";
         ctx.font = `bold ${Math.max(18, bw)}px Helvetica`;
@@ -568,7 +568,7 @@ const TetrisGame: React.FC = () => {
             nextRotationState
           );
 
-          let placed: boolean = false;
+          // let placed: boolean = true;
           for (const [dx, dy] of kicksToTry) {
             const test = {
               ...rotated,
@@ -589,7 +589,7 @@ const TetrisGame: React.FC = () => {
             ) {
               current = test;
               changed = true;
-              placed = true;
+              // placed = true;
               break; // Found a valid placement, stop trying kicks
             }
           }
@@ -656,11 +656,10 @@ const TetrisGame: React.FC = () => {
           style={{
             touchAction: "manipulation",
             width: "100%",
-            height: "86.1%",
+            height: "100%",
             display: "block",
             borderRadius: 24,
             outline: "none",
-            background: "#232328",
           }}
           onClick={handleCanvasClick}
         />
