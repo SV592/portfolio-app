@@ -7,11 +7,17 @@ const COLS = 10,
 // Types for cells, points, and tetrominos
 type Cell = number | null;
 type Point = { x: number; y: number };
-type Tetromino = { shape: number[][]; color: string };
+// ADD rotationState and name to Tetromino type
+type Tetromino = {
+  shape: number[][];
+  color: string;
+  rotationState: number;
+  name: string;
+};
 
 // Tetromino definitions (shapes and colors)
-const TETROMINOS: Tetromino[] = [
-  { shape: [[1, 1, 1, 1]], color: "#06b6d4" },
+const TETROMINOS: Omit<Tetromino, "rotationState" | "pos">[] = [
+  { shape: [[1, 1, 1, 1]], color: "#06b6d4", name: "I" },
   {
     shape: [
       [0, 2],
@@ -19,6 +25,7 @@ const TETROMINOS: Tetromino[] = [
       [2, 2],
     ],
     color: "#2563EB",
+    name: "J",
   },
   {
     shape: [
@@ -27,6 +34,7 @@ const TETROMINOS: Tetromino[] = [
       [3, 3],
     ],
     color: "#f59e42",
+    name: "L",
   },
   {
     shape: [
@@ -34,6 +42,7 @@ const TETROMINOS: Tetromino[] = [
       [4, 4],
     ],
     color: "#FFD600",
+    name: "O",
   },
   {
     shape: [
@@ -41,6 +50,7 @@ const TETROMINOS: Tetromino[] = [
       [5, 5, 0],
     ],
     color: "#22d3ee",
+    name: "S",
   },
   {
     shape: [
@@ -48,6 +58,7 @@ const TETROMINOS: Tetromino[] = [
       [0, 6, 0],
     ],
     color: "#a21caf",
+    name: "T",
   },
   {
     shape: [
@@ -55,13 +66,171 @@ const TETROMINOS: Tetromino[] = [
       [0, 7, 7],
     ],
     color: "#ef4444",
+    name: "Z",
   },
 ];
 
-// Generate a random tetromino with a starting position
+// SRS Kick Data (Wall Kick Data)
+// Kicks for J, L, S, T, Z pieces (standard)
+// Each array represents kicks for a transition: [dx, dy] offsets
+const WALL_KICKS_JLSTZ = {
+  // From 0 (spawn/upright) to R (Right/90 degrees)
+  "0_1": [
+    [0, 0],
+    [-1, 0],
+    [-1, 1],
+    [0, -2],
+    [-1, -2],
+  ],
+  // From R (90) to 2 (180 degrees)
+  "1_2": [
+    [0, 0],
+    [1, 0],
+    [1, -1],
+    [0, 2],
+    [1, 2],
+  ],
+  // From 2 (180) to L (Left/270 degrees)
+  "2_3": [
+    [0, 0],
+    [1, 0],
+    [1, 1],
+    [0, -2],
+    [1, -2],
+  ],
+  // From L (270) to 0 (0 degrees)
+  "3_0": [
+    [0, 0],
+    [-1, 0],
+    [-1, -1],
+    [0, 2],
+    [-1, 2],
+  ],
+
+  // Counter-clockwise rotations (for consistency, though 'F' is clockwise)
+  // From 0 to L (0 -> 270)
+  "0_3": [
+    [0, 0],
+    [1, 0],
+    [1, 1],
+    [0, -2],
+    [1, -2],
+  ],
+  // From L to 2 (270 -> 180)
+  "3_2": [
+    [0, 0],
+    [-1, 0],
+    [-1, -1],
+    [0, 2],
+    [-1, 2],
+  ],
+  // From 2 to R (180 -> 90)
+  "2_1": [
+    [0, 0],
+    [-1, 0],
+    [-1, 1],
+    [0, -2],
+    [-1, -2],
+  ],
+  // From R to 0 (90 -> 0)
+  "1_0": [
+    [0, 0],
+    [1, 0],
+    [1, -1],
+    [0, 2],
+    [1, 2],
+  ],
+};
+
+// Kicks for I piece
+const WALL_KICKS_I = {
+  // From 0 to R
+  "0_1": [
+    [0, 0],
+    [-2, 0],
+    [1, 0],
+    [-2, 1],
+    [1, -2],
+  ],
+  // From R to 2
+  "1_2": [
+    [0, 0],
+    [-1, 0],
+    [2, 0],
+    [-1, -2],
+    [2, 1],
+  ],
+  // From 2 to L
+  "2_3": [
+    [0, 0],
+    [2, 0],
+    [-1, 0],
+    [2, -1],
+    [-1, 2],
+  ],
+  // From L to 0
+  "3_0": [
+    [0, 0],
+    [1, 0],
+    [-2, 0],
+    [1, 2],
+    [-2, -1],
+  ],
+
+  // Counter-clockwise rotations
+  // From 0 to L
+  "0_3": [
+    [0, 0],
+    [-1, 0],
+    [2, 0],
+    [-1, -2],
+    [2, 1],
+  ],
+  // From L to 2
+  "3_2": [
+    [0, 0],
+    [2, 0],
+    [-1, 0],
+    [2, -1],
+    [-1, 2],
+  ],
+  // From 2 to R
+  "2_1": [
+    [0, 0],
+    [1, 0],
+    [-2, 0],
+    [1, 2],
+    [-2, -1],
+  ],
+  // From R to 0
+  "1_0": [
+    [0, 0],
+    [-2, 0],
+    [1, 0],
+    [-2, 1],
+    [1, -2],
+  ],
+};
+
+// Helper function to get kick data for a specific transition
+function getKickData(
+  pieceName: string,
+  originalState: number,
+  nextState: number
+): number[][] {
+  const key = `${originalState}_${nextState}`;
+  if (pieceName === "I") {
+    // Cast to keyof typeof to ensure type safety for object access
+    return WALL_KICKS_I[key as keyof typeof WALL_KICKS_I] || [];
+  } else {
+    return WALL_KICKS_JLSTZ[key as keyof typeof WALL_KICKS_JLSTZ] || [];
+  }
+}
+
+// Generate a random tetromino with a starting position and initial rotation state
 function randomTetromino(): Tetromino & { pos: Point } {
   const i = Math.floor(Math.random() * TETROMINOS.length);
-  return { ...TETROMINOS[i], pos: { x: 3, y: 0 } };
+  return { ...TETROMINOS[i], pos: { x: 3, y: 0 }, rotationState: 0 }; // Initialize rotationState to 0
 }
 
 // Rotate a tetromino shape (clockwise)
@@ -76,10 +245,10 @@ function fits(grid: Cell[][], tetro: Tetromino & { pos: Point }): boolean {
     for (let x = 0; x < shape[y].length; x++)
       if (
         shape[y][x] &&
-        (pos.y + y >= ROWS ||
-          pos.x + x < 0 ||
-          pos.x + x >= COLS ||
-          (pos.y + y >= 0 && grid[pos.y + y][pos.x + x]))
+        (pos.y + y >= ROWS || // Check bottom bound
+          pos.x + x < 0 || // Check left bound
+          pos.x + x >= COLS || // Check right bound
+          (pos.y + y >= 0 && grid[pos.y + y][pos.x + x])) // Check for collision with existing blocks (only if within top boundary)
       )
         return false;
   return true;
@@ -111,13 +280,13 @@ function clearLines(grid: Cell[][]): number {
 // Color palette for tetrominos and background
 const COLORS: string[] = [
   "#232328", // background
-  "#06b6d4",
-  "#2563EB",
-  "#f59e42",
-  "#FFD600",
-  "#22d3ee",
-  "#a21caf",
-  "#ef4444",
+  "#06b6d4", // I-piece
+  "#2563EB", // J-piece
+  "#f59e42", // L-piece
+  "#FFD600", // O-piece
+  "#22d3ee", // S-piece
+  "#a21caf", // T-piece
+  "#ef4444", // Z-piece
 ];
 
 // Game state interface
@@ -220,12 +389,12 @@ const TetrisGame: React.FC = () => {
         ctx.fillStyle = "rgba(23,23,28,0.94)";
         ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
         ctx.fillStyle = "#fff";
-        ctx.font = `bold ${Math.max(20, bw * 1.1)}px Inter, sans-serif`;
+        ctx.font = `bold ${Math.max(20, bw * 1.1)}px Helvetica`;
         ctx.textAlign = "center";
         ctx.fillText("Paused", canvasSize.width / 2, canvasSize.height / 2);
 
         // Draw controls below the "Paused" text
-        ctx.font = `bold 13px Inter, sans-serif`;
+        ctx.font = `bold 13px Helvetica`;
         ctx.fillStyle = "#fff";
         ctx.globalAlpha = 0.95;
         ctx.fillText(
@@ -233,7 +402,7 @@ const TetrisGame: React.FC = () => {
           canvasSize.width / 2,
           canvasSize.height / 2 + 32
         );
-        ctx.font = `11px Inter, sans-serif`;
+        ctx.font = `11px Helvetica`;
         ctx.fillStyle = "#fff";
         ctx.globalAlpha = 0.85;
         ctx.fillText(
@@ -247,12 +416,12 @@ const TetrisGame: React.FC = () => {
         ctx.fillStyle = "rgba(23,23,28,0.94)";
         ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
         ctx.fillStyle = "#fff";
-        ctx.font = `bold ${Math.max(18, bw)}px Inter, sans-serif`;
+        ctx.font = `bold ${Math.max(18, bw)}px Helvetica`;
         ctx.textAlign = "center";
         ctx.fillText("Game Over", canvasSize.width / 2, canvasSize.height / 2);
 
         // Show a custom message below "Game Over"
-        ctx.font = `bold 14px Inter, sans-serif`;
+        ctx.font = `bold 14px Helvetica`;
         ctx.fillStyle = "#fff";
         ctx.globalAlpha = 0.95;
         ctx.fillText(
@@ -260,8 +429,8 @@ const TetrisGame: React.FC = () => {
           canvasSize.width / 2,
           canvasSize.height / 2 + 32
         );
-        ctx.font = `12px Inter, sans-serif`;
-        ctx.fillStyle = "#e5e7eb";
+        ctx.font = `12px Helvetica`;
+        ctx.fillStyle = "#fff";
         ctx.globalAlpha = 0.85;
         ctx.fillText(
           "Click to restart",
@@ -338,11 +507,24 @@ const TetrisGame: React.FC = () => {
   // Keyboard controls for moving, rotating, and dropping tetrominos
   useEffect(() => {
     function handle(e: KeyboardEvent) {
+      // Prevent default browser behavior for specific keys
+      const keysToPreventDefault = [
+        "arrowleft",
+        "arrowright",
+        "arrowdown",
+        "f",
+        "d",
+      ];
+      if (keysToPreventDefault.includes(e.key.toLowerCase())) {
+        e.preventDefault();
+      }
+
       if (game.over || paused) return;
       setGame((game) => {
         const { grid } = game;
         let { current } = game;
         let changed = false;
+
         if (e.key === "ArrowLeft") {
           const test = {
             ...current,
@@ -371,12 +553,52 @@ const TetrisGame: React.FC = () => {
             changed = true;
           }
         } else if (e.key.toLowerCase() === "f") {
-          const test = { ...current, shape: rotate(current.shape) };
-          if (fits(grid, test)) {
-            current = test;
-            changed = true;
+          const originalRotationState = current.rotationState;
+          const nextRotationState = (originalRotationState + 1) % 4; // Clockwise rotation (0->1->2->3->0)
+
+          const rotated = {
+            ...current,
+            shape: rotate(current.shape),
+            rotationState: nextRotationState, // Update the rotation state for the test piece
+          };
+
+          const kicksToTry = getKickData(
+            current.name,
+            originalRotationState,
+            nextRotationState
+          );
+
+          let placed: boolean = false;
+          for (const [dx, dy] of kicksToTry) {
+            const test = {
+              ...rotated,
+              pos: { x: current.pos.x + dx, y: current.pos.y + dy }, // Apply both dx and dy
+            };
+            const minX = test.pos.x;
+            const maxX = test.pos.x + test.shape[0].length - 1;
+            const minY = test.pos.y;
+            const maxY = test.pos.y + test.shape.length - 1; // Correctly get max Y based on shape height
+
+            // Check bounds and fit
+            if (
+              minX >= 0 &&
+              maxX < COLS &&
+              minY >= 0 &&
+              maxY < ROWS &&
+              fits(grid, test)
+            ) {
+              current = test;
+              changed = true;
+              placed = true;
+              break; // Found a valid placement, stop trying kicks
+            }
           }
+
+          // If not placed after trying all kicks, the rotation is effectively blocked.
+          // The `changed` flag remains `false` and the piece will not update.
+          // This implicitly reverts to the original state.
         } else if (e.key.toLowerCase() === "d") {
+          // Hard drop
           let test = { ...current };
           while (
             fits(grid, { ...test, pos: { x: test.pos.x, y: test.pos.y + 1 } })
@@ -387,6 +609,8 @@ const TetrisGame: React.FC = () => {
           changed = true;
         }
         if (changed) {
+          // Use a timeout to ensure the state update propagates before drawing,
+          // though typically React batches these. Direct draw might be faster here.
           setTimeout(() => draw({ ...game, current }), 0);
           return { ...game, current };
         }
