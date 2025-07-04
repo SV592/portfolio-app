@@ -90,7 +90,7 @@ export default function Home() {
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...springTransition, delay: 0.3 } as const}
-            className="overflow-hidden will-change-transform"
+            className="overflow-hidden will-change-transform 2xl:flex hidden"
           >
             <Tetris />
           </motion.div>
