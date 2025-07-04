@@ -432,7 +432,7 @@ const TetrisGame: React.FC = () => {
           style={{
             touchAction: "manipulation",
             width: "100%",
-            height: "90.5%",
+            height: "86.1%",
             display: "block",
             borderRadius: 24,
             outline: "none",

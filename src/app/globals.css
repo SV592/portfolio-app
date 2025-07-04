@@ -16,15 +16,19 @@ html[data-theme="myDarkTheme"] {
   color:#FFF;
 
   .colors {
-    @apply bg-gray-50 text-[#2E2B2C] 
+    @apply bg-[#2E2B2C] text-[#fff] 
   }
 
   .social-links {
-    @apply fill-[#2E2B2C]
+    @apply fill-[#fff]
   }
 
   .toggle-color {
-    @apply text-[#2E2B2C]
+    @apply text-[#fff]
+  }
+
+  .more-links {
+    @apply text-[#2E2B2C] bg-[#fff] fill-[#2E2B2C]
   }
 }
 
