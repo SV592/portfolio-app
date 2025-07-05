@@ -26,6 +26,11 @@ html[data-theme="myDarkTheme"] {
   .more-links {
     @apply text-[#2E2B2C] bg-[#fff] fill-[#2E2B2C]
   }
+
+  .toggle-color {
+    @apply text-[#fff]
+}
+  
 }
 
 .social-links {
@@ -41,7 +46,7 @@ html[data-theme="myDarkTheme"] {
 }
 
 .toggle-color {
-    @apply text-[#fff]
+    @apply text-[#2E2B2C]
 }
 
 @theme {

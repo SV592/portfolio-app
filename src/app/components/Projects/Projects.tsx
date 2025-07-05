@@ -6,7 +6,7 @@ import Link from "next/link";
 const projects = [
   {
     title: "Blog App",
-    image: "/images/blogProject.png",
+    image: "/images/blog.png",
     alt: "Screenshot of Blog Website",
     description:
       "A blog application built with Next.js with static and dynamic page serving and styled using Tailwind CSS. It features a custom backend for seamless Spotify API integration, and leverages PostgreSQL for newsletter email storage.",
@@ -65,9 +65,9 @@ const projects = [
 // Projects component displays a stylized grid of project cards
 const Projects: React.FC = () => {
   return (
-    <div className="bg-white rounded-3xl colors shadow-lg p-6 pb-9">
+    <div className="bg-white rounded-3xl colors shadow-lg p-6 pb-26">
       {/* Section Header */}
-      <h2 className="text-xl font-bold mb-4">Projects</h2>
+      <h2 className="text-xl font-bold mb-4">Personal Projects</h2>
       {/* Responsive grid for project cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {projects.map((project) => (

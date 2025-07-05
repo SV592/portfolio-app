@@ -62,7 +62,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center p-4 sm:p-6 overflow-hidden m-auto max-w-[1750px]">
+    <div className="flex flex-col justify-center items-center p-4 sm:p-6 overflow-hidden m-auto max-w-[1850px]">
       {/* Main content container that adapts its grid structure */}
       <div className="w-full grid grid-cols-1 gap-2 2xl:grid-cols-12">
         {/* Left Column - Profile, Skills and Tetris */}

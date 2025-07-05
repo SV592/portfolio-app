@@ -400,7 +400,7 @@ const TetrisGame: React.FC = () => {
         ctx.fillText(
           "Controls: ← → ↓ (move), F (rotate), D (drop)",
           canvasSize.width / 2,
-          canvasSize.height / 2 + 32
+          canvasSize.height / 2 + 52
         );
         ctx.font = `11px Helvetica`;
         ctx.fillStyle = "#fff";
@@ -408,7 +408,7 @@ const TetrisGame: React.FC = () => {
         ctx.fillText(
           `Click to resume`,
           canvasSize.width / 2,
-          canvasSize.height / 2 + 52
+          canvasSize.height / 2 + 72
         );
       }
       // Draw game over overlay
@@ -425,7 +425,7 @@ const TetrisGame: React.FC = () => {
         ctx.fillStyle = "#fff";
         ctx.globalAlpha = 0.95;
         ctx.fillText(
-          "Hire me bro 😐",
+          "Hire me 😐",
           canvasSize.width / 2,
           canvasSize.height / 2 + 32
         );
@@ -626,7 +626,7 @@ const TetrisGame: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col items-center w-full "
+      className="flex flex-col items-center w-full"
       ref={containerRef}
       style={{ userSelect: "none" }}
     >
