@@ -280,13 +280,13 @@ function clearLines(grid: Cell[][]): number {
 // Color palette for tetrominos and background
 const COLORS: string[] = [
   "#2E2B2C", // background
-  "#06b6d4", // I-piece
-  "#2563EB", // J-piece
-  "#f59e42", // L-piece
-  "#FFD600", // O-piece
-  "#22d3ee", // S-piece
-  "#a21caf", // T-piece
-  "#ef4444", // Z-piece
+  "#8D77AB", // I-piece
+  "#780C28", // J-piece
+  "#657C6A", // L-piece
+  "#FBF3C1", // O-piece
+  "#64E2B7", // S-piece
+  "#DC8BE0", // T-piece
+  "#BB3E00", // Z-piece
 ];
 
 // Game state interface
