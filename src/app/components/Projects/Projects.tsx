@@ -60,12 +60,30 @@ const projects = [
       label: "GitHub",
     },
   },
+  {
+    title: "GitHub Repo ETL Pipeline",
+    image: "",
+    alt: "",
+    description:
+      "An Extract, Transform, Load (ETL) pipeline built with Python to collect metadata about open-source GitHub repositories via the GraphQL API, transform it, and load it into a PostgreSQL database.",
+    tags: [
+      { name: "Python", color: "bg-blue-50 text-blue-700" },
+      { name: "GitHub API", color: "bg-gray-50 text-gray-700" },
+      { name: "GraphQL", color: "bg-purple-50 text-purple-700" },
+      { name: "PostgreSQL", color: "bg-indigo-50 text-indigo-700" },
+      { name: "ETL", color: "bg-green-50 text-green-700" },
+    ],
+    link: {
+      href: "https://github.com/SV592/repo_pipeline",
+      label: "GitHub",
+    },
+  },
 ];
 
 // Projects component displays a stylized grid of project cards
 const Projects: React.FC = () => {
   return (
-    <div className="bg-white rounded-3xl colors shadow-lg p-6 pb-26">
+    <div className="bg-white rounded-3xl colors shadow-lg p-6 xl:pb-26">
       {/* Section Header */}
       <h2 className="text-xl font-bold mb-4">Personal Projects</h2>
       {/* Responsive grid for project cards */}

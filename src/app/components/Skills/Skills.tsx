@@ -31,6 +31,7 @@ const skills = [
   { name: "Git", color: "bg-red-200 text-red-900" },
   { name: "MySQL", color: "bg-indigo-200 text-indigo-900" },
   { name: "Bash", color: "bg-pink-200 text-pink-900" },
+  { name: "C++", color: "bg-emerald-100 text-emerald-800" },
 ];
 
 const Skills: React.FC = () => {
