@@ -9,7 +9,7 @@ const educationData = [
     alt: "The University of Waterloo",
     degree: "Master's in Computer Science",
     details: [
-      "(2023 - 2024) | GPA (3.88/4.00)",
+      "(2023 - 2024) | GPA (3.3/4.00)",
       "Additional: Specializing in Software Engineering",
     ],
   },
