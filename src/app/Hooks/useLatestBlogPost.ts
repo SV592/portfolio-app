@@ -53,9 +53,6 @@ export const useLatestBlogPost = (): UseLatestBlogPostResult => {
       onError: (err) => {
         console.error("SWR Hook Error:", err); // Log errors
       },
-      onSuccess: (data) => {
-        console.log("SWR Hook Success - Data:", data); // Log successful fetch
-      },
     }
   );
 
