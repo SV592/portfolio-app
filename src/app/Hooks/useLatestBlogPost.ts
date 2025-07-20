@@ -24,7 +24,7 @@ const fetcher = async (url: string): Promise<LatestBlogPostData> => {
 
   // Parse and return the blog post data
   const data: LatestBlogPostData = await response.json();
-  console.log("Fetcher about to return data:", data); // Log the fetched data
+  // console.log("Fetcher about to return data:", data); // Log the fetched data
   return data;
 };
 

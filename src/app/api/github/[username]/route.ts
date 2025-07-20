@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Define the expected shape of the route params (from the URL)
 interface RouteParams {
   username: string;
 }
 
-// Define the context interface for the route, with params as a Promise
 interface RouteContext {
   params: Promise<RouteParams>;
 }

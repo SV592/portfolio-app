@@ -19,9 +19,8 @@ import { useGithubContributions } from "./Hooks/useGithubContributions";
 import { useLatestBlogPost } from "./Hooks/useLatestBlogPost";
 
 export default function Home() {
-  // State to control the visibility/animation of skills (still used by Skills component)
+  // State to control the visibility/animation of skills
   const [, setSkillsVisible] = useState(false);
-  // Removed isLargeScreen state and its useEffect logic - Tailwind will handle responsiveness
 
   // Username input
   const userName = "SV592";
@@ -56,7 +55,7 @@ export default function Home() {
   const springTransition = {
     type: "spring" as const,
     stiffness: 100, // Stiffness of the spring
-    damping: 10, // Animation
+    damping: 10, // Animation type
     duration: 0.5, // Animation duration
     easeInOut,
   };

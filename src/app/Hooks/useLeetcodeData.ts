@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { LeetCodeProfileType } from "../types/leetcode"; // Import LeetCodeType from its current definition
+import { LeetCodeProfileType } from "../types/leetcode";
 
 /**
  * Fetcher function for SWR to get LeetCode profile data from the API.
@@ -27,9 +27,9 @@ const fetcher = async (url: string): Promise<LeetCodeProfileType> => {
  * The return type for the useLeetCodeData hook.
  */
 interface UseLeetCodeDataResult {
-  data: LeetCodeProfileType | null; // The user's LeetCode profile data, or null if not loaded
-  loading: boolean; // Indicates if the data is currently loading
-  error: string | null; // Error message if fetching data failed, or null if no error
+  data: LeetCodeProfileType | null;
+  loading: boolean;
+  error: string | null;
 }
 
 /**

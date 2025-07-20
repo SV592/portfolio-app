@@ -11,8 +11,6 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
   loading,
   error,
 }) => {
-  // --- Conditional Rendering ---
-
   // Show loading skeleton while fetching data
   if (loading) {
     return (

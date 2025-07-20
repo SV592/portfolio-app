@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Define a specific interface for the route context's params
 interface RouteParams {
   username: string;
 }
 
-// Define the full context interface, explicitly stating params is a Promise
 interface RouteContext {
-  params: Promise<RouteParams>; // This is the crucial part: params is a Promise
+  params: Promise<RouteParams>;
 }
 
 // LeetCode GraphQL endpoint and query to fetch user submission stats

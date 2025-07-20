@@ -18,7 +18,7 @@ const geistMono = Funnel_Display({
 export const metadata: Metadata = {
   title: "Shaquille Pearson",
   description:
-    "Shaquille Pearson's personal portfolio showcasing full-stack development, mobile apps, machine learning and devop projects, skills, and experience.",
+    "Shaquille Pearson's personal portfolio showcasing full-stack development, mobile apps, AI/ML and data projects, skills, and experience.",
   keywords: [
     "Shaquille Pearson",
     "portfolio",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Shaquille Pearson's Portfolio",
     description:
-      "Shaquille Pearson's personal portfolio showcasing full-stack development,mobile apps, machine learning, and devops projects, skills, and experience.",
+      "Shaquille Pearson's personal portfolio showcasing full-stack development, mobile apps, AI/ML, and data projects, skills, and experience.",
     url: "https://shaquillepearson.com",
     siteName: "Shaquille Pearson's Portfolio",
     images: [
