@@ -18,14 +18,14 @@ const geistMono = Funnel_Display({
 export const metadata: Metadata = {
   title: "Shaquille Pearson",
   description:
-    "Shaquille Pearson's personal portfolio showcasing full-stack development, mobile apps, AI/ML and data projects, skills, and experience.",
+    "Shaquille Pearson's personal portfolio showcasing full-stack development, data and AI/ML projects, skills, and experience.",
   keywords: [
     "Shaquille Pearson",
     "portfolio",
     "full-stack developer",
     "machine learning",
-    "dev ops",
-    "mobile development",
+    "data",
+    "AI/ML",
     "software engineer",
     "developer",
   ],

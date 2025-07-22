@@ -161,9 +161,8 @@ const Profile: React.FC = () => {
       {/* <h2 className="text-lg font-medium">Software Engineer</h2> */}
       <div className="flex gap-4 text-center pb-2 pt-2 border-t border-gray-400">
         <p className="font-medium text-gray-400 text-sm">Web</p>
-        <p className="font-medium text-gray-400 text-sm">Mobile</p>
         <p className="font-medium text-gray-400 text-sm">Data</p>
-        <p className="font-medium text-gray-400 text-sm">AI/Ml</p>
+        <p className="font-medium text-gray-400 text-sm">AI/ML</p>
       </div>
 
       <div className="flex justify-center gap-4 mt-4">
