@@ -16,11 +16,14 @@ export async function GET() {
       );
     }
     // URL of the external blog API endpoint
-    const blogApiUrl = `https://theprogrammersgazette.vercel.app/api/latest-blog-post?token=${apiToken}`;
+    const blogApiUrl = `https://theprogrammersgazette.vercel.app/api/latest-blog-post`;
 
-    // Fetch the latest blog post with a revalidation time of 2 hours
+    // Fetch the latest blog post with the correct headers
     const response = await fetch(blogApiUrl, {
       next: { revalidate: 7200 },
+      headers: {
+        "x-auth-token": apiToken,
+      },
     });
 
     // If the response is not OK, log the error and throw
