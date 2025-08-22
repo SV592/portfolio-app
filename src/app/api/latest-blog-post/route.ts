@@ -6,9 +6,17 @@ import { NextResponse } from "next/server";
 export async function GET() {
   // Try to fetch the latest blog post from the external API
   try {
+    const apiToken = process.env.LATEST_BLOG_POST_AUTH_TOKEN;
+
+    if (!apiToken) {
+      console.error("API token is not set in environment variables.");
+      return NextResponse.json(
+        { message: "API token not configured" },
+        { status: 500 }
+      );
+    }
     // URL of the external blog API endpoint
-    const blogApiUrl =
-      "https://theprogrammersgazette.vercel.app/api/latest-blog-post";
+    const blogApiUrl = `https://theprogrammersgazette.vercel.app/api/latest-blog-post?token=${apiToken}`;
 
     // Fetch the latest blog post with a revalidation time of 2 hours
     const response = await fetch(blogApiUrl, {
