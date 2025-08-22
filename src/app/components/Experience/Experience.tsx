@@ -25,10 +25,10 @@ const experienceData = [
     location: "Georgetown, Guyana",
   },
   {
-    company: "Caribbean Coding Academy",
-    logo: "/images/CCA.png",
+    company: "St. George's University",
+    logo: "/images/SGU.png",
     alt: "Caribbean Coding Academy",
-    role: "Frontend Engineer Intern (2020 - 2021)",
+    role: "Teaching Assistant (2020 - 2021)",
     location: "St. George, Grenada",
   },
 ];
