@@ -157,8 +157,6 @@ const Profile: React.FC = () => {
         </a>
       </div>
 
-      {/* Statistics */}
-      {/* <h2 className="text-lg font-medium">Software Engineer</h2> */}
       <div className="flex gap-4 text-center pb-2 pt-2 border-t border-gray-400">
         <p className="font-medium text-gray-400 text-sm">Fullstack</p>
         <p className="font-medium text-gray-400 text-sm">AI/ML</p>
