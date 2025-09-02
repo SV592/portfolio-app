@@ -94,26 +94,6 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   const showTablet = screenWidth >= 768 && screenWidth < 1680;
   const showMobile = screenWidth < 768;
 
-  // Month arrays for different breakpoints
-  const monthLabels = {
-    mobile: ["Mar", "Apr", "May", "Jun"],
-    tablet: ["Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    desktop: [
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-    ],
-  };
-
   return (
     <div className="bg-white flex flex-col min-h-[250px] colors rounded-3xl p-6">
       {/* Header */}
@@ -126,30 +106,81 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
         {/* Month Labels */}
         <div className="pl-8 mb-1">
           {showMobile && (
-            <div className="grid grid-cols-4 w-full">
-              {monthLabels.mobile.map((month, index) => (
-                <span key={index} className="text-center">
-                  {month}
-                </span>
-              ))}
+            <div className="flex">
+              {getLastNWeeks(data.weeks, 17).map((week, weekIndex, weeks) => {
+                const firstDay = new Date(week.contributionDays[0].date);
+                const month = firstDay.toLocaleString("default", {
+                  month: "short",
+                });
+                const prevMonth =
+                  weekIndex > 0
+                    ? new Date(
+                        weeks[weekIndex - 1].contributionDays[0].date
+                      ).toLocaleString("default", { month: "short" })
+                    : null;
+
+                // Render label only when the month changes
+                return (
+                  <span
+                    key={weekIndex}
+                    className="text-[11px] text-gray-400 w-[10px] text-center flex-1"
+                  >
+                    {month !== prevMonth ? month : ""}
+                  </span>
+                );
+              })}
             </div>
           )}
+
           {showTablet && (
-            <div className="grid grid-cols-8 w-full">
-              {monthLabels.tablet.map((month, index) => (
-                <span key={index} className="text-center">
-                  {month}
-                </span>
-              ))}
+            <div className="flex">
+              {getLastNWeeks(data.weeks, 35).map((week, weekIndex, weeks) => {
+                const firstDay = new Date(week.contributionDays[0].date);
+                const month = firstDay.toLocaleString("default", {
+                  month: "short",
+                });
+                const prevMonth =
+                  weekIndex > 0
+                    ? new Date(
+                        weeks[weekIndex - 1].contributionDays[0].date
+                      ).toLocaleString("default", { month: "short" })
+                    : null;
+
+                return (
+                  <span
+                    key={weekIndex}
+                    className="text-[11px] text-gray-400 w-[9px] text-center flex-1"
+                  >
+                    {month !== prevMonth ? month : ""}
+                  </span>
+                );
+              })}
             </div>
           )}
+
           {showFullYear && (
-            <div className="grid grid-cols-12 w-full">
-              {monthLabels.desktop.map((month, index) => (
-                <span key={index} className="text-center">
-                  {month}
-                </span>
-              ))}
+            <div className="flex">
+              {getLastNWeeks(data.weeks, 52).map((week, weekIndex, weeks) => {
+                const firstDay = new Date(week.contributionDays[0].date);
+                const month = firstDay.toLocaleString("default", {
+                  month: "short",
+                });
+                const prevMonth =
+                  weekIndex > 0
+                    ? new Date(
+                        weeks[weekIndex - 1].contributionDays[0].date
+                      ).toLocaleString("default", { month: "short" })
+                    : null;
+
+                return (
+                  <span
+                    key={weekIndex}
+                    className="text-[11px] text-gray-400 w-[8px] text-center flex-1"
+                  >
+                    {month !== prevMonth ? month : ""}
+                  </span>
+                );
+              })}
             </div>
           )}
         </div>
