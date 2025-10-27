@@ -1,36 +1,6 @@
 import useSWR from "swr";
 import { ProcessedGitHubContributionsData } from "../types/github";
 
-/**
- * Helper function to shift a date string back by one year.
- * Used to align contribution data with the current year.
- */
-const adjustDateToCurrentYear = (dateString: string): string => {
-  const date = new Date(dateString);
-  date.setFullYear(date.getFullYear() - 1);
-  return date.toISOString();
-};
-
-/**
- * Processes the contribution data by shifting all contribution day dates back by one year.
- * @param data The raw contribution data from the API.
- * @returns The processed data with adjusted dates.
- */
-const processContributionData = (data: ProcessedGitHubContributionsData) => {
-  // Process all weeks and shift dates back by one year
-  const processedWeeks = data.weeks.map((week) => ({
-    ...week,
-    contributionDays: week.contributionDays.map((day) => ({
-      ...day,
-      date: adjustDateToCurrentYear(day.date),
-    })),
-  }));
-
-  return {
-    ...data,
-    weeks: processedWeeks,
-  };
-};
 
 /**
  * Fetcher function for SWR to get GitHub contributions data from the API.
@@ -60,8 +30,8 @@ const fetcher = async (
     throw new Error("Fetched GitHub data has an unexpected format.");
   }
 
-  // Process and adjust the dates
-  return processContributionData(data);
+  // Return data as-is - GitHub already provides correct dates
+  return data;
 };
 
 /**

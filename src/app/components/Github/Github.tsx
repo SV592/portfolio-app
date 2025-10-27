@@ -216,9 +216,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
                         style={{ backgroundColor: day.color }}
                         title={`${
                           day.contributionCount
-                        } contributions on ${new Date(
-                          day.date
-                        ).toLocaleDateString()}`}
+                        } contributions on ${day.date.split('T')[0]}`}
                       />
                     )
                   )}
@@ -247,9 +245,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
                         style={{ backgroundColor: day.color }}
                         title={`${
                           day.contributionCount
-                        } contributions on ${new Date(
-                          day.date
-                        ).toLocaleDateString()}`}
+                        } contributions on ${day.date.split('T')[0]}`}
                       />
                     )
                   )}
@@ -278,9 +274,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
                         style={{ backgroundColor: day.color }}
                         title={`${
                           day.contributionCount
-                        } contributions on ${new Date(
-                          day.date
-                        ).toLocaleDateString()}`}
+                        } contributions on ${day.date.split('T')[0]}`}
                       />
                     )
                   )}
