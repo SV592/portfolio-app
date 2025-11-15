@@ -9,7 +9,7 @@ const educationData = [
     alt: "The University of Waterloo",
     degree: "Master's in Computer Science",
     details: [
-      "(2023 - 2024) | GPA (3.3/4.00)",
+      "(2023 - 2024)",
       "Additional: Specializing in Software Engineering",
     ],
   },
@@ -19,7 +19,7 @@ const educationData = [
     alt: "St. George's University",
     degree: "Bachelor's of Information Technology",
     details: [
-      "(2018 - 2021) | GPA (3.60/4.00)",
+      "(2018 - 2021)",
       "Additional: Minor in Mathematics",
     ],
   },
