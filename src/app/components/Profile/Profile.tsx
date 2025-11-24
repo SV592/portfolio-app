@@ -69,7 +69,7 @@ const Profile: React.FC = () => {
         </a>
 
         <a
-          href="https://www.linkedin.com/in/shaquille-pearson-47bb5a208/"
+          href="https://www.linkedin.com/in/shaquille-pearson-mmath-47bb5a208/"
           target="_blank"
           aria-label="Linkedin"
           className="social-links"
