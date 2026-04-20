@@ -3,6 +3,7 @@ export interface LeetCodeProfileType {
   easySolved: number;
   mediumSolved: number;
   hardSolved: number;
+  beats: number | null;
 }
 
 export interface LeetCodeProfileDisplayProps {

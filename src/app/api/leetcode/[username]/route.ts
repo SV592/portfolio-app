@@ -19,6 +19,10 @@ const LEETCODE_GRAPHQL_QUERY = `
           count
         }
       }
+      problemsSolvedBeatsStats {
+        difficulty
+        percentage
+      }
     }
   }
 `;
@@ -80,6 +84,7 @@ export async function GET(
 
     // Process LeetCode data to match your expected profile structure
     type SubmissionStat = { difficulty: string; count: number };
+    type BeatsStat = { difficulty: string; percentage: number | null };
     const submitStats: SubmissionStat[] =
       result.data?.matchedUser?.submitStats?.acSubmissionNum;
     if (!submitStats) {
@@ -101,12 +106,31 @@ export async function GET(
       0;
     const solvedProblem = easySolved + mediumSolved + hardSolved;
 
+    // Weighted overall "beats" percentage across difficulties
+    const beatsStats: BeatsStat[] =
+      result.data?.matchedUser?.problemsSolvedBeatsStats || [];
+    const difficultyCounts: Record<string, number> = {
+      Easy: easySolved,
+      Medium: mediumSolved,
+      Hard: hardSolved,
+    };
+    let weightedSum = 0;
+    let weightTotal = 0;
+    for (const entry of beatsStats) {
+      if (entry.percentage == null) continue;
+      const weight = difficultyCounts[entry.difficulty] || 0;
+      weightedSum += entry.percentage * weight;
+      weightTotal += weight;
+    }
+    const beats = weightTotal > 0 ? weightedSum / weightTotal : null;
+
     // Build the response object
     const leetCodeProfileData = {
       solvedProblem,
       easySolved,
       mediumSolved,
       hardSolved,
+      beats,
     };
 
     // Return the processed data as JSON
