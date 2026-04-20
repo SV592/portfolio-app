@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { LeetCodeProfileDisplayProps } from "@/app/types/leetcode";
 import DifficultyDonut from "./DifficultyDonut";
 import LeetcodeInsightsModal from "../Insights/LeetcodeInsightsModal/LeetcodeInsightsModal";
+
+const LEETCODE_CARD_LAYOUT_ID = "insights-card-leetcode";
 
 interface ExtendedProps extends LeetCodeProfileDisplayProps {
   username?: string;
@@ -66,8 +69,16 @@ const LeetCodeProfileDisplay: React.FC<ExtendedProps> = ({
   }
 
   return (
-    <div className="flex flex-col min-h-[251px] rounded-3xl p-6 colors">
-      {/* Card Header */}
+    <div className="min-h-[251px]">
+      {!insightsOpen && (
+        <motion.div
+          key="leetcode-card"
+          layoutId={LEETCODE_CARD_LAYOUT_ID}
+          className="flex flex-col min-h-[251px] rounded-3xl p-6 colors"
+          whileTap={{ y: -6, rotate: -1.8, scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 500, damping: 28 }}
+        >
+          {/* Card Header */}
       <h2 className="text-left text-xl font-bold mb-1">Leetcode</h2>
       <p className="font-medium text-gray-400 text-sm mb-4">
         {profile.solvedProblem} total algorithmic problems solved
@@ -172,11 +183,14 @@ const LeetCodeProfileDisplay: React.FC<ExtendedProps> = ({
           <p>Beats 89%</p>
         </div>
       </div>
+        </motion.div>
+      )}
       <LeetcodeInsightsModal
         open={insightsOpen}
         onClose={() => setInsightsOpen(false)}
         username={username}
         profile={profile}
+        layoutId={LEETCODE_CARD_LAYOUT_ID}
       />
     </div>
   );

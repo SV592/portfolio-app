@@ -14,6 +14,7 @@ interface LeetcodeInsightsModalProps {
   onClose: () => void;
   username: string;
   profile: LeetCodeProfileType | null;
+  layoutId?: string;
 }
 
 const LeetcodeInsightsModal: React.FC<LeetcodeInsightsModalProps> = ({
@@ -21,6 +22,7 @@ const LeetcodeInsightsModal: React.FC<LeetcodeInsightsModalProps> = ({
   onClose,
   username,
   profile,
+  layoutId,
 }) => {
   const { data, loading, error } = useLeetcodeInsights(username, open);
 
@@ -30,6 +32,7 @@ const LeetcodeInsightsModal: React.FC<LeetcodeInsightsModalProps> = ({
       onClose={onClose}
       title="LeetCode insights"
       subtitle={`@${username}`}
+      layoutId={layoutId}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {profile ? (

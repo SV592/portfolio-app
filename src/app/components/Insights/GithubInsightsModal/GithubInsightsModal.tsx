@@ -15,6 +15,7 @@ interface GithubInsightsModalProps {
   onClose: () => void;
   username: string;
   contributions: ProcessedGitHubContributionsData | null;
+  layoutId?: string;
 }
 
 const GithubInsightsModal: React.FC<GithubInsightsModalProps> = ({
@@ -22,6 +23,7 @@ const GithubInsightsModal: React.FC<GithubInsightsModalProps> = ({
   onClose,
   username,
   contributions,
+  layoutId,
 }) => {
   const { data, loading, error } = useGithubInsights(username, open);
 
@@ -31,6 +33,7 @@ const GithubInsightsModal: React.FC<GithubInsightsModalProps> = ({
       onClose={onClose}
       title="GitHub insights"
       subtitle={`@${username}`}
+      layoutId={layoutId}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {contributions ? (

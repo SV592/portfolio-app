@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { ProcessedGitHubContributionsData } from "../../types/github";
 import GithubInsightsModal from "../Insights/GithubInsightsModal/GithubInsightsModal";
+
+const GITHUB_CARD_LAYOUT_ID = "insights-card-github";
 
 // Props for the GithubContributions component
 interface GithubContributionsProps {
@@ -99,8 +102,16 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   const showMobile = screenWidth < 768;
 
   return (
-    <div className="bg-white flex flex-col min-h-[250px] colors rounded-3xl p-6">
-      {/* Header */}
+    <div className="min-h-[250px]">
+      {!insightsOpen && (
+        <motion.div
+          key="github-card"
+          layoutId={GITHUB_CARD_LAYOUT_ID}
+          className="bg-white flex flex-col min-h-[250px] colors rounded-3xl p-6"
+          whileTap={{ y: -6, rotate: -1.8, scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 500, damping: 28 }}
+        >
+          {/* Header */}
       <h2 className="text-xl font-bold mb-1">Github</h2>
       <p className="font-medium text-gray-400 text-sm mb-2">
         {data.totalContributions} contributions in the last year
@@ -322,11 +333,14 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
           </div>
         </div>
       </div>
+        </motion.div>
+      )}
       <GithubInsightsModal
         open={insightsOpen}
         onClose={() => setInsightsOpen(false)}
         username={username}
         contributions={data}
+        layoutId={GITHUB_CARD_LAYOUT_ID}
       />
     </div>
   );

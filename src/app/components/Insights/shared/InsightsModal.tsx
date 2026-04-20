@@ -9,6 +9,7 @@ interface InsightsModalProps {
   onClose: () => void;
   title: string;
   subtitle?: string;
+  layoutId?: string;
   children: React.ReactNode;
 }
 
@@ -17,6 +18,7 @@ const InsightsModal: React.FC<InsightsModalProps> = ({
   onClose,
   title,
   subtitle,
+  layoutId,
   children,
 }) => {
   const [mounted, setMounted] = useState(false);
@@ -49,7 +51,7 @@ const InsightsModal: React.FC<InsightsModalProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.25 }}
         >
           <button
             aria-label="Close"
@@ -57,31 +59,36 @@ const InsightsModal: React.FC<InsightsModalProps> = ({
             onClick={onClose}
           />
           <motion.div
+            layoutId={layoutId}
             role="dialog"
             aria-modal="true"
             aria-label={title}
             className="colors relative z-10 w-full max-w-[960px] max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 shadow-2xl"
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: "spring", stiffness: 260, damping: 24 }}
+            transition={{ type: "spring", stiffness: 340, damping: 32, mass: 0.75 }}
           >
-            <div className="flex items-start justify-between mb-6 gap-4">
-              <div>
-                <h2 className="text-2xl font-bold">{title}</h2>
-                {subtitle && (
-                  <p className="text-sm text-gray-400 mt-1">{subtitle}</p>
-                )}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={{ delay: 0.18, duration: 0.22, ease: "easeOut" }}
+            >
+              <div className="flex items-start justify-between mb-6 gap-4">
+                <div>
+                  <h2 className="text-2xl font-bold">{title}</h2>
+                  {subtitle && (
+                    <p className="text-sm text-gray-400 mt-1">{subtitle}</p>
+                  )}
+                </div>
+                <button
+                  aria-label="Close insights"
+                  onClick={onClose}
+                  className="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100/20 flex-shrink-0"
+                >
+                  ×
+                </button>
               </div>
-              <button
-                aria-label="Close insights"
-                onClick={onClose}
-                className="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100/20 flex-shrink-0"
-              >
-                ×
-              </button>
-            </div>
-            {children}
+              {children}
+            </motion.div>
           </motion.div>
         </motion.div>
       )}
