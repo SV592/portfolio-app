@@ -13,6 +13,7 @@ import Research from "./components/Research/Research";
 import Github from "./components/Github/Github";
 import Blog from "./components/Blog/Blog";
 import LeetCodeProfileDisplay from "./components/Leetcode/Leetcode";
+import ActivityTicker from "./components/ActivityTicker/ActivityTicker";
 
 import { useLeetCodeData } from "./Hooks/useLeetcodeData";
 import { useGithubContributions } from "./Hooks/useGithubContributions";
@@ -62,6 +63,14 @@ export default function Home() {
 
   return (
     <div className="flex flex-col justify-center items-center p-4 sm:p-6 overflow-hidden m-auto max-w-[1850px]">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ...springTransition, delay: 0.05 } as const}
+        className="w-full mb-2"
+      >
+        <ActivityTicker />
+      </motion.div>
       {/* Main content container that adapts its grid structure */}
       <div className="w-full grid grid-cols-1 gap-2 2xl:grid-cols-12">
         {/* Left Column - Profile, Skills and Tetris */}
