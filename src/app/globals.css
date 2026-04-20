@@ -6,6 +6,7 @@ html[data-theme="myLightTheme"] {
   --theme-gradient-from: #FEFBC7; /* Light Purple (remains) */
   --theme-gradient-via: #8ec5fc;   /* Light Blue (remains) */
   --theme-gradient-to: #183B4E;    /* NEW: Slightly darker, more prominent blue */
+  --theme-accent: #183B4E;
   color: #2E2B2C;
 }
 
@@ -13,6 +14,7 @@ html[data-theme="myDarkTheme"] {
   --theme-gradient-from: #183B4E; /* Starts with the NEW 'to' color of myLightTheme */
   --theme-gradient-via: #1a202c;   /* A deeper, richer blue */
   --theme-gradient-to: #000;    /* A very dark, almost black blue-gray */
+  --theme-accent: #8ec5fc;
   color:#FFF;
 
   .colors {
@@ -42,7 +44,7 @@ html[data-theme="myDarkTheme"] {
 }
 
 .colors {
-  @apply bg-[#FFF] text-[#2E2B2C] 
+  @apply bg-[#FFF] text-[#2E2B2C]
 }
 
 .toggle-color {

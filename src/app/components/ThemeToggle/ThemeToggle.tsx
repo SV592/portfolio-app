@@ -18,7 +18,7 @@ export const ThemeToggle: React.FC = () => {
   const isDarkTheme: boolean = theme === "myDarkTheme";
 
   return (
-    <label className="swap swap-rotate fixed bottom-5 right-5 p-1 toggle-color rounded-4xl">
+    <label className="global-theme-toggle swap swap-rotate fixed bottom-5 right-5 p-1 toggle-color rounded-4xl z-[60]">
       {/*Checkbox controls the state */}
       <input
         type="checkbox"
