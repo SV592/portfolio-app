@@ -37,7 +37,7 @@ const CommitTimeHeatmap: React.FC<CommitTimeHeatmapProps> = ({
   return (
     <Tile
       title="Commit time-of-day"
-      subtitle={`${total} commits across your top repos (last year, UTC)`}
+      subtitle={`${total} commits across Shaquille's top repos (last year, UTC)`}
     >
       <div className="overflow-x-auto">
         <div className="inline-block min-w-full">

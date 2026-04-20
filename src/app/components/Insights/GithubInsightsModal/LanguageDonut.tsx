@@ -49,7 +49,7 @@ const LanguageDonut: React.FC<LanguageDonutProps> = ({ languages }) => {
   }
 
   return (
-    <Tile title="Language breakdown" subtitle="Across your public repos">
+    <Tile title="Language breakdown" subtitle="Across Shaquille's public repos">
       <div className="h-56 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
