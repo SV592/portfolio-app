@@ -101,6 +101,34 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   const showTablet = screenWidth >= 768 && screenWidth < 1680;
   const showMobile = screenWidth < 768;
 
+  // Compute which weeks should show a month label.
+  // Skip the very first week (its month started before the slice) and
+  // enforce a minimum gap so adjacent labels don't overlap.
+  const getMonthLabels = (
+    weeks: { contributionDays: { date: string }[] }[],
+    minGap: number
+  ): string[] => {
+    const labels: string[] = [];
+    let lastRenderedIndex = -Infinity;
+    let lastMonth: string | null = null;
+    weeks.forEach((week, i) => {
+      const month = new Date(week.contributionDays[0].date).toLocaleString(
+        "default",
+        { month: "short" }
+      );
+      const monthChanged = month !== lastMonth;
+      lastMonth = month;
+      const farEnough = i - lastRenderedIndex >= minGap;
+      if (i > 0 && monthChanged && farEnough) {
+        labels.push(month);
+        lastRenderedIndex = i;
+      } else {
+        labels.push("");
+      }
+    });
+    return labels;
+  };
+
   return (
     <div className="min-h-[250px]">
       {!insightsOpen && (
@@ -122,80 +150,46 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
         <div className="pl-8 mb-1">
           {showMobile && (
             <div className="flex">
-              {getLastNWeeks(data.weeks, 17).map((week, weekIndex, weeks) => {
-                const firstDay = new Date(week.contributionDays[0].date);
-                const month = firstDay.toLocaleString("default", {
-                  month: "short",
-                });
-                const prevMonth =
-                  weekIndex > 0
-                    ? new Date(
-                        weeks[weekIndex - 1].contributionDays[0].date
-                      ).toLocaleString("default", { month: "short" })
-                    : null;
-
-                // Render label only when the month changes
-                return (
+              {getMonthLabels(getLastNWeeks(data.weeks, 17), 3).map(
+                (label, weekIndex) => (
                   <span
                     key={weekIndex}
                     className="text-[11px] text-gray-400 w-[10px] text-center flex-1"
                   >
-                    {month !== prevMonth ? month : ""}
+                    {label}
                   </span>
-                );
-              })}
+                )
+              )}
             </div>
           )}
 
           {showTablet && (
             <div className="flex">
-              {getLastNWeeks(data.weeks, 35).map((week, weekIndex, weeks) => {
-                const firstDay = new Date(week.contributionDays[0].date);
-                const month = firstDay.toLocaleString("default", {
-                  month: "short",
-                });
-                const prevMonth =
-                  weekIndex > 0
-                    ? new Date(
-                        weeks[weekIndex - 1].contributionDays[0].date
-                      ).toLocaleString("default", { month: "short" })
-                    : null;
-
-                return (
+              {getMonthLabels(getLastNWeeks(data.weeks, 35), 3).map(
+                (label, weekIndex) => (
                   <span
                     key={weekIndex}
                     className="text-[11px] text-gray-400 w-[9px] text-center flex-1"
                   >
-                    {month !== prevMonth ? month : ""}
+                    {label}
                   </span>
-                );
-              })}
+                )
+              )}
             </div>
           )}
 
           {showFullYear && (
             <div className="flex">
-              {getLastNWeeks(data.weeks, 52).map((week, weekIndex, weeks) => {
-                const firstDay = new Date(week.contributionDays[0].date);
-                const month = firstDay.toLocaleString("default", {
-                  month: "short",
-                });
-                const prevMonth =
-                  weekIndex > 0
-                    ? new Date(
-                        weeks[weekIndex - 1].contributionDays[0].date
-                      ).toLocaleString("default", { month: "short" })
-                    : null;
-
-                return (
+              {getMonthLabels(getLastNWeeks(data.weeks, 52), 3).map(
+                (label, weekIndex) => (
                   <span
                     key={weekIndex}
                     className="text-[11px] text-gray-400 w-[8px] text-center flex-1"
                   >
-                    {month !== prevMonth ? month : ""}
+                    {label}
                   </span>
-                );
-              })}
+                )
+              )}
             </div>
           )}
         </div>
