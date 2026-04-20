@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { ProcessedGitHubContributionsData } from "../../types/github";
+import GithubInsightsModal from "../Insights/GithubInsightsModal/GithubInsightsModal";
 
 // Props for the GithubContributions component
 interface GithubContributionsProps {
   data: ProcessedGitHubContributionsData | null;
   loading: boolean;
   error: string | null;
+  username?: string;
 }
 
 /**
@@ -16,9 +18,11 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   data,
   loading,
   error,
+  username = "SV592",
 }) => {
   // State to track the current screen width for responsive rendering
   const [screenWidth, setScreenWidth] = useState(0);
+  const [insightsOpen, setInsightsOpen] = useState(false);
 
   useEffect(() => {
     // Handler to update screen width on resize
@@ -286,14 +290,23 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
 
         {/* Legend and Info */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full mt-4 text-[11px] text-gray-400 gap-2 sm:gap-0">
-          {/* Link to GitHub profile (hidden on mobile) */}
-          <a
-            href="https://github.com/SV592"
-            className="cursor-pointer hidden sm:inline hover:underline"
-            target="_blank"
-          >
-            Profile
-          </a>
+          {/* Profile link and insights trigger */}
+          <div className="flex items-center gap-3">
+            <a
+              href={`https://github.com/${username}`}
+              className="cursor-pointer hidden sm:inline hover:underline"
+              target="_blank"
+            >
+              Profile
+            </a>
+            <button
+              type="button"
+              onClick={() => setInsightsOpen(true)}
+              className="cursor-pointer hover:underline font-medium"
+            >
+              View insights →
+            </button>
+          </div>
           {/* Contribution color legend */}
           <div className="flex items-center gap-1">
             <span>Less</span>
@@ -309,6 +322,12 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
           </div>
         </div>
       </div>
+      <GithubInsightsModal
+        open={insightsOpen}
+        onClose={() => setInsightsOpen(false)}
+        username={username}
+        contributions={data}
+      />
     </div>
   );
 };
