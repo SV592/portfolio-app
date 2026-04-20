@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { LeetCodeProfileDisplayProps } from "@/app/types/leetcode";
+import DifficultyDonut from "./DifficultyDonut";
+import LeetcodeInsightsModal from "../Insights/LeetcodeInsightsModal/LeetcodeInsightsModal";
+
+interface ExtendedProps extends LeetCodeProfileDisplayProps {
+  username?: string;
+}
 
 /**
  * LeetCodeProfileDisplay component displays a user's LeetCode stats,
  * including a multi-colored circular progress indicator and progress bars
  * for easy, medium, and hard problems.
  */
-const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
+const LeetCodeProfileDisplay: React.FC<ExtendedProps> = ({
   profile,
   loading,
   error,
+  username = "SV592",
 }) => {
+  const [insightsOpen, setInsightsOpen] = useState(false);
   // Show loading skeleton while fetching data
   if (loading) {
     return (
@@ -57,29 +65,6 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
     );
   }
 
-  // --- Calculations for Multi-Colored Circular Progress ---
-  const radius = 40;
-  const circumference = 2 * Math.PI * radius;
-  const strokeWidth = 8; // Consistent stroke width
-
-  // Destructure profile stats
-  const { solvedProblem, easySolved, mediumSolved, hardSolved } = profile;
-
-  // Calculate proportions of each difficulty relative to total solved
-  const easyProportion = solvedProblem > 0 ? easySolved / solvedProblem : 0;
-  const mediumProportion = solvedProblem > 0 ? mediumSolved / solvedProblem : 0;
-  const hardProportion = solvedProblem > 0 ? hardSolved / solvedProblem : 0;
-
-  // Calculate arc lengths for each segment
-  const easyArcLength = easyProportion * circumference;
-  const mediumArcLength = mediumProportion * circumference;
-  const hardArcLength = hardProportion * circumference;
-
-  // Calculate offsets for drawing segments sequentially on the circle.
-  const easyDashOffset = 0; // Easy starts at 0 (top after rotation)
-  const mediumDashOffset = -easyArcLength; // Medium starts where Easy ends (clockwise)
-  const hardDashOffset = -(easyArcLength + mediumArcLength); // Hard starts where Medium ends (clockwise)
-
   return (
     <div className="flex flex-col min-h-[251px] rounded-3xl p-6 colors">
       {/* Card Header */}
@@ -89,82 +74,12 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
       </p>
       <div className="flex flex-col sm:flex-row items-center space-y-6 sm:space-y-0 sm:space-x-6">
         {/* Left Section: Total Solved Multi-Color Circle */}
-        <div className="relative w-28 h-28 flex items-center justify-center flex-shrink-0">
-          <svg
-            className="w-full h-full transform -rotate-90"
-            viewBox="0 0 100 100"
-          >
-            {/* Background circle (full gray ring) */}
-            <circle
-              className="text-gray-200"
-              strokeWidth={strokeWidth}
-              stroke="currentColor"
-              fill="transparent"
-              r={radius}
-              cx="50"
-              cy="50"
-            />
-
-            {/* Easy Segment */}
-            {easySolved > 0 && (
-              <circle
-                className="text-green-500"
-                strokeWidth={strokeWidth}
-                strokeDasharray={`${easyArcLength} ${
-                  circumference - easyArcLength
-                }`}
-                strokeDashoffset={easyDashOffset}
-                strokeLinecap="round"
-                stroke="currentColor"
-                fill="transparent"
-                r={radius}
-                cx="50"
-                cy="50"
-              />
-            )}
-
-            {/* Medium Segment */}
-            {mediumSolved > 0 && (
-              <circle
-                className="text-yellow-500"
-                strokeWidth={strokeWidth}
-                strokeDasharray={`${mediumArcLength} ${
-                  circumference - mediumArcLength
-                }`}
-                strokeDashoffset={mediumDashOffset}
-                strokeLinecap="round"
-                stroke="currentColor"
-                fill="transparent"
-                r={radius}
-                cx="50"
-                cy="50"
-              />
-            )}
-
-            {/* Hard Segment */}
-            {hardSolved > 0 && (
-              <circle
-                className="text-red-500"
-                strokeWidth={strokeWidth}
-                strokeDasharray={`${hardArcLength} ${
-                  circumference - hardArcLength
-                }`}
-                strokeDashoffset={hardDashOffset}
-                strokeLinecap="round"
-                stroke="currentColor"
-                fill="transparent"
-                r={radius}
-                cx="50"
-                cy="50"
-              />
-            )}
-          </svg>
-          {/* Centered solved count */}
-          <div className="absolute flex flex-col items-center">
-            <span className="text-3xl font-bold">{solvedProblem}</span>
-            <span className="text-sm mt-0.5">Solved</span>
-          </div>
-        </div>
+        <DifficultyDonut
+          solvedProblem={profile.solvedProblem}
+          easySolved={profile.easySolved}
+          mediumSolved={profile.mediumSolved}
+          hardSolved={profile.hardSolved}
+        />
 
         {/* Right Section: Easy, Medium, Hard progress bars */}
         <div className="flex-1 w-full sm:w-auto space-y-4">
@@ -224,15 +139,24 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
         </div>
       </div>
 
-      {/* Footer: Profile link and "Beats 89%" badge */}
-      <div className="flex justify-between items-center text-[11px] font-medium text-gray-400 mt-2">
-        <a
-          href="https://leetcode.com/u/SV592/"
-          className="cursor-pointer hover:underline"
-          target="_blank"
-        >
-          Profile
-        </a>
+      {/* Footer: Profile link, insights trigger, and "Beats 89%" badge */}
+      <div className="flex justify-between items-center text-[11px] font-medium text-gray-400 mt-2 gap-3">
+        <div className="flex items-center gap-3">
+          <a
+            href={`https://leetcode.com/u/${username}/`}
+            className="cursor-pointer hover:underline"
+            target="_blank"
+          >
+            Profile
+          </a>
+          <button
+            type="button"
+            onClick={() => setInsightsOpen(true)}
+            className="cursor-pointer hover:underline"
+          >
+            View insights →
+          </button>
+        </div>
         <div className="flex gap-2 items-center">
           {/* LeetCode logo */}
           <svg
@@ -248,6 +172,12 @@ const LeetCodeProfileDisplay: React.FC<LeetCodeProfileDisplayProps> = ({
           <p>Beats 89%</p>
         </div>
       </div>
+      <LeetcodeInsightsModal
+        open={insightsOpen}
+        onClose={() => setInsightsOpen(false)}
+        username={username}
+        profile={profile}
+      />
     </div>
   );
 };
