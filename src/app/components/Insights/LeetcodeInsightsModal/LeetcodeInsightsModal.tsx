@@ -24,7 +24,7 @@ const LeetcodeInsightsModal: React.FC<LeetcodeInsightsModalProps> = ({
   profile,
   layoutId,
 }) => {
-  const { data, loading, error } = useLeetcodeInsights(username, open);
+  const { data, loading, error } = useLeetcodeInsights(username);
 
   return (
     <InsightsModal

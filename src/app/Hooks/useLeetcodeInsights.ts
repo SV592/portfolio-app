@@ -19,11 +19,9 @@ interface UseLeetcodeInsightsResult {
 }
 
 export const useLeetcodeInsights = (
-  username: string,
-  enabled: boolean
+  username: string
 ): UseLeetcodeInsightsResult => {
-  const swrKey =
-    enabled && username ? `/api/leetcode/${username}/insights` : null;
+  const swrKey = username ? `/api/leetcode/${username}/insights` : null;
 
   const { data, error, isLoading } = useSWR<LeetcodeInsightsPayload, Error>(
     swrKey,

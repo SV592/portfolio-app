@@ -19,11 +19,9 @@ interface UseGithubInsightsResult {
 }
 
 export const useGithubInsights = (
-  username: string,
-  enabled: boolean
+  username: string
 ): UseGithubInsightsResult => {
-  const swrKey =
-    enabled && username ? `/api/github/${username}/insights` : null;
+  const swrKey = username ? `/api/github/${username}/insights` : null;
 
   const { data, error, isLoading } = useSWR<GithubInsightsPayload, Error>(
     swrKey,

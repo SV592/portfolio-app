@@ -25,7 +25,7 @@ const GithubInsightsModal: React.FC<GithubInsightsModalProps> = ({
   contributions,
   layoutId,
 }) => {
-  const { data, loading, error } = useGithubInsights(username, open);
+  const { data, loading, error } = useGithubInsights(username);
 
   return (
     <InsightsModal
