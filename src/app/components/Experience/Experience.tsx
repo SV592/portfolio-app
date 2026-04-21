@@ -4,6 +4,13 @@ import Image from "next/image";
 // Experience data array
 const experienceData = [
   {
+    company: "MDLand",
+    logo: "/images/mdland.jpg",
+    alt: "MDLand",
+    role: "Software Engineer (2025 - Present)",
+    location: "Waterloo, ON",
+  },
+  {
     company: "The Software Rebels",
     logo: "/images/Rebels.png",
     alt: "The Software Rebels",
@@ -23,13 +30,6 @@ const experienceData = [
     alt: "The Department of Public Information",
     role: "Junior Software Developer (2022 - 2023)",
     location: "Georgetown, Guyana",
-  },
-  {
-    company: "St. George's University",
-    logo: "/images/SGU.png",
-    alt: "Caribbean Coding Academy",
-    role: "Teaching Assistant (2020 - 2021)",
-    location: "St. George, Grenada",
   },
 ];
 
