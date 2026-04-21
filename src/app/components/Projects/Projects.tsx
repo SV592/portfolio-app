@@ -47,13 +47,14 @@ const projects = [
     image: "",
     alt: "",
     description:
-      "A lightweight C++ application for secure file encryption, decryption, hashing, and digital signature management This project leverages OpenSSL for cryptographic operations and a command-line interface.",
+      "A cryptographic file operations tool with both a C++ CLI and an Electron desktop GUI. Supports AES-256-CBC encryption, SHA-256 hashing, and RSA digital signatures, wrapped in a cyberpunk-themed interface with neon accents and CRT scanline effects.",
     tags: [
       { name: "C++", color: "bg-blue-50 text-blue-700" },
       { name: "OpenSSL", color: "bg-green-50 text-green-700" },
-      { name: "Cryptography", color: "bg-purple-50 text-purple-700" },
-      { name: "CLI", color: "bg-yellow-50 text-yellow-700" },
-      { name: "File Management", color: "bg-red-50 text-red-700" },
+      { name: "Electron", color: "bg-purple-50 text-purple-700" },
+      { name: "Cryptography", color: "bg-yellow-50 text-yellow-700" },
+      { name: "CLI", color: "bg-red-50 text-red-700" },
+      { name: "GUI", color: "bg-indigo-50 text-indigo-700" },
     ],
     link: {
       href: "https://github.com/SV592/secure_file_manager",
@@ -83,7 +84,7 @@ const projects = [
 // Projects component displays a stylized grid of project cards
 const Projects: React.FC = () => {
   return (
-    <div className="bg-white rounded-3xl colors shadow-lg p-6 xl:pb-26">
+    <div className="bg-white rounded-3xl colors shadow-lg p-6 xl:pb-20">
       {/* Section Header */}
       <h2 className="text-xl font-bold mb-4">Personal Projects</h2>
       {/* Responsive grid for project cards */}
