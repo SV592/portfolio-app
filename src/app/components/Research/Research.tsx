@@ -73,11 +73,11 @@ const research: ResearchPaper[] = [
   },
 ];
 
-const Research: React.FC = () => {
+const Research: React.FC<{ className?: string }> = ({ className }) => {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <div className="rounded-3xl colors p-6 pb-9.5">
+    <div className={`rounded-3xl colors p-6 pb-9.5${className ? ` ${className}` : ""}`}>
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
         <FontAwesomeIcon icon={faFileLines} className="w-4 h-4" />
         Research Projects
@@ -94,10 +94,10 @@ const Research: React.FC = () => {
                 transition={{ type: "spring", stiffness: 500, damping: 28 }}
               >
                 <h3 className="text-lg font-medium">{paper.title}</h3>
-                <p className="text-gray-400 font-medium text-sm">
+                <p className="text-gray-400 font-medium text-sm flex-1">
                   {paper.description}
                 </p>
-                <div className="flex flex-wrap items-center gap-1">
+                <div className="flex flex-wrap gap-1 mb-2">
                   {paper.tags.map((tag) => (
                     <span
                       key={tag.name}
@@ -106,14 +106,14 @@ const Research: React.FC = () => {
                       {tag.name}
                     </span>
                   ))}
-                  <button
-                    type="button"
-                    onClick={() => setOpenId(paper.id)}
-                    className="ml-auto cursor-pointer hover:underline font-medium text-[11px] text-gray-400"
-                  >
-                    View paper →
-                  </button>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setOpenId(paper.id)}
+                  className="cursor-pointer hover:underline font-medium text-[11px] text-gray-400 text-left"
+                >
+                  View paper →
+                </button>
               </motion.div>
             )
           )}

@@ -74,7 +74,7 @@ export default function Home() {
       {/* Main content container that adapts its grid structure */}
       <div className="w-full grid grid-cols-1 gap-2 2xl:grid-cols-12">
         {/* Left Column - Profile, Skills and Tetris */}
-        <div className="space-y-2 2xl:col-span-3">
+        <div className="flex flex-col gap-2 2xl:col-span-3">
           <motion.div
             layout={true}
             initial={{ opacity: 0, y: -100 }}
@@ -98,7 +98,7 @@ export default function Home() {
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...springTransition, delay: 0.3 } as const}
-            className="overflow-hidden will-change-transform 2xl:flex hidden"
+            className="overflow-hidden will-change-transform 2xl:flex hidden flex-1 min-h-0"
           >
             <Tetris />
           </motion.div>
@@ -107,7 +107,7 @@ export default function Home() {
         {/* Right Main Content Area (Education, Experience, Projects, LeetCode, Github, Blog, Research) */}
         <div className="lg:grid-cols-4 2xl:col-span-9 grid 2xl:grid-cols-4 gap-2">
           {/* Education and Experience Column/Stack */}
-          <div className="space-y-2 lg:col-span-2">
+          <div className="flex flex-col gap-2 lg:col-span-2">
             <motion.div
               layout={true}
               initial={{ opacity: 0, x: 100 }}
@@ -132,13 +132,14 @@ export default function Home() {
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ ...springTransition, delay: 0.3 } as const}
+              className="flex-1 min-h-0"
             >
-              <Projects />
+              <Projects className="h-full" />
             </motion.div>
           </div>
 
           {/* LeetCode, Github, Blog, Research */}
-          <div className="space-y-2 lg:col-span-2">
+          <div className="flex flex-col gap-2 lg:col-span-2">
             <motion.div
               layout={true}
               initial={{ opacity: 0, y: 100 }}
@@ -183,9 +184,9 @@ export default function Home() {
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...springTransition, delay: 0.4 } as const}
-              className="overflow-hidden will-change-transform"
+              className="overflow-hidden will-change-transform flex-1 min-h-0"
             >
-              <Research />
+              <Research className="h-full" />
             </motion.div>
           </div>
         </div>

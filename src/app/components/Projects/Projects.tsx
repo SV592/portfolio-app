@@ -169,10 +169,10 @@ const Projects: React.FC<{ className?: string }> = ({ className }) => {
                 transition={{ type: "spring", stiffness: 500, damping: 28 }}
               >
                 <h3 className="text-lg font-medium mb-2">{project.title}</h3>
-                <p className="text-gray-400 font-medium text-sm mb-3 flex-grow">
+                <p className="text-gray-400 font-medium text-sm mb-3 flex-1">
                   {project.description}
                 </p>
-                <div className="flex flex-wrap items-center gap-1">
+                <div className="flex flex-wrap gap-1 mb-2">
                   {project.tags.map((tag) => (
                     <span
                       key={tag.name}
@@ -181,14 +181,14 @@ const Projects: React.FC<{ className?: string }> = ({ className }) => {
                       {tag.name}
                     </span>
                   ))}
-                  <button
-                    type="button"
-                    onClick={() => setOpenId(project.id)}
-                    className="ml-auto cursor-pointer hover:underline font-medium text-[11px] text-gray-400"
-                  >
-                    View project →
-                  </button>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setOpenId(project.id)}
+                  className="cursor-pointer hover:underline font-medium text-[11px] text-gray-400 text-left"
+                >
+                  View project →
+                </button>
               </motion.div>
             )
           )}
