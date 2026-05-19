@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderOpen } from "@fortawesome/free-solid-svg-icons";
-import Image from "next/image";
 import ProjectModal, { Project } from "../Insights/ProjectModal/ProjectModal";
 
 const projects: Project[] = [
@@ -15,6 +14,12 @@ const projects: Project[] = [
     alt: "Screenshot of Blog Website",
     description:
       "A full-stack blog built with Next.js, featuring static and dynamic page serving. Integrates Spotify API via a custom backend and uses PostgreSQL for newsletter subscriber storage.",
+    language: "TypeScript",
+    features: [
+      "Spotify API with server-side token caching",
+      "PostgreSQL newsletter subscriber storage",
+      "Static + dynamic ISR page serving",
+    ],
     tags: [
       { name: "Next.js", color: "bg-blue-50 text-blue-700" },
       { name: "TypeScript", color: "bg-green-50 text-green-700" },
@@ -33,6 +38,12 @@ const projects: Project[] = [
     alt: "Screenshot of Portfolio App",
     description:
       "This portfolio, built with Next.js App Router, integrates live data from GitHub, LeetCode, and a custom blog API via SWR. Features framer-motion shared-element animations and a fully responsive layout.",
+    language: "TypeScript",
+    features: [
+      "SWR data fetching with 2-hour API cache",
+      "Framer-motion shared-element card-to-modal animations",
+      "GitHub GraphQL + LeetCode API integration",
+    ],
     tags: [
       { name: "Next.js", color: "bg-blue-50 text-blue-700" },
       { name: "TypeScript", color: "bg-green-50 text-green-700" },
@@ -50,6 +61,12 @@ const projects: Project[] = [
     alt: "",
     description:
       "An AI-powered pitch deck generator that transforms a prompt into a structured, professional slide deck. Built with a Next.js frontend and a NestJS REST API backend.",
+    language: "TypeScript",
+    features: [
+      "LLM-powered slide structure generation",
+      "NestJS REST API + Next.js frontend",
+      "Structured JSON → rendered slide output",
+    ],
     tags: [
       { name: "Next.js", color: "bg-blue-50 text-blue-700" },
       { name: "TypeScript", color: "bg-green-50 text-green-700" },
@@ -66,6 +83,12 @@ const projects: Project[] = [
     alt: "",
     description:
       "An IP address lookup tool featuring a 3D interactive globe visualization powered by Three.js. Pinpoints the physical location of any IP address with smooth animations and a few easter eggs.",
+    language: "TypeScript",
+    features: [
+      "3D globe rendered with Three.js WebGL",
+      "IP geolocation via third-party API",
+      "Smooth camera animations + hidden easter eggs",
+    ],
     tags: [
       { name: "Next.js", color: "bg-blue-50 text-blue-700" },
       { name: "TypeScript", color: "bg-green-50 text-green-700" },
@@ -81,7 +104,13 @@ const projects: Project[] = [
     image: "",
     alt: "",
     description:
-      "A cryptographic file operations tool with both a C++ CLI and an Electron desktop GUI. Supports AES-256-CBC encryption, SHA-256 hashing, and RSA digital signatures, wrapped in a cyberpunk-themed interface.",
+      "A cryptographic file operations tool with both a C++ CLI and an Electron desktop GUI. Supports AES-256-CBC encryption, SHA-256 hashing, and RSA digital signatures.",
+    language: "C++",
+    features: [
+      "AES-256-CBC encryption + RSA digital signatures",
+      "SHA-256 file integrity hashing",
+      "Electron GUI + headless C++ CLI",
+    ],
     tags: [
       { name: "C++", color: "bg-blue-50 text-blue-700" },
       { name: "OpenSSL", color: "bg-green-50 text-green-700" },
@@ -98,7 +127,13 @@ const projects: Project[] = [
     image: "",
     alt: "",
     description:
-      "An Extract, Transform, Load (ETL) pipeline built with Python to collect metadata about open-source GitHub repositories via the GraphQL API, transform it, and load it into a PostgreSQL database for analysis.",
+      "An ETL pipeline built with Python to collect metadata about open-source GitHub repositories via the GraphQL API, transform it, and load it into a PostgreSQL database for analysis.",
+    language: "Python",
+    features: [
+      "GitHub GraphQL API for metadata extraction",
+      "Automated schema validation + data transformation",
+      "PostgreSQL storage with normalized schema",
+    ],
     tags: [
       { name: "Python", color: "bg-blue-50 text-blue-700" },
       { name: "GitHub API", color: "bg-gray-50 text-gray-700" },
@@ -107,22 +142,6 @@ const projects: Project[] = [
       { name: "ETL", color: "bg-green-50 text-green-700" },
     ],
     github: "https://github.com/SV592/repo_pipeline",
-  },
-  {
-    id: "p7",
-    title: "Flashcard App",
-    image: "",
-    alt: "",
-    description:
-      "A cross-platform mobile flashcard app built with React Native. Users can create, edit, and delete flashcard decks with local AsyncStorage persistence and local notification support in production builds.",
-    tags: [
-      { name: "React Native", color: "bg-blue-50 text-blue-700" },
-      { name: "JavaScript", color: "bg-yellow-50 text-yellow-700" },
-      { name: "AsyncStorage", color: "bg-green-50 text-green-700" },
-      { name: "Mobile", color: "bg-purple-50 text-purple-700" },
-      { name: "Expo", color: "bg-red-50 text-red-700" },
-    ],
-    github: "https://github.com/SV592/Flashcard-App-",
   },
 ];
 
@@ -137,28 +156,18 @@ const Projects: React.FC<{ className?: string }> = ({ className }) => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <AnimatePresence mode="popLayout">
-          {projects.map((project, index) =>
+          {projects.map((project) =>
             openId === project.id ? null : (
               <motion.div
                 key={project.id}
                 layoutId={`project-card-${project.id}`}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 16 }}
                 className="rounded-xl border p-4 flex flex-col h-full hover:border-gray-400/40 transition-colors"
                 whileTap={{ y: -6, rotate: -1.8, scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 500, damping: 28 }}
               >
-                {project.image && (
-                  <div className="relative w-full h-40 rounded-lg mb-4 overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.alt}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      className="rounded-md"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      priority={index === 0}
-                    />
-                  </div>
-                )}
                 <h3 className="text-lg font-medium mb-2">{project.title}</h3>
                 <p className="text-gray-400 font-medium text-sm mb-3 flex-grow">
                   {project.description}
@@ -185,6 +194,7 @@ const Projects: React.FC<{ className?: string }> = ({ className }) => {
           )}
         </AnimatePresence>
       </div>
+
       {projects.map((project) => (
         <ProjectModal
           key={project.id}
