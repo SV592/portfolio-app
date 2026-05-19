@@ -94,7 +94,7 @@ const Projects: React.FC = () => {
       </h2>
       {/* Responsive grid for project cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <div
             key={project.title}
             className="rounded-xl border p-4 flex flex-col h-full"
@@ -106,6 +106,7 @@ const Projects: React.FC = () => {
                   href={project.link.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="relative block w-full h-full"
                 >
                   <Image
                     src={project.image}
@@ -114,6 +115,7 @@ const Projects: React.FC = () => {
                     style={{ objectFit: "cover" }}
                     className="rounded-md"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={index === 0}
                   />
                 </Link>
               </div>

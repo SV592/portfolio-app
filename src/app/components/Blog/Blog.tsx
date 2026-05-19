@@ -53,7 +53,7 @@ export default function Blog({ data, loading, error }: BlogProps) {
               href={data.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center hover:underline font-medium"
+              className="relative block w-full h-full"
             >
               <Image
                 src={data.imageUrl}
@@ -61,6 +61,8 @@ export default function Blog({ data, loading, error }: BlogProps) {
                 fill
                 style={{ objectFit: "cover" }}
                 className="rounded-md"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
               />
             </Link>
           </div>
