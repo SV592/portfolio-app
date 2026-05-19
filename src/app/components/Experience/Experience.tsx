@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 // Experience data array
@@ -38,7 +40,10 @@ const Experience: React.FC = () => {
   return (
     <div className="flex flex-col rounded-3xl p-6 gap-4 colors">
       {/* Card Header */}
-      <h2 className="text-left text-xl font-bold">Experience</h2>
+      <h2 className="text-left text-xl font-bold flex items-center gap-2">
+        <FontAwesomeIcon icon={faBriefcase} className="w-4 h-4" />
+        Experience
+      </h2>
 
       {/* Loop over experience data and render each entry */}
       {experienceData.map((exp) => (

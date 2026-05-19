@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCode } from "@fortawesome/free-solid-svg-icons";
 
 // Skills
 const skills = [
@@ -41,7 +43,10 @@ const Skills: React.FC = () => {
       {/* Skills Card */}
       <div className="flex flex-col gap-4 bg-white rounded-3xl p-6 pb-7 colors">
         <h2 className="text-xl font-bold flex justify-between items-center">
-          Skills
+          <span className="flex items-center gap-2">
+            <FontAwesomeIcon icon={faCode} className="w-4 h-4" />
+            Skills
+          </span>
         </h2>
         <div className="flex flex-wrap gap-2">
           {skills.map((skill) => (

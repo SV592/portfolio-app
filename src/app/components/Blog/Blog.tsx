@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { LatestBlogPostData } from "../../types/blog";
@@ -39,7 +41,10 @@ export default function Blog({ data, loading, error }: BlogProps) {
   // Render the latest blog post
   return (
     <div className="bg-white rounded-3xl min-h-[350px] colors p-6">
-      <h2 className="text-xl font-bold mb-4">Blog</h2>
+      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+        <FontAwesomeIcon icon={faNewspaper} className="w-4 h-4" />
+        Blog
+      </h2>
       <div className="items-center">
         {/* Display blog post image if available */}
         {data.imageUrl && (

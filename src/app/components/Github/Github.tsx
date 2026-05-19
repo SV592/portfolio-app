@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { motion } from "framer-motion";
 import { ProcessedGitHubContributionsData } from "../../types/github";
 import GithubInsightsModal from "../Insights/GithubInsightsModal/GithubInsightsModal";
@@ -140,7 +142,10 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
           transition={{ type: "spring", stiffness: 500, damping: 28 }}
         >
           {/* Header */}
-      <h2 className="text-xl font-bold mb-1">Github</h2>
+      <h2 className="text-xl font-bold mb-1 flex items-center gap-2">
+        <FontAwesomeIcon icon={faGithub} className="w-4 h-4" />
+        Github
+      </h2>
       <p className="font-medium text-gray-400 text-sm mb-2">
         {data.totalContributions} contributions in the last year
       </p>

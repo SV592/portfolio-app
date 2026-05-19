@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBrain } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import { LeetCodeProfileDisplayProps } from "@/app/types/leetcode";
 import DifficultyDonut from "./DifficultyDonut";
@@ -79,7 +81,10 @@ const LeetCodeProfileDisplay: React.FC<ExtendedProps> = ({
           transition={{ type: "spring", stiffness: 500, damping: 28 }}
         >
           {/* Card Header */}
-      <h2 className="text-left text-xl font-bold mb-1">Leetcode</h2>
+      <h2 className="text-left text-xl font-bold mb-1 flex items-center gap-2">
+        <FontAwesomeIcon icon={faBrain} className="w-4 h-4" />
+        Leetcode
+      </h2>
       <p className="font-medium text-gray-400 text-sm mb-4">
         {profile.solvedProblem} total algorithmic problems solved
       </p>

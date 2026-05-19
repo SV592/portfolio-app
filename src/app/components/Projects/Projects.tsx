@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -86,7 +88,10 @@ const Projects: React.FC = () => {
   return (
     <div className="bg-white rounded-3xl colors shadow-lg p-6 xl:pb-20">
       {/* Section Header */}
-      <h2 className="text-xl font-bold mb-4">Personal Projects</h2>
+      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+        <FontAwesomeIcon icon={faFolderOpen} className="w-4 h-4" />
+        Personal Projects
+      </h2>
       {/* Responsive grid for project cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {projects.map((project) => (
