@@ -82,19 +82,19 @@ const Research: React.FC = () => {
         <FontAwesomeIcon icon={faFileLines} className="w-4 h-4" />
         Research Projects
       </h2>
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-3">
         <AnimatePresence mode="popLayout">
           {research.map((paper) =>
-            openId !== paper.id ? (
+            openId === paper.id ? null : (
               <motion.div
                 key={paper.id}
                 layoutId={`research-card-${paper.id}`}
-                className="rounded-xl p-4 flex flex-col h-full border hover:border-gray-400/40 transition-colors"
+                className="rounded-xl px-4 py-3 flex flex-col gap-1.5 border hover:border-gray-400/40 transition-colors"
                 whileTap={{ y: -6, rotate: -1.8, scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 500, damping: 28 }}
               >
-                <h3 className="text-lg font-medium mb-2">{paper.title}</h3>
-                <p className="text-gray-400 font-medium text-sm mb-3 flex-grow">
+                <h3 className="text-lg font-medium">{paper.title}</h3>
+                <p className="text-gray-400 font-medium text-sm">
                   {paper.description}
                 </p>
                 <div className="flex flex-wrap items-center gap-1">
@@ -115,7 +115,7 @@ const Research: React.FC = () => {
                   </button>
                 </div>
               </motion.div>
-            ) : null
+            )
           )}
         </AnimatePresence>
       </div>

@@ -44,55 +44,63 @@ const InsightsModal: React.FC<InsightsModalProps> = ({
   if (!mounted) return null;
 
   return createPortal(
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-        >
-          <button
+    <>
+      {/* Backdrop exits immediately so it never blocks page clicks during panel exit */}
+      <AnimatePresence>
+        {open && (
+          <motion.button
+            key="backdrop"
             aria-label="Close"
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
           />
-          <motion.div
-            layoutId={layoutId}
-            role="dialog"
-            aria-modal="true"
-            aria-label={title}
-            className="colors relative z-10 w-full max-w-[960px] max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 shadow-2xl"
-            transition={{ type: "spring", stiffness: 340, damping: 32, mass: 0.75 }}
-          >
+        )}
+      </AnimatePresence>
+      {/* Panel wrapper is pointer-events-none so exiting panel never intercepts clicks */}
+      <AnimatePresence>
+        {open && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
             <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 4 }}
-              transition={{ delay: 0.18, duration: 0.22, ease: "easeOut" }}
+              key="panel"
+              layoutId={layoutId}
+              role="dialog"
+              aria-modal="true"
+              aria-label={title}
+              className="colors pointer-events-auto w-full max-w-[960px] max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 shadow-2xl"
+              transition={{ type: "spring", stiffness: 340, damping: 32, mass: 0.75 }}
             >
-              <div className="flex items-start justify-between mb-6 gap-4">
-                <div>
-                  <h2 className="text-2xl font-bold">{title}</h2>
-                  {subtitle && (
-                    <p className="text-sm text-gray-400 mt-1">{subtitle}</p>
-                  )}
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 4 }}
+                transition={{ delay: 0.18, duration: 0.22, ease: "easeOut" }}
+              >
+                <div className="flex items-start justify-between mb-6 gap-4">
+                  <div>
+                    <h2 className="text-2xl font-bold">{title}</h2>
+                    {subtitle && (
+                      <p className="text-sm text-gray-400 mt-1">{subtitle}</p>
+                    )}
+                  </div>
+                  <button
+                    aria-label="Close insights"
+                    onClick={onClose}
+                    className="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100/20 flex-shrink-0"
+                  >
+                    ×
+                  </button>
                 </div>
-                <button
-                  aria-label="Close insights"
-                  onClick={onClose}
-                  className="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100/20 flex-shrink-0"
-                >
-                  ×
-                </button>
-              </div>
-              {children}
+                {children}
+              </motion.div>
             </motion.div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>,
+          </div>
+        )}
+      </AnimatePresence>
+    </>,
     document.body
   );
 };
