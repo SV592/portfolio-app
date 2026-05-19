@@ -13,10 +13,14 @@ const projects: Project[] = [
     image: "/images/blog.png",
     alt: "Screenshot of Blog Website",
     description:
-      "A full-stack blog built with Next.js, featuring static and dynamic page serving. Integrates Spotify API via a custom backend and uses PostgreSQL for newsletter subscriber storage.",
+      "A full-stack blog built with Next.js featuring static and dynamic page serving, Spotify API integration, and PostgreSQL for newsletter storage.",
+    longDescription:
+      "A full-stack blog platform built with Next.js 14 App Router, combining ISR for high-traffic posts with dynamic rendering for real-time features. The backend integrates with Spotify's OAuth API to display currently playing tracks, with server-side token management to avoid exposing credentials. A PostgreSQL database stores newsletter subscriber emails with a custom API endpoint for subscriptions.",
     language: "TypeScript",
+    year: "2024",
+    status: "Live",
     features: [
-      "Spotify API with server-side token caching",
+      "Spotify API with server-side OAuth token caching",
       "PostgreSQL newsletter subscriber storage",
       "Static + dynamic ISR page serving",
     ],
@@ -37,8 +41,12 @@ const projects: Project[] = [
     image: "/images/portfolio.png",
     alt: "Screenshot of Portfolio App",
     description:
-      "This portfolio, built with Next.js App Router, integrates live data from GitHub, LeetCode, and a custom blog API via SWR. Features framer-motion shared-element animations and a fully responsive layout.",
+      "This portfolio, built with Next.js App Router, integrates live GitHub, LeetCode, and blog data via SWR with framer-motion shared-element animations.",
+    longDescription:
+      "This portfolio is built with Next.js 15 App Router and React 19, using SWR for client-side data fetching with intelligent caching. The GitHub integration uses GraphQL to pull contribution data, LeetCode data comes from a custom API proxy, and framer-motion powers shared-element card-to-modal transitions. The layout adapts from mobile to a 3-column desktop view at 1700px+ with custom DaisyUI theming.",
     language: "TypeScript",
+    year: "2025",
+    status: "Live",
     features: [
       "SWR data fetching with 2-hour API cache",
       "Framer-motion shared-element card-to-modal animations",
@@ -57,14 +65,18 @@ const projects: Project[] = [
   {
     id: "p3",
     title: "AI Pitch Deck Generator",
-    image: "",
-    alt: "",
+    image: "/images/pitch-deck.png",
+    alt: "Screenshot of AI Pitch Deck Generator",
     description:
-      "An AI-powered pitch deck generator that transforms a prompt into a structured, professional slide deck. Built with a Next.js frontend and a NestJS REST API backend.",
+      "An AI-powered pitch deck generator that transforms a prompt into a structured slide deck, built with Next.js and a NestJS REST API.",
+    longDescription:
+      "A full-stack AI tool with a Next.js frontend and a NestJS REST API backend. The backend sends structured prompts to an LLM, parses the response into a typed JSON schema, and the frontend renders it as a formatted slide deck. Users can input a product or idea description and receive a complete, structured pitch deck in seconds.",
     language: "TypeScript",
+    year: "2024",
+    status: "Archived",
     features: [
-      "LLM-powered slide structure generation",
-      "NestJS REST API + Next.js frontend",
+      "LLM-powered slide structure generation from a single prompt",
+      "NestJS REST API with typed JSON schema validation",
       "Structured JSON → rendered slide output",
     ],
     tags: [
@@ -79,15 +91,19 @@ const projects: Project[] = [
   {
     id: "p4",
     title: "IP Locator",
-    image: "",
-    alt: "",
+    image: "/images/ip-locator.png",
+    alt: "Screenshot of IP Locator App",
     description:
-      "An IP address lookup tool featuring a 3D interactive globe visualization powered by Three.js. Pinpoints the physical location of any IP address with smooth animations and a few easter eggs.",
+      "An IP address lookup tool with a 3D interactive globe visualization powered by Three.js, with smooth animations and a few easter eggs.",
+    longDescription:
+      "An IP lookup tool that renders a 3D globe in the browser using Three.js WebGL. When a user enters an IP address, the globe camera animates to the corresponding latitude/longitude returned by a geolocation API. The project also hides several interactive easter eggs triggered by specific IP inputs.",
     language: "TypeScript",
+    year: "2024",
+    status: "Live",
     features: [
       "3D globe rendered with Three.js WebGL",
-      "IP geolocation via third-party API",
-      "Smooth camera animations + hidden easter eggs",
+      "Animated camera fly-to on IP geolocation lookup",
+      "Hidden easter eggs triggered by specific inputs",
     ],
     tags: [
       { name: "Next.js", color: "bg-blue-50 text-blue-700" },
@@ -97,6 +113,7 @@ const projects: Project[] = [
       { name: "3D", color: "bg-red-50 text-red-700" },
     ],
     github: "https://github.com/SV592/ip_locator",
+    live: "https://ip-locator-omega.vercel.app",
   },
   {
     id: "p5",
@@ -104,22 +121,25 @@ const projects: Project[] = [
     image: "",
     alt: "",
     description:
-      "A cryptographic file operations tool with both a C++ CLI and an Electron desktop GUI. Supports AES-256-CBC encryption, SHA-256 hashing, and RSA digital signatures.",
+      "A C++ file encryption tool using AES-256-CBC and RSA digital signatures, with an Electron GUI and a headless CLI for secure file management.",
+    longDescription:
+      "A cross-platform secure file manager built in C++ using OpenSSL for cryptography. Files are encrypted with AES-256-CBC and signed with RSA to guarantee authenticity. SHA-256 hashes verify file integrity before decryption. The project ships with both an Electron-based GUI for everyday use and a headless CLI for scripting and automation.",
     language: "C++",
+    year: "2024",
+    status: "Archived",
     features: [
       "AES-256-CBC encryption + RSA digital signatures",
-      "SHA-256 file integrity hashing",
-      "Electron GUI + headless C++ CLI",
+      "SHA-256 file integrity hashing pre-decryption",
+      "Electron GUI + headless CLI interface",
     ],
     tags: [
       { name: "C++", color: "bg-blue-50 text-blue-700" },
-      { name: "OpenSSL", color: "bg-green-50 text-green-700" },
-      { name: "Electron", color: "bg-purple-50 text-purple-700" },
-      { name: "Cryptography", color: "bg-yellow-50 text-yellow-700" },
-      { name: "CLI", color: "bg-red-50 text-red-700" },
-      { name: "GUI", color: "bg-indigo-50 text-indigo-700" },
+      { name: "OpenSSL", color: "bg-red-50 text-red-700" },
+      { name: "Electron", color: "bg-green-50 text-green-700" },
+      { name: "Cryptography", color: "bg-purple-50 text-purple-700" },
+      { name: "CLI", color: "bg-yellow-50 text-yellow-700" },
     ],
-    github: "https://github.com/SV592/secure_file_manager",
+    github: "https://github.com/SV592/secure-file-manager",
   },
   {
     id: "p6",
@@ -127,12 +147,16 @@ const projects: Project[] = [
     image: "",
     alt: "",
     description:
-      "An ETL pipeline built with Python to collect metadata about open-source GitHub repositories via the GraphQL API, transform it, and load it into a PostgreSQL database for analysis.",
+      "A Python ETL pipeline that extracts GitHub repository metadata via GraphQL, transforms it, and loads it into a PostgreSQL database for analysis.",
+    longDescription:
+      "A Python ETL pipeline that extracts repository metadata from GitHub's GraphQL API — stars, language, topics, contributors — transforms it into a normalized schema, and loads it into a PostgreSQL database. Built to support empirical software engineering research on open-source project characteristics at scale.",
     language: "Python",
+    year: "2024",
+    status: "Archived",
     features: [
-      "GitHub GraphQL API for metadata extraction",
-      "Automated schema validation + data transformation",
-      "PostgreSQL storage with normalized schema",
+      "GitHub GraphQL API with cursor-based pagination",
+      "Automated schema validation and data normalization",
+      "PostgreSQL storage with a flexible normalized schema",
     ],
     tags: [
       { name: "Python", color: "bg-blue-50 text-blue-700" },

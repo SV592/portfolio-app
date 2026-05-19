@@ -11,14 +11,23 @@ const LANGUAGE_COLORS: Record<string, string> = {
   "C++": "#f34b7d",
 };
 
+const STATUS_STYLES: Record<string, string> = {
+  Live: "bg-green-100 text-green-700",
+  "In Development": "bg-yellow-100 text-yellow-700",
+  Archived: "bg-gray-100 text-gray-500",
+};
+
 export interface Project {
   id: string;
   title: string;
   image: string;
   alt: string;
   description: string;
+  longDescription: string;
   features: string[];
   language: string;
+  year: string;
+  status: "Live" | "In Development" | "Archived";
   tags: { name: string; color: string }[];
   github?: string;
   live?: string;
@@ -48,34 +57,39 @@ const ProjectModal: React.FC<ProjectModalProps> = ({
       <div className="flex flex-col gap-4">
         {/* Screenshot */}
         {project.image && (
-          <div className="relative w-full h-48 rounded-xl overflow-hidden">
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
             <Image
               src={project.image}
               alt={project.alt}
               fill
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "contain" }}
               sizes="(max-width: 768px) 100vw, 960px"
               priority
             />
           </div>
         )}
 
-        {/* Language + About row */}
-        <div className="flex gap-6">
-          <div className="flex flex-col gap-1.5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Language</p>
-            <div className="flex items-center gap-1.5">
-              <span
-                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                style={{ backgroundColor: LANGUAGE_COLORS[project.language] ?? "#9ca3af" }}
-              />
-              <span className="text-sm">{project.language}</span>
-            </div>
+        {/* Status + Year + Language row */}
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${STATUS_STYLES[project.status]}`}>
+            {project.status}
+          </span>
+          <span className="text-xs text-gray-400 font-medium">{project.year}</span>
+          <div className="flex items-center gap-1.5">
+            <span
+              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+              style={{ backgroundColor: LANGUAGE_COLORS[project.language] ?? "#9ca3af" }}
+            />
+            <span className="text-xs text-gray-400 font-medium">{project.language}</span>
           </div>
-          <div className="flex flex-col gap-1.5 min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">About</p>
-            <p className="text-sm leading-relaxed">{project.description}</p>
-          </div>
+        </div>
+
+        <hr className="border-gray-200/10" />
+
+        {/* About */}
+        <div className="flex flex-col gap-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">About</p>
+          <p className="text-sm leading-relaxed">{project.longDescription}</p>
         </div>
 
         <hr className="border-gray-200/10" />
