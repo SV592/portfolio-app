@@ -63,6 +63,10 @@ export default function Blog({ data, loading, error }: BlogProps) {
                 className="rounded-md"
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
+                // The blog domain rate-limits/bot-blocks server-side fetches,
+                // so Next's image optimizer can't retrieve remote blog covers.
+                // Load the image directly in the browser instead.
+                unoptimized
               />
             </Link>
           </div>
