@@ -26,18 +26,19 @@ const research: ResearchPaper[] = [
   },
   {
     id: "rp2",
-    title: "Code Review Practises On Ethereum Smart Contracts",
-    authors: "Aryan Haddady, Shaquille Pearson & Sky Qiao",
+    title: "Graph Based Augmentation for Dependency Management in NPM",
+    authors: "Shaquille Pearson",
     description:
-      "This project assesses the effectiveness of code review for Ethereum smart contracts across major projects like Uniswap and Aave.",
+      "This project explores graph-based approaches to dependency management in NPM, surfacing transitive conflicts, version duplication, and cyclic relationships across 94 real-world projects.",
     abstract:
-      "In the rapid process of developing a software project, especially when numerous teams and developers collaborate, having an effective version control system is extremely important. Blockchain technology, particularly the Ethereum platform, has gained considerable attention and adoption, allowing developers to deploy specialized programs known as Smart Contracts — which explicitly define the terms and conditions of transactions within the network.\n\nThis research investigates how pull requests are reviewed in major Ethereum smart contract projects such as Uniswap and Aave, assessing whether any new bugs or security issues were introduced by merged pull requests. We evaluate the accuracy of these reviews, examine whether new vulnerabilities were introduced through merged requests, and assess the overall importance and popularity of the projects in question. We also recommend potential strategies and best practices to enhance code review processes within the paradigm of Smart Contract development, where the consequences of undiscovered bugs are uniquely severe due to the immutable and financial nature of deployed contracts.",
-    pdfUrl: "/assets/Code Review Practises On Etherum Smart Contracts.pdf",
+      "The rapid growth of software ecosystems and the increasing reliance on third-party dependencies have underscored the need for robust dependency management practices. Effective dependency management is critical to ensuring software stability, security, and maintainability. However, managing complex dependency relationships, resolving version conflicts, and addressing transitive dependencies remain significant challenges, particularly in ecosystems like Node Package Manager (NPM). Existing tools often fail to provide adequate visibility into dependency structures or detect issues such as unused dependencies and cyclic relationships. This study explores the potential of graph-based approaches to enhance dependency management by enabling deeper insights into dependency networks and identifying limitations in existing methodologies.\n\nAcross a statistically representative dataset of 94 mature NPM projects drawn from an initial pool of 1.2 million, we model packages as nodes and their dependencies, peer dependencies, and optional dependencies as directed edges. This graph-based representation makes it possible to query and visualize intricate relationships within the ecosystem. The analysis reveals that version duplication and transitive dependencies are common, impacting roughly 30% of projects, while cyclic dependencies remain rare at under 2% occurrence. These findings highlight both the limitations of current tooling and the value of graph-based methods for improving visibility into NPM dependency networks.",
+    pdfUrl:
+      "/assets/Graph Based Augmentation for Dependency Management in NPM.pdf",
     tags: [
-      { name: "Smart Contracts", color: "bg-blue-50 text-blue-700" },
-      { name: "Blockchain", color: "bg-green-50 text-green-700" },
-      { name: "Crypto", color: "bg-purple-50 text-purple-700" },
-      { name: "Code Review", color: "bg-yellow-50 text-yellow-700" },
+      { name: "NPM", color: "bg-blue-50 text-blue-700" },
+      { name: "Graphs", color: "bg-green-50 text-green-700" },
+      { name: "Dependencies", color: "bg-purple-50 text-purple-700" },
+      { name: "Visualization", color: "bg-yellow-50 text-yellow-700" },
     ],
   },
   {
