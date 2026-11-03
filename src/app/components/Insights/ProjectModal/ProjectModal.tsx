@@ -9,6 +9,7 @@ const LANGUAGE_COLORS: Record<string, string> = {
   JavaScript: "#f1e05a",
   Python: "#3572A5",
   "C++": "#f34b7d",
+  PHP: "#4F5D95",
 };
 
 const STATUS_STYLES: Record<string, string> = {
