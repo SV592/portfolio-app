@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 import ProjectModal, { Project } from "../Insights/ProjectModal/ProjectModal";
+import ProjectTile from "./ProjectTile";
 
-const projects: Project[] = [
+
+const personalProjects: Project[] = [
   {
     id: "p1",
     title: "Blog App",
@@ -169,11 +171,14 @@ const projects: Project[] = [
   },
 ];
 
+/** Client work (Go2Fete, CruizeGND) lives in its own section: see components/ClientWork. */
+const projects: Project[] = personalProjects;
+
 const Projects: React.FC<{ className?: string }> = ({ className }) => {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <div className={`bg-white rounded-3xl colors shadow-lg p-6${className ? ` ${className}` : ""}`}>
+    <div id="projects" className={`bg-white rounded-3xl colors shadow-lg p-6${className ? ` ${className}` : ""}`}>
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
         <FontAwesomeIcon icon={faFolderOpen} className="w-4 h-4" />
         Personal Projects
@@ -182,38 +187,7 @@ const Projects: React.FC<{ className?: string }> = ({ className }) => {
         <AnimatePresence mode="popLayout">
           {projects.map((project) =>
             openId === project.id ? null : (
-              <motion.div
-                key={project.id}
-                layoutId={`project-card-${project.id}`}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 16 }}
-                className="rounded-xl border p-4 flex flex-col h-full hover:border-gray-400/40 transition-colors"
-                whileTap={{ y: -6, rotate: -1.8, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 500, damping: 28 }}
-              >
-                <h3 className="text-lg font-medium mb-2">{project.title}</h3>
-                <p className="text-gray-400 font-medium text-sm mb-3 flex-1">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-1 mb-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag.name}
-                      className={`${tag.color} text-xs font-medium px-2 py-0.5 rounded-full`}
-                    >
-                      {tag.name}
-                    </span>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setOpenId(project.id)}
-                  className="cursor-pointer hover:underline font-medium text-[11px] text-gray-400 text-left"
-                >
-                  View project →
-                </button>
-              </motion.div>
+              <ProjectTile key={project.id} project={project} onOpen={() => setOpenId(project.id)} />
             )
           )}
         </AnimatePresence>
