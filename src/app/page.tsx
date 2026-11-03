@@ -19,6 +19,10 @@ import { useLeetCodeData } from "./Hooks/useLeetcodeData";
 import { useGithubContributions } from "./Hooks/useGithubContributions";
 import { useLatestBlogPost } from "./Hooks/useLatestBlogPost";
 
+// Forces Motion's JS animation path for these fades. Its browser-animation path blinks the
+// element to opacity 0 for one frame when a fade-in finishes (see JS_ANIM in app/card/CardExperience.tsx).
+const noop = () => {};
+
 export default function Home() {
   // State to control the visibility/animation of skills
   const [, setSkillsVisible] = useState(false);
@@ -64,6 +68,7 @@ export default function Home() {
   return (
     <div className="flex flex-col justify-center items-center p-4 sm:p-6 overflow-hidden m-auto max-w-[1850px]">
       <motion.div
+        onUpdate={noop}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ ...springTransition, delay: 0.05 } as const}
@@ -77,6 +82,7 @@ export default function Home() {
         <div className="flex flex-col gap-2 2xl:col-span-3">
           <motion.div
             layout={true}
+            onUpdate={noop}
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...springTransition, delay: 0.1 } as const}
@@ -86,6 +92,7 @@ export default function Home() {
           </motion.div>
           <motion.div
             layout={true}
+            onUpdate={noop}
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...springTransition, delay: 0.2 } as const}
@@ -95,6 +102,7 @@ export default function Home() {
           </motion.div>
           <motion.div
             layout={true}
+            onUpdate={noop}
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...springTransition, delay: 0.3 } as const}
@@ -110,6 +118,7 @@ export default function Home() {
           <div className="flex flex-col gap-2 lg:col-span-2">
             <motion.div
               layout={true}
+              onUpdate={noop}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ ...springTransition, delay: 0.1 } as const}
@@ -119,6 +128,7 @@ export default function Home() {
             </motion.div>
             <motion.div
               layout={true}
+              onUpdate={noop}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ ...springTransition, delay: 0.2 } as const}
@@ -129,6 +139,7 @@ export default function Home() {
 
             <motion.div
               layout={true}
+              onUpdate={noop}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ ...springTransition, delay: 0.3 } as const}
@@ -142,6 +153,7 @@ export default function Home() {
           <div className="flex flex-col gap-2 lg:col-span-2">
             <motion.div
               layout={true}
+              onUpdate={noop}
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...springTransition, delay: 0.1 } as const}
@@ -155,6 +167,7 @@ export default function Home() {
             </motion.div>
             <motion.div
               layout={true}
+              onUpdate={noop}
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...springTransition, delay: 0.2 } as const}
@@ -168,6 +181,7 @@ export default function Home() {
             </motion.div>
             <motion.div
               layout={true}
+              onUpdate={noop}
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...springTransition, delay: 0.3 } as const}
@@ -181,6 +195,7 @@ export default function Home() {
             </motion.div>
             <motion.div
               layout={true}
+              onUpdate={noop}
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ ...springTransition, delay: 0.4 } as const}

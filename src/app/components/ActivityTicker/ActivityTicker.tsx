@@ -5,6 +5,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useActivity } from "@/app/Hooks/useActivity";
 import type { ActivityItem, ActivityType } from "@/app/types/activity";
 
+// Forces Motion's JS animation path. Its browser-animation path blinks the element to
+// opacity 0 for one frame when a fade-in finishes (see JS_ANIM in app/card/CardExperience.tsx).
+const noop = () => {};
+
 const CYCLE_MS = 5000;
 
 const ICONS: Record<ActivityType, React.ReactNode> = {
@@ -189,6 +193,7 @@ const ActivityTicker: React.FC = () => {
             {current ? (
               <motion.div
                 key={current.id}
+                onUpdate={noop}
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
@@ -200,6 +205,7 @@ const ActivityTicker: React.FC = () => {
             ) : loading ? (
               <motion.div
                 key="loading"
+                onUpdate={noop}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
