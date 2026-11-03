@@ -107,7 +107,7 @@ export const Terminal: React.FC<{ script: ScriptLine[]; step: number; animate: b
       return <CmdLine key={i} text={line.cmd} cursor={i === typed.length - 1 ? <Cursor animate={animate} /> : null} />;
     }
     return (
-      <div key={i} style={{ whiteSpace: "nowrap", minHeight: "1.6em" }}>
+      <div key={i} style={{ whiteSpace: "nowrap", height: "1.6em", display: "flex", alignItems: "center" }}>
         {"out" in line ? (
           <span style={{ color: "#FEFBC7" }}>{line.out}</span>
         ) : (
@@ -121,6 +121,15 @@ export const Terminal: React.FC<{ script: ScriptLine[]; step: number; animate: b
       </div>
     );
   });
+
+  // Reserve every line from the first frame: invisible rows stand in for lines not typed yet, so the
+  // window is its final height immediately. Otherwise it grows as lines appear, and because it's
+  // vertically centred, each new line nudges the whole box up — the choppy movement.
+  const placeholders = Array.from({ length: Math.max(0, script.length - typed.length) }, (_, i) => (
+    <div key={`pending-${i}`} aria-hidden="true" style={{ height: "1.6em" }}>
+      &nbsp;
+    </div>
+  ));
 
   return (
     <div
@@ -139,15 +148,16 @@ export const Terminal: React.FC<{ script: ScriptLine[]; step: number; animate: b
           <Monogram width="4.2cqw" />~/card — zsh
         </span>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", padding: "3.4cqw 4.4cqw 4cqw", fontSize: "3.5cqw", lineHeight: 1.6, minHeight: "44cqw" }}>
+      <div style={{ display: "flex", flexDirection: "column", padding: "3.4cqw 4.4cqw 4cqw", fontSize: "3.5cqw", lineHeight: 1.6 }}>
         {lines}
+        {placeholders}
       </div>
     </div>
   );
 };
 
 const CmdLine: React.FC<{ text: string; cursor?: React.ReactNode }> = ({ text, cursor }) => (
-  <div style={{ whiteSpace: "nowrap", minHeight: "1.6em", overflow: "hidden" }}>
+  <div style={{ whiteSpace: "nowrap", height: "1.6em", overflow: "hidden" }}>
     <span style={{ color: "#8EC5FC" }}>$ </span>
     <span style={{ color: "#FFFFFF", whiteSpace: "pre" }}>{text}</span>
     {cursor}
