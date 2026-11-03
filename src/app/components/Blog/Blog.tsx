@@ -4,6 +4,7 @@ import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { LatestBlogPostData } from "../../types/blog";
+import { safeHttpUrl } from "../../lib/safeUrl";
 
 // Define the props expected by the Blog component
 interface BlogProps {
@@ -38,6 +39,14 @@ export default function Blog({ data, loading, error }: BlogProps) {
     return null;
   }
 
+  // Only use http(s) links/images from the blog API; without a safe link, render nothing.
+  const postUrl = safeHttpUrl(data.url);
+  const imageUrl = safeHttpUrl(data.imageUrl);
+  if (!postUrl) {
+    console.error("Could not display latest blog post: post URL is not http(s).");
+    return null;
+  }
+
   // Render the latest blog post
   return (
     <div className="bg-white rounded-3xl min-h-[350px] colors p-6">
@@ -47,16 +56,16 @@ export default function Blog({ data, loading, error }: BlogProps) {
       </h2>
       <div className="items-center">
         {/* Display blog post image if available */}
-        {data.imageUrl && (
+        {imageUrl && (
           <div className="relative w-full h-40 mb-4 rounded-lg overflow-hidden">
             <Link
-              href={data.url}
+              href={postUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="relative block w-full h-full"
             >
               <Image
-                src={data.imageUrl}
+                src={imageUrl}
                 alt={data.title}
                 fill
                 style={{ objectFit: "cover" }}
@@ -74,7 +83,7 @@ export default function Blog({ data, loading, error }: BlogProps) {
         <div className="flex flex-col gap-2">
           {/* Blog post title and date */}
           <Link
-            href={data.url}
+            href={postUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 font-medium"
