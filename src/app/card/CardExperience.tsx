@@ -110,6 +110,23 @@ export default function CardExperience({ qr, to, from, present }: Props) {
   const [reveal, setReveal] = useState(present);
   const [toast, setToast] = useState<string | null>(null);
 
+  // Which face is actually facing the viewer right now. Driven by the card's live rotation in
+  // onCardUpdate (not by the flip target), so the turned-away face can be hidden with
+  // `visibility: hidden` the instant the card passes 90°. backface-visibility alone isn't enough:
+  // iOS Safari lets animated descendants bleed through the hidden face during the flip.
+  const [shownFace, setShownFace] = useState<"front" | "back">(present ? "back" : "front");
+  const shownFaceRef = useRef(shownFace);
+  const onCardUpdate = (latest: Record<string, string | number>) => {
+    if (reduced) return;
+    const deg = parseFloat(String(latest.rotateY ?? 0)) || 0;
+    const n = ((deg % 360) + 360) % 360;
+    const face = n > 90 && n < 270 ? "back" : "front";
+    if (face !== shownFaceRef.current) {
+      shownFaceRef.current = face;
+      setShownFace(face);
+    }
+  };
+
   const stageRef = useRef(stage);
   stageRef.current = stage;
   const introTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -245,7 +262,7 @@ export default function CardExperience({ qr, to, from, present }: Props) {
 
   const backStyle: React.CSSProperties = reduced
     ? { opacity: flipped ? 1 : 0, transition: "opacity 150ms" }
-    : { transform: "rotateY(180deg)" };
+    : { transform: "rotateY(180deg)", visibility: shownFace === "back" ? "visible" : "hidden" };
 
   const cardTransition: Transition = reduced
     ? { duration: 0 }
@@ -282,7 +299,7 @@ export default function CardExperience({ qr, to, from, present }: Props) {
           <div className="relative aspect-[3.5/2] w-full" style={{ perspective: 1400, containerType: "inline-size" }}>
             {/* The card is mounted from the start (hidden) so landing is an animation, not a heavy React commit. */}
             <motion.button
-              {...JS_ANIM}
+              onUpdate={onCardUpdate}
               type="button"
               onClick={flip}
               aria-pressed={flipped}
@@ -306,7 +323,11 @@ export default function CardExperience({ qr, to, from, present }: Props) {
               <CardFront
                 animate={!reduced}
                 hiddenFace={flipped}
-                style={reduced ? { opacity: flipped ? 0 : 1, transition: "opacity 150ms" } : undefined}
+                style={
+                  reduced
+                    ? { opacity: flipped ? 0 : 1, transition: "opacity 150ms" }
+                    : { visibility: shownFace === "front" ? "visible" : "hidden" }
+                }
               />
               {present ? (
                 <CardBackQr qr={qr} hiddenFace={!flipped} style={backStyle} />
