@@ -8,9 +8,11 @@ import { useTheme } from "next-themes";
 import { Unbounded, JetBrains_Mono } from "next/font/google";
 import Tetris from "./components/Tetris/Tetris";
 
+// Loaded as the variable font (weights 200–900, so 800/900 still work). Asking for specific
+// weights makes Google serve `l/font?kit=…&skey=…` URLs, which Turbopack's font loader rejects
+// ("next/font/google queries have exactly one entry"), taking every route down in dev.
 const display = Unbounded({
   subsets: ["latin"],
-  weight: ["800", "900"],
   display: "swap",
 });
 
