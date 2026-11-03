@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { LEETCODE_USERNAME, isUsername } from "../../../lib/owner";
 
 interface RouteParams {
   username: string;
@@ -37,6 +38,11 @@ export async function GET(
 ) {
   // Await the params to extract the username from the URL
   const { username } = await context.params;
+
+  // Only serve this site's own account; anything else would make this route an open proxy.
+  if (!isUsername(username, LEETCODE_USERNAME)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 
   // Validate that a username was provided
   if (!username) {

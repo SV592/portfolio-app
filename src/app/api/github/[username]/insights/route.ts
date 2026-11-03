@@ -3,6 +3,7 @@ import {
   GithubInsightsPayload,
   LanguageBreakdown,
 } from "@/app/types/insights";
+import { GITHUB_USERNAME, isUsername } from "@/app/lib/owner";
 
 interface RouteParams {
   username: string;
@@ -178,6 +179,11 @@ const runGraphQL = async <T>(
 
 export async function GET(_request: NextRequest, context: RouteContext) {
   const { username } = await context.params;
+
+  // Only serve this site's own account; anything else would make this route an open proxy.
+  if (!isUsername(username, GITHUB_USERNAME)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
   if (!username) {
     return NextResponse.json(
       { error: "GitHub username is required" },

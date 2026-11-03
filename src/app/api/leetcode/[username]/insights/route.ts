@@ -4,6 +4,7 @@ import {
   LeetcodeInsightsPayload,
   TagBreakdown,
 } from "@/app/types/insights";
+import { LEETCODE_USERNAME, isUsername } from "@/app/lib/owner";
 
 interface RouteParams {
   username: string;
@@ -95,6 +96,11 @@ const mergeTags = (tagBuckets: {
 
 export async function GET(_request: NextRequest, context: RouteContext) {
   const { username } = await context.params;
+
+  // Only serve this site's own account; anything else would make this route an open proxy.
+  if (!isUsername(username, LEETCODE_USERNAME)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
   if (!username) {
     return NextResponse.json(
       { error: "LeetCode username is required" },
