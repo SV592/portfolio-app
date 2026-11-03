@@ -66,6 +66,63 @@ body {
   background-attachment: fixed; /* Ensures gradient covers full scrollable area */
 }
 
+/* ---------- /card digital business card ---------- */
+.card-page {
+  --panel: #FFFFFF;
+  --text: #2E2B2C;
+  --muted: #6A7282;
+  --eyebrow: #2E2B2C;
+  --accent: #183B4E;
+  --accent-ink: #FFFFFF;
+  --soft: #F3F4F6;
+  --inv: #2E2B2C;
+  --inv-ink: #FFFFFF;
+  --toast-bg: #2E2B2C;
+  --toast-ink: #FFFFFF;
+  --shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  min-height: 100dvh;
+  background: linear-gradient(to bottom right, #FEFBC7, #8EC5FC, #183B4E) fixed;
+  color: var(--text);
+  font-family: var(--font-funnel-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html[data-theme="myDarkTheme"] .card-page {
+  --panel: #1B1E23;
+  --text: #FFFFFF;
+  --muted: #9AA3AE;
+  --eyebrow: #C9D1DA;
+  --accent: #8EC5FC;
+  --accent-ink: #183B4E;
+  --soft: rgba(255,255,255,0.06);
+  --inv: #FFFFFF;
+  --inv-ink: #2E2B2C;
+  --toast-bg: #FFFFFF;
+  --toast-ink: #2E2B2C;
+  --shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
+  background: linear-gradient(to bottom right, #16191E, #0E1013 55%, #08090B) fixed;
+}
+
+.card-page .font-display { font-family: var(--font-funnel-display), sans-serif; }
+.card-page .font-term { font-family: var(--font-jetbrains-mono), ui-monospace, monospace; }
+.card-page :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@keyframes card-ping { 75%, 100% { transform: scale(2.2); opacity: 0; } }
+@keyframes card-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes card-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+@keyframes card-wave {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  10%, 30% { transform: rotate(14deg); }
+  20%, 40% { transform: rotate(-8deg); }
+  50% { transform: rotate(10deg); }
+}
+.card-page .card-wave { transform-origin: 70% 80%; animation: card-wave 2.2s ease-in-out 0.6s 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card-page .card-anim, .card-page .card-wave { animation: none !important; }
+}
+html[data-theme="myDarkTheme"] .card-page .card-tag { background: rgba(255,255,255,0.08); color: #D4DAE1; }
+
 /* Reserve the vertical scrollbar's space so centred content never shifts sideways when async
    content (blog post, GitHub graph…) makes the page tall enough to scroll. */
 html {
