@@ -65,3 +65,10 @@ body {
   background: linear-gradient(to bottom right, var(--theme-gradient-from), var(--theme-gradient-via), var(--theme-gradient-to));
   background-attachment: fixed; /* Ensures gradient covers full scrollable area */
 }
+
+/* Reserve the vertical scrollbar's space so centred content never shifts sideways when async
+   content (blog post, GitHub graph…) makes the page tall enough to scroll. */
+html {
+  scrollbar-gutter: stable;
+}
+

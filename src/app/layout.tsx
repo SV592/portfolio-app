@@ -3,7 +3,14 @@ import { ThemeProvider } from "next-themes";
 import { Funnel_Sans, Funnel_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeToggle } from "./components/ThemeToggle/ThemeToggle";
+import { config as fontAwesomeConfig } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import "./globals.css";
+
+// Ship FontAwesome's CSS with the server-rendered page instead of letting react-fontawesome inject
+// it at runtime. Without this, icons render unstyled (300×150 px) until hydration, which makes
+// sections jump in height and shifts the layout on load.
+fontAwesomeConfig.autoAddCss = false;
 
 const geistSans = Funnel_Sans({
   variable: "--font-funnel-sans",
