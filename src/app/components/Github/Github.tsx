@@ -4,6 +4,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { motion } from "framer-motion";
 import { ProcessedGitHubContributionsData } from "../../types/github";
 import GithubInsightsModal from "../Insights/GithubInsightsModal/GithubInsightsModal";
+import { GITHUB_USERNAME } from "../../lib/owner";
 
 const GITHUB_CARD_LAYOUT_ID = "insights-card-github";
 
@@ -23,7 +24,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   data,
   loading,
   error,
-  username = "SV592",
+  username = GITHUB_USERNAME,
 }) => {
   // State to track the current screen width for responsive rendering
   const [screenWidth, setScreenWidth] = useState(0);
@@ -60,7 +61,7 @@ const GithubContributions: React.FC<GithubContributionsProps> = ({
   if (error || !data) {
     return (
       <div className="bg-white rounded-3xl p-6 min-h-[250px] flex items-center justify-center text-gray-400">
-        {error || `No GitHub contributions found for "${"SV592"}".`}
+        {error || `No GitHub contributions found for "${username}".`}
       </div>
     );
   }

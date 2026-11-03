@@ -44,13 +44,6 @@ export async function GET(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  // Validate that a username was provided
-  if (!username) {
-    return NextResponse.json(
-      { error: "LeetCode username is required" },
-      { status: 400 }
-    );
-  }
 
   try {
     // Make a POST request to the LeetCode GraphQL API

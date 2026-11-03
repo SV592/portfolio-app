@@ -6,6 +6,8 @@
 export const GITHUB_USERNAME = "SV592";
 export const LEETCODE_USERNAME = "SV592";
 
-/** Case-insensitive match (GitHub and LeetCode usernames aren't case-sensitive). */
-export const isUsername = (requested: string | undefined, allowed: string): boolean =>
-  !!requested && requested.toLowerCase() === allowed.toLowerCase();
+/**
+ * Exact match only. GitHub/LeetCode would accept other casings, but each casing is a separate cache
+ * entry and upstream call, so only the canonical spelling (what the site itself requests) is served.
+ */
+export const isUsername = (requested: string | undefined, allowed: string): boolean => requested === allowed;

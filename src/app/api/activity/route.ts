@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import type { ActivityItem, ActivityPayload } from "@/app/types/activity";
 
-const GITHUB_USERNAME = "SV592";
-const LEETCODE_USERNAME = "SV592";
+import { GITHUB_USERNAME, LEETCODE_USERNAME } from "@/app/lib/owner";
 const REVALIDATE_SECONDS = 600;
 const MAX_ITEMS = 25;
 

@@ -9,7 +9,7 @@ import Skills from "./components/Skills/Skills";
 import Projects from "./components/Projects/Projects";
 import ClientWork from "./components/ClientWork/ClientWork";
 import { VIA_CARD_KEY } from "./lib/projects/featured";
-import { GITHUB_USERNAME } from "./lib/owner";
+import { GITHUB_USERNAME, LEETCODE_USERNAME } from "./lib/owner";
 import Copyright from "./components/Copyright/Copyright";
 import Tetris from "./components/Tetris/Tetris";
 import Research from "./components/Research/Research";
@@ -56,7 +56,7 @@ export default function Home() {
     data: leetCodeProfile,
     loading: leetCodeLoading,
     error: leetCodeError,
-  } = useLeetCodeData(userName);
+  } = useLeetCodeData(LEETCODE_USERNAME);
 
   //Data fetched from blog
   const {

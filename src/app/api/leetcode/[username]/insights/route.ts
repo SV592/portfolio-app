@@ -101,12 +101,6 @@ export async function GET(_request: NextRequest, context: RouteContext) {
   if (!isUsername(username, LEETCODE_USERNAME)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  if (!username) {
-    return NextResponse.json(
-      { error: "LeetCode username is required" },
-      { status: 400 }
-    );
-  }
 
   try {
     const response = await fetch(LEETCODE_API_URL, {

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { LeetCodeProfileDisplayProps } from "@/app/types/leetcode";
 import DifficultyDonut from "./DifficultyDonut";
 import LeetcodeInsightsModal from "../Insights/LeetcodeInsightsModal/LeetcodeInsightsModal";
+import { LEETCODE_USERNAME } from "@/app/lib/owner";
 
 const LEETCODE_CARD_LAYOUT_ID = "insights-card-leetcode";
 
@@ -21,7 +22,7 @@ const LeetCodeProfileDisplay: React.FC<ExtendedProps> = ({
   profile,
   loading,
   error,
-  username = "SV592",
+  username = LEETCODE_USERNAME,
 }) => {
   const [insightsOpen, setInsightsOpen] = useState(false);
   // Show loading skeleton while fetching data
@@ -65,7 +66,7 @@ const LeetCodeProfileDisplay: React.FC<ExtendedProps> = ({
   if (!profile) {
     return (
       <div className="bg-white rounded-xl min-h-52 p-6 h-48 flex items-center w-full justify-center">
-        No LeetCode profile found for &quot;{"SV592"}&quot;.
+        No LeetCode profile found for &quot;{username}&quot;.
       </div>
     );
   }

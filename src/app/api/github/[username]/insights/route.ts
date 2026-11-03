@@ -184,12 +184,6 @@ export async function GET(_request: NextRequest, context: RouteContext) {
   if (!isUsername(username, GITHUB_USERNAME)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  if (!username) {
-    return NextResponse.json(
-      { error: "GitHub username is required" },
-      { status: 400 }
-    );
-  }
 
   const token = process.env.GITHUB_TOKEN;
   if (!token) {
