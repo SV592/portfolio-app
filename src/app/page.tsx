@@ -7,6 +7,8 @@ import Education from "./components/Education/Education";
 import Experience from "./components/Experience/Experience";
 import Skills from "./components/Skills/Skills";
 import Projects from "./components/Projects/Projects";
+import ClientWork from "./components/ClientWork/ClientWork";
+import { VIA_CARD_KEY } from "./lib/projects/featured";
 import Copyright from "./components/Copyright/Copyright";
 import Tetris from "./components/Tetris/Tetris";
 import Research from "./components/Research/Research";
@@ -26,6 +28,17 @@ const noop = () => {};
 export default function Home() {
   // State to control the visibility/animation of skills
   const [, setSkillsVisible] = useState(false);
+
+  // Client Work only shows in a session that arrived through the digital card (/card).
+  // Read after mount: sessionStorage doesn't exist on the server.
+  const [showClientWork, setShowClientWork] = useState(false);
+  useEffect(() => {
+    try {
+      setShowClientWork(sessionStorage.getItem(VIA_CARD_KEY) === "1");
+    } catch {
+      setShowClientWork(false);
+    }
+  }, []);
 
   // Username input
   const userName = "SV592";
@@ -206,6 +219,21 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Client Work: full-width row under the grid, so it lines up with both columns above.
+          Only rendered for visitors who came through the digital card. */}
+      {showClientWork && (
+        <motion.div
+          layout={true}
+          onUpdate={noop}
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...springTransition, delay: 0.4 } as const}
+          className="w-full mt-2 overflow-hidden will-change-transform"
+        >
+          <ClientWork />
+        </motion.div>
+      )}
       <Copyright />
     </div>
   );
