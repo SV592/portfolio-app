@@ -53,7 +53,7 @@ const buildQr = (url: string): { size: number; path: string } => {
 /**
  * /card — the shareable digital business card. Fully static: built once and served from the CDN, so
  * heavy traffic (including bots, since /card bypasses the firewall for link previews) never reaches a
- * server function. ?to= / ?from= / ?qr are read in the browser by CardExperience.
+ * server function. The only link option, ?qr (open on the QR side), is read in the browser by CardExperience.
  */
 export default function CardPage() {
   return (

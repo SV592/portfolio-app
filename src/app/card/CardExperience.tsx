@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion, type Transition } from "framer-motion";
@@ -50,6 +50,7 @@ const TYPE_ENTER = 110; // pause after a command
 const TYPE_OUTPUT = 210; // hold after each output line
 
 const panel: React.CSSProperties = { background: "var(--panel)", boxShadow: "var(--shadow)" };
+const SCRIPT = buildScript();
 
 /**
  * Motion hands opacity animations to the browser's Web Animations API and, when one finishes,
@@ -102,7 +103,6 @@ export default function CardExperience({ qr }: Props) {
   const [present, setPresent] = useState(false);
   const [paramsReady, setParamsReady] = useState(false);
   const ready = fontsReady && paramsReady;
-  const script = useMemo(() => buildScript(), []);
 
   const [stage, setStage] = useState<"terminal" | "card">("terminal");
   const [landed, setLanded] = useState(false);
@@ -200,7 +200,7 @@ export default function CardExperience({ qr }: Props) {
 
   // Any key press, wheel or touch scroll during the intro jumps straight to the card.
   useEffect(() => {
-    if (stage !== "terminal") return;
+    if (stage !== "terminal" || !ready) return;
     const skip = () => land();
     window.addEventListener("keydown", skip);
     window.addEventListener("wheel", skip, { passive: true });
@@ -210,7 +210,7 @@ export default function CardExperience({ qr }: Props) {
       window.removeEventListener("wheel", skip);
       window.removeEventListener("touchmove", skip);
     };
-  }, [stage, land]);
+  }, [stage, ready, land]);
 
   useEffect(() => () => {
     if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -319,6 +319,9 @@ export default function CardExperience({ qr }: Props) {
               }
               className={`absolute inset-0 m-0 cursor-pointer rounded-[4.6cqw] border-0 bg-transparent p-0 ${landed ? "" : "pointer-events-none"}`}
               style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+              // ?qr is read after mount, so remount the card once it's known: `initial` is only used
+              // on mount, and with initial={false} it appears already showing the QR, with no spin-in.
+              key={present ? "present" : "intro"}
               initial={reduced || present ? false : HIDDEN_CARD}
               animate={landed ? { rotateY: reduced ? 0 : flipped ? 180 : 0, rotateX: 0, y: 0, scale: 1, opacity: 1 } : HIDDEN_CARD}
               transition={cardTransition}
@@ -340,22 +343,24 @@ export default function CardExperience({ qr }: Props) {
               )}
             </motion.button>
 
-            {stage === "terminal" && ready && <TerminalIntro script={script} animate={!reduced} onDone={land} />}
+            {stage === "terminal" && ready && <TerminalIntro script={SCRIPT} animate={!reduced} onDone={land} />}
           </div>
 
           <div className="flex min-h-11 items-center justify-center">
             {stage === "terminal" ? (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  land();
-                }}
-                className="h-11 cursor-pointer rounded-full border-0 px-5 text-sm font-bold"
-                style={{ ...panel, color: "var(--text)" }}
-              >
-                Skip <FontAwesomeIcon icon={faChevronRight} aria-hidden="true" className="ml-1 text-[11px]" />
-              </button>
+              ready && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    land();
+                  }}
+                  className="h-11 cursor-pointer rounded-full border-0 px-5 text-sm font-bold"
+                  style={{ ...panel, color: "var(--text)" }}
+                >
+                  Skip <FontAwesomeIcon icon={faChevronRight} aria-hidden="true" className="ml-1 text-[11px]" />
+                </button>
+              )
             ) : (
               <button
                 type="button"
