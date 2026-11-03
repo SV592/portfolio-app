@@ -40,6 +40,11 @@ export const LivePiece: React.FC<{ unit: string; color?: string; animate: boolea
           borderRadius: "18%",
           background: color,
           animation: animate ? `card-pulse 1.6s ease-in-out ${i * 120}ms infinite` : "none",
+          // iOS Safari gives animated elements their own render layer, which ignores the card
+          // face's backface-visibility. Without this the front's cells show through the back,
+          // mirrored, as a flashing block beside the monogram during the flip.
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
         }}
       />
     ))}
