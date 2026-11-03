@@ -1,6 +1,9 @@
 import { contact } from "../../lib/card/contact";
 import { VCARD_PHOTO_JPEG_BASE64 } from "./photo";
 
+// The vCard depends on nothing in the request, so build it once and serve it from the CDN.
+export const dynamic = "force-static";
+
 /**
  * Folds a vCard content line to 75 octets per RFC 2426 (continuation lines start with a space).
  */

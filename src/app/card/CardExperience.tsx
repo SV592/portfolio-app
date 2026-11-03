@@ -25,13 +25,7 @@ import { useLatestBlogPost } from "../Hooks/useLatestBlogPost";
 import { safeHttpUrl } from "../lib/safeUrl";
 
 type Qr = { size: number; path: string };
-type Props = {
-  qr: Qr;
-  to: string | null;
-  from: string | null;
-  /** Present mode (/card?qr): you're holding up your screen, so skip the intro and open on the QR. */
-  present: boolean;
-};
+type Props = { qr: Qr };
 
 /** Optional usage stats per featured project. The line is omitted when a project has none. */
 const PROJECT_STATS: Record<string, { value: string; label: string } | undefined> = {
@@ -85,7 +79,7 @@ const useFontsReady = (capMs = 700) => {
   return ready;
 };
 
-export default function CardExperience({ qr, to, from, present }: Props) {
+export default function CardExperience({ qr }: Props) {
   // Read the motion preference only after mount so the server and first client render match.
   const prefersReduced = useReducedMotion();
   const [mounted, setMounted] = useState(false);
@@ -101,20 +95,27 @@ export default function CardExperience({ qr, to, from, present }: Props) {
   }, []);
   const reduced = mounted && !!prefersReduced;
   const fontsReady = useFontsReady();
-  const script = useMemo(() => buildScript(to), [to]);
 
-  const [stage, setStage] = useState<"terminal" | "card">(present ? "card" : "terminal");
-  const [landed, setLanded] = useState(present);
-  const [flipped, setFlipped] = useState(present);
-  const [flipKind, setFlipKind] = useState<keyof typeof CARD_SPRINGS>(present ? "tap" : "spin");
-  const [reveal, setReveal] = useState(present);
+  // ?qr = present mode (you're holding up your screen): skip the intro and open on the QR. Read in
+  // the browser so the page itself stays static and is served from the CDN. The terminal waits for
+  // `ready`, so a ?qr visit never starts typing first.
+  const [present, setPresent] = useState(false);
+  const [paramsReady, setParamsReady] = useState(false);
+  const ready = fontsReady && paramsReady;
+  const script = useMemo(() => buildScript(), []);
+
+  const [stage, setStage] = useState<"terminal" | "card">("terminal");
+  const [landed, setLanded] = useState(false);
+  const [flipped, setFlipped] = useState(false);
+  const [flipKind, setFlipKind] = useState<keyof typeof CARD_SPRINGS>("spin");
+  const [reveal, setReveal] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
   // Which face is actually facing the viewer right now. Driven by the card's live rotation in
   // onCardUpdate (not by the flip target), so the turned-away face can be hidden with
   // `visibility: hidden` the instant the card passes 90°. backface-visibility alone isn't enough:
   // iOS Safari lets animated descendants bleed through the hidden face during the flip.
-  const [shownFace, setShownFace] = useState<"front" | "back">(present ? "back" : "front");
+  const [shownFace, setShownFace] = useState<"front" | "back">("front");
   const shownFaceRef = useRef(shownFace);
   const onCardUpdate = (latest: Record<string, string | number>) => {
     if (reduced) return;
@@ -129,6 +130,23 @@ export default function CardExperience({ qr, to, from, present }: Props) {
 
   const stageRef = useRef(stage);
   stageRef.current = stage;
+
+  // Read the link's personalisation once on mount (see `ready` above).
+  useEffect(() => {
+    const isPresent = new URLSearchParams(window.location.search).has("qr");
+    setPresent(isPresent);
+    if (isPresent) {
+      stageRef.current = "card";
+      setStage("card");
+      setFlipKind("tap");
+      setLanded(true);
+      setFlipped(true);
+      setReveal(true);
+      shownFaceRef.current = "back";
+      setShownFace("back");
+    }
+    setParamsReady(true);
+  }, []);
   const introTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const flipTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -234,18 +252,6 @@ export default function CardExperience({ qr, to, from, present }: Props) {
     }
   };
 
-  // ---------- Greeting ----------
-  let greeting = "Hey, I'm Shaquille";
-  let wave = true;
-  if (to && from) {
-    greeting = `Hey ${to}, great meeting you at ${from}`;
-    wave = false;
-  } else if (to) greeting = `Hey ${to}`;
-  else if (from) {
-    greeting = `Great meeting you at ${from}`;
-    wave = false;
-  }
-  const greetingSub = to || from ? `I'm Shaquille. ${contact.tagline}` : contact.tagline;
 
   // ---------- Section reveal ----------
   const revealProps = (i: number) => ({
@@ -277,23 +283,21 @@ export default function CardExperience({ qr, to, from, present }: Props) {
             {...JS_ANIM}
             className="flex flex-col gap-2"
             initial={{ opacity: 0, y: reduced ? 0 : -20 }}
-            animate={fontsReady ? { opacity: 1, y: 0 } : undefined}
+            animate={ready ? { opacity: 1, y: 0 } : undefined}
             transition={{
               y: { type: "spring", stiffness: 100, damping: 14, delay: 0.05 },
               opacity: { duration: 0.4, ease: "easeOut", delay: 0.05 },
             }}
           >
             <h1 className="font-display text-[28px] font-bold leading-[1.1] tracking-[-0.01em] text-balance lg:text-[40px]">
-              {greeting}
-              {wave && (
-                <FontAwesomeIcon
-                  icon={faHand}
-                  aria-hidden="true"
-                  className="card-wave ml-[0.3em] inline-block text-[0.85em] text-[#F2B33D]"
-                />
-              )}
+              Hey, I&apos;m Shaquille
+              <FontAwesomeIcon
+                icon={faHand}
+                aria-hidden="true"
+                className="card-wave ml-[0.3em] inline-block text-[0.85em] text-[#F2B33D]"
+              />
             </h1>
-            <p className="text-[15px] font-medium leading-normal text-pretty lg:text-[17px]">{greetingSub}</p>
+            <p className="text-[15px] font-medium leading-normal text-pretty lg:text-[17px]">{contact.tagline}</p>
           </motion.header>
 
           <div className="relative aspect-[3.5/2] w-full" style={{ perspective: 1400, containerType: "inline-size" }}>
@@ -336,7 +340,7 @@ export default function CardExperience({ qr, to, from, present }: Props) {
               )}
             </motion.button>
 
-            {stage === "terminal" && fontsReady && <TerminalIntro script={script} animate={!reduced} onDone={land} />}
+            {stage === "terminal" && ready && <TerminalIntro script={script} animate={!reduced} onDone={land} />}
           </div>
 
           <div className="flex min-h-11 items-center justify-center">

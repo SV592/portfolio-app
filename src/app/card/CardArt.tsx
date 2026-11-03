@@ -54,14 +54,14 @@ export const LivePiece: React.FC<{ unit: string; color?: string; animate: boolea
 // ---------- Terminal intro ----------
 export type ScriptLine = { cmd: string } | { out: string } | { live: true };
 
-export const buildScript = (to: string | null): ScriptLine[] => [
+export const buildScript = (): ScriptLine[] => [
   { cmd: "whoami" },
   { out: "shaquille-pearson" },
   { cmd: "cat role.txt" },
   { out: `${contact.title} · ${contact.city}, ${contact.region}` },
   { cmd: "ps --live" },
   { live: true },
-  { cmd: to ? `./open-card --for "${to}"` : "./open-card" },
+  { cmd: "./open-card" },
 ];
 
 const Cursor: React.FC<{ animate: boolean }> = ({ animate }) => (

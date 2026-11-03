@@ -38,22 +38,6 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * Turns a ?to= / ?from= tag into safe display text: "devfest-2026" → "devfest 2026".
- * Only letters, numbers, spaces and a few punctuation marks survive; capped at 32 chars.
- */
-const cleanTag = (value: string | string[] | undefined): string | null => {
-  const raw = Array.isArray(value) ? value[0] : value;
-  if (!raw) return null;
-  const cleaned = raw
-    .replace(/[-_]+/g, " ")
-    .replace(/[^\p{L}\p{N} '&.]/gu, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 32);
-  return cleaned || null;
-};
-
 /** Builds the QR as one SVG path (1 unit per module) so the card can overlay the monogram in its centre. */
 const buildQr = (url: string): { size: number; path: string } => {
   const { modules } = QRCode.create(url, { errorCorrectionLevel: "H" });
@@ -66,26 +50,15 @@ const buildQr = (url: string): { size: number; path: string } => {
   return { size: modules.size, path };
 };
 
-type CardPageProps = {
-  searchParams: Promise<{ to?: string | string[]; from?: string | string[]; qr?: string | string[] }>;
-};
-
 /**
- * /card — the shareable digital business card.
- * Personalise links with ?to=Sarah ("Hey Sarah") or ?from=devfest ("Great meeting you at devfest").
- * /card?qr is "present mode" for showing your own screen: no intro, opens on the QR side.
+ * /card — the shareable digital business card. Fully static: built once and served from the CDN, so
+ * heavy traffic (including bots, since /card bypasses the firewall for link previews) never reaches a
+ * server function. ?to= / ?from= / ?qr are read in the browser by CardExperience.
  */
-export default async function CardPage({ searchParams }: CardPageProps) {
-  const params = await searchParams;
-
+export default function CardPage() {
   return (
     <div className={jetbrainsMono.variable}>
-      <CardExperience
-        qr={buildQr(CARD_URL)}
-        to={cleanTag(params.to)}
-        from={cleanTag(params.from)}
-        present={params.qr !== undefined}
-      />
+      <CardExperience qr={buildQr(CARD_URL)} />
     </div>
   );
 }
